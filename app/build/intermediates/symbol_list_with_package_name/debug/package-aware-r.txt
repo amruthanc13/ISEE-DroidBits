@@ -1690,6 +1690,7 @@ id action_text
 id actions
 id activity_chooser_view_content
 id add
+id addTransactionButton
 id alertTitle
 id aligned
 id all
@@ -1801,6 +1802,7 @@ id fitToContents
 id fixed
 id flip
 id forever
+id fragment_add_transactions
 id fragment_container
 id fragment_container_view_tag
 id frost
@@ -1960,6 +1962,8 @@ id snapMargins
 id south
 id spacer
 id special_effects_controller_view_tag
+id spinnerTransactionMethod
+id spinnerTransactionType
 id spline
 id split_action_bar
 id spread
@@ -2005,6 +2009,9 @@ id text_input_start_icon
 id textinput_counter
 id textinput_error
 id textinput_helper_text
+id tiedt_transactionAmount
+id til_transactionAmount
+id til_transactionDate
 id time
 id title
 id titleDividerNoCustom
@@ -2013,6 +2020,8 @@ id toggle
 id top
 id topPanel
 id touch_outside
+id transactionDate
+id transactionDateLayout
 id transactions
 id transitionToEnd
 id transitionToStart
@@ -2119,6 +2128,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout fragment_add_transactions
 layout fragment_categories
 layout fragment_home
 layout fragment_settings

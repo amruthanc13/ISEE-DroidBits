@@ -80,6 +80,10 @@
         "source": "C:\\Users\\amrut\\AndroidStudioProjects\\MoneyControl\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher.xml"
     },
     {
+        "merged": "C:\\Users\\amrut\\AndroidStudioProjects\\MoneyControl\\app\\build\\intermediates\\merged_res\\debug\\layout_fragment_add_transactions.xml.flat",
+        "source": "C:\\Users\\amrut\\AndroidStudioProjects\\MoneyControl\\app\\src\\main\\res\\layout\\fragment_add_transactions.xml"
+    },
+    {
         "merged": "C:\\Users\\amrut\\AndroidStudioProjects\\MoneyControl\\app\\build\\intermediates\\merged_res\\debug\\mipmap-hdpi_ic_launcher.webp.flat",
         "source": "C:\\Users\\amrut\\AndroidStudioProjects\\MoneyControl\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.webp"
     },
