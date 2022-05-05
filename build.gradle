@@ -3,7 +3,12 @@ plugins {
     id 'com.android.application' version '7.1.2' apply false
     id 'com.android.library' version '7.1.2' apply false
 }
-
+ext {
+    roomVersion = '2.2.5'
+    archLifecycleVersion = '2.2.0'
+    coreTestingVersion = '2.1.0'
+    materialVersion = '1.1.0'
+}
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
