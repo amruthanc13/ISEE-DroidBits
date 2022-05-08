@@ -47,7 +47,11 @@
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_transactionAmount"
             android:layout_width="match_parent"
@@ -60,6 +64,7 @@
                 android:hint="Transaction Amount"
                 android:inputType="numberDecimal"></com.google.android.material.textfield.TextInputEditText>
         </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/til_transactionDate"
@@ -97,6 +102,89 @@
 
     </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/categoryText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Category"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="AAA">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/spinnerTransactionCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="50dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_transactionNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiedt_transactionNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Transaction Note">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+            <LinearLayout
+                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="-20dp"
+                android:paddingRight="20dp"
+                android:layout_gravity="end">
+
+            </LinearLayout>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/addNewTransaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:paddingStart="50sp"
+            android:paddingTop="10sp"
+            android:paddingEnd="50sp"
+            android:paddingBottom="10sp"
+            android:text="Save"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
     </LinearLayout>
 
 
