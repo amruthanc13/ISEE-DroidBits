@@ -1,5 +1,7 @@
 R_DEF: Internal format may change without notice
 local
+array transaction_method
+array transaction_type
 color black
 color buttonLabel
 color colorAccent
@@ -25,7 +27,9 @@ drawable ic_baseline_settings_24
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 id addTransactionButton
+id addTrasnaction
 id bottom_navigation
+id button2
 id categories
 id fragment_add_transactions
 id fragment_container
@@ -34,10 +38,9 @@ id settings
 id spinnerTransactionMethod
 id spinnerTransactionType
 id tiedt_transactionAmount
-id til_transactionAmount
-id til_transactionDate
+id transactionCategory
 id transactionDate
-id transactionDateLayout
+id transactionNote
 id transactions
 layout activity_main
 layout fragment_add_transactions

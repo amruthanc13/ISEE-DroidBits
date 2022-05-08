@@ -53,6 +53,8 @@ animator mtrl_fab_hide_motion_spec
 animator mtrl_fab_show_motion_spec
 animator mtrl_fab_transformation_sheet_collapse_spec
 animator mtrl_fab_transformation_sheet_expand_spec
+array transaction_method
+array transaction_type
 attr SharedValue
 attr SharedValueId
 attr actionBarDivider
@@ -1691,6 +1693,7 @@ id actions
 id activity_chooser_view_content
 id add
 id addTransactionButton
+id addTrasnaction
 id alertTitle
 id aligned
 id all
@@ -1718,6 +1721,7 @@ id bounce
 id bounceBoth
 id bounceEnd
 id bounceStart
+id button2
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -2010,8 +2014,6 @@ id textinput_counter
 id textinput_error
 id textinput_helper_text
 id tiedt_transactionAmount
-id til_transactionAmount
-id til_transactionDate
 id time
 id title
 id titleDividerNoCustom
@@ -2020,8 +2022,9 @@ id toggle
 id top
 id topPanel
 id touch_outside
+id transactionCategory
 id transactionDate
-id transactionDateLayout
+id transactionNote
 id transactions
 id transitionToEnd
 id transitionToStart
