@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">MoneyControl</string>
+    <string-array name="transaction_type">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+    </string-array>
+    <string-array name="transaction_method">
+        <item>a</item>
+        <item>a</item>
+        <item>a</item>
+        <item>a</item>
+    </string-array>
+
+
 </resources>
