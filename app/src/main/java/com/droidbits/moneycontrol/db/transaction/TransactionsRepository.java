@@ -16,79 +16,52 @@ public class TransactionsRepository {
     public TransactionsRepository(Application application){
         MoneyControlDB database = MoneyControlDB.getInstance(application);
         transactionsDao = database.transactionsDao();
-        allTransactions = transactionsDao.getAllTransactions();
     }
 
-    public void insert(Transactions transactions){
-        new InsertTransactionsAsyncTask(transactionsDao).execute(transactions);
-
-    }
-    public void update(Transactions transactions){
-        new UpdateTransactionsAsyncTask(transactionsDao).execute(transactions);
-
-    }
-    public void delete(Transactions transactions){
-        new DeleteTransactionsAsyncTask(transactionsDao).execute(transactions);
-
-    }
-    public void deleteAllTransactions (){
-        new DeleteAllTransactionsAsyncTask(transactionsDao).execute();
-
-    }
-
+    /**
+     * Get all transactions from the database.
+     * @return all transactions in the database.
+     */
     public LiveData<List<Transactions>> getAllTransactions() {
-        return allTransactions;
+
+        return transactionsDao.getAllTransactions();
     }
 
-    private static class InsertTransactionsAsyncTask extends AsyncTask<Transactions, Void, Void>{
-        private TransactionsDao transactionsDao;
-        private InsertTransactionsAsyncTask(TransactionsDao transactionsDao){
-            this.transactionsDao = transactionsDao;
-        }
+    /**
+     * Get transaction by id.
+     * @param transactionId id.
+     * @return transaction.
+     */
+    public Transactions getTransactionById(final long transactionId) {
 
-        @Override
-        protected Void doInBackground(Transactions... transactions){
-            transactionsDao.insert(transactions[0]);
-            return null;
-        }
+        return transactionsDao.getTransactionById(transactionId);
+    };
+
+    /**
+     * Update transaction recurring fields.
+     * @param transactionId id.
+     */
+/*    public void delete(final int transactionId) {
+
+        transactionsDao.delete(transactionId);
+    }*/
+
+    /**
+     * Insert a new transaction in the database.
+     * @param transaction transaction to be saved.
+     * @return transaction id.
+     */
+    public Long insert(final Transactions transaction) {
+        return transactionsDao.insert(transaction);
     }
 
-    private static class UpdateTransactionsAsyncTask extends AsyncTask<Transactions, Void, Void>{
-        private TransactionsDao transactionsDao;
-        private UpdateTransactionsAsyncTask(TransactionsDao transactionsDao){
-            this.transactionsDao = transactionsDao;
-        }
+    /**
+     * Update transaction recurring fields.
+     */
+    public void deleteAllTransactions() {
 
-        @Override
-        protected Void doInBackground(Transactions... transactions){
-            transactionsDao.update(transactions[0]);
-            return null;
-        }
+        transactionsDao.deleteAllTransactions();
     }
 
-    private static class DeleteTransactionsAsyncTask extends AsyncTask<Transactions, Void, Void>{
-        private TransactionsDao transactionsDao;
-        private DeleteTransactionsAsyncTask(TransactionsDao transactionsDao){
-            this.transactionsDao = transactionsDao;
-        }
 
-        @Override
-        protected Void doInBackground(Transactions... transactions){
-            transactionsDao.delete(transactions[0]);
-            return null;
-        }
-    }
-
-    private static class DeleteAllTransactionsAsyncTask extends AsyncTask<Void, Void, Void>{
-        private TransactionsDao transactionsDao;
-        private DeleteAllTransactionsAsyncTask(TransactionsDao transactionsDao){
-            this.transactionsDao = transactionsDao;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids){
-            transactionsDao.deleteAllTransactions();
-            return null;
-        }
-    }
 }

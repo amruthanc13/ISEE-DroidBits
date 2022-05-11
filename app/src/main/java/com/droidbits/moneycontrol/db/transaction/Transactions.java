@@ -21,13 +21,11 @@ public class Transactions {
     @Nullable
     private String textNote;
 
-    // 1 - Expense, 2 - Income
-    @ColumnInfo(name = "type", defaultValue = "1")
-    private int type;
+    @ColumnInfo(name = "type", defaultValue = "Expense")
+    private String type;
 
-    // 1 - Cash, 2 - Card
-    @ColumnInfo(name = "method", defaultValue = "1")
-    private Integer method;
+    @ColumnInfo(name = "method", defaultValue = "Cash")
+    private String method;
 
     @ColumnInfo(name = "date")
     private Long date;
@@ -49,7 +47,7 @@ public class Transactions {
      * @param category
      */
     @Ignore
-    public Transactions(Float amount, @Nullable String textNote, int type, Integer method, Long date, @Nullable String category) {
+    public Transactions(Float amount, @Nullable String textNote, String type, String method, Long date, @Nullable String category) {
         this.amount = amount;
         this.textNote = textNote;
         this.type = type;
@@ -64,9 +62,29 @@ public class Transactions {
     public Transactions() {
     }
 
-    //Todo: Add more constructors
+    /**
+     * Transaction constructor with note.
+     * @param amount transaction amount.
+     * @param note transaction note.
+     */
+    @Ignore
+    public Transactions(final float amount, final @Nullable String note) {
+        this.amount = amount;
+        this.textNote = note;
+    }
 
-
+    /**
+     * Transaction constructor with note and category.
+     * @param transAmount transaction amount.
+     * @param note transaction note.
+     * @param categoryId category id.
+     */
+    @Ignore
+    public Transactions(final float transAmount, final @Nullable String note, final @Nullable String categoryId) {
+        this.textNote = note;
+        this.amount = transAmount;
+        this.category = categoryId;
+    }
 
     public int getId() {
         return id;
@@ -84,11 +102,11 @@ public class Transactions {
         return textNote;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public Integer getMethod() {
+    public String getMethod() {
         return method;
     }
 
@@ -117,11 +135,11 @@ public class Transactions {
         this.textNote = textNote;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public void setMethod(Integer method) {
+    public void setMethod(String method) {
         this.method = method;
     }
 

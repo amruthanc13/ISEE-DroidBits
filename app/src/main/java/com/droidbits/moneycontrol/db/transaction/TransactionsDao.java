@@ -13,13 +13,10 @@ import java.util.List;
 public interface TransactionsDao {
 
     @Insert
-    void insert(Transactions transactions);
+    long insert(Transactions transactions);
 
-    @Update
-    void update(Transactions transactions);
-
-    @Delete
-    void delete(Transactions transactions);
+/*    @Delete
+    void delete(int transactionId);*/
 
     @Query("DELETE FROM transactions")
     void deleteAllTransactions();
@@ -31,5 +28,14 @@ public interface TransactionsDao {
     @Query("SELECT * FROM transactions "
             + "ORDER BY date DESC")
     LiveData<List<Transactions>> getAllTransactions();
+
+    /**
+     * Get transaction by id.
+     * @param transactionId id.
+     * @return transaction.
+     */
+    @Query("SELECT * FROM transactions WHERE id=:transactionId ")
+    Transactions getTransactionById(long transactionId);
+
 
 }
