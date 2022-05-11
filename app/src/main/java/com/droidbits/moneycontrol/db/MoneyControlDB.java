@@ -1,7 +1,6 @@
 package com.droidbits.moneycontrol.db;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -24,8 +23,8 @@ public abstract class MoneyControlDB extends RoomDatabase {
                 if (dbInstance == null) {
                     dbInstance = Room.databaseBuilder(context.getApplicationContext(),
                             MoneyControlDB.class, "MoneyControl_db")
-                            .fallbackToDestructiveMigration()
                             .addCallback(roomCallback)
+                            .allowMainThreadQueries()
                             .build();
             }
         }
@@ -39,18 +38,6 @@ public abstract class MoneyControlDB extends RoomDatabase {
         }
     };
 
-    private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
-        private TransactionsDao transactionsDao;
-
-        private PopulateDbAsyncTask(MoneyControlDB db){
-            transactionsDao = db.transactionsDao();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            return null;
-        }
-    }
 
 }
 

@@ -21,22 +21,43 @@ public class TransactionsViewModel extends AndroidViewModel {
         allTransactions = transactionsRepository.getAllTransactions();
     }
 
-    public void insert(Transactions transactions){
-        transactionsRepository.insert(transactions);
+    /**
+     * Insert a new transaction in the database.
+     * @param transactions transaction to be added.
+     * @return id of inserted transaction.
+     */
+    public long insert(Transactions transactions){
+        return transactionsRepository.insert(transactions);
     }
 
-    public void update(Transactions transactions){
-        transactionsRepository.update(transactions);
+    /**
+     * Get single transaction by is.
+     * @param id id.
+     * @return transaction
+     */
+    public Transactions getTransactionById(final long id) {
+        return transactionsRepository.getTransactionById(id);
     }
 
-    public void delete(Transactions transactions){
-        transactionsRepository.delete(transactions);
-    }
+    /**
+     * Delete Transaction by transactionId
+     * @param transactionId id.
+     */
+/*    public void delete(final int transactionId){
+        transactionsRepository.delete(transactionId);
+    }*/
 
+    /**
+     * Delete All Transactions
+     */
     public void deleteAllTransactions(){
         transactionsRepository.deleteAllTransactions();
     }
 
+    /**
+     * Get all transactions.
+     * @return LiveData of transaction list.
+     */
     public LiveData<List<Transactions>> getAllTransactions(){
         return allTransactions;
     }
