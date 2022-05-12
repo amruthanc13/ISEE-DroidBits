@@ -41,10 +41,12 @@ public class TransactionsRepository {
      * Update transaction recurring fields.
      * @param transactionId id.
      */
-/*    public void delete(final int transactionId) {
+    public void deleteTransaction(final int transactionId) {
 
-        transactionsDao.delete(transactionId);
-    }*/
+        transactionsDao.deleteTransaction(
+                transactionId
+        );
+    }
 
     /**
      * Insert a new transaction in the database.

@@ -40,12 +40,25 @@ public class TransactionsViewModel extends AndroidViewModel {
     }
 
     /**
+     * Get all transactions.
+     * @return LiveData of transaction list.
+     */
+    public LiveData<List<Transactions>> getTransactions() {
+        return allTransactions;
+    }
+
+    /**
      * Delete Transaction by transactionId
      * @param transactionId id.
      */
-/*    public void delete(final int transactionId){
-        transactionsRepository.delete(transactionId);
-    }*/
+    public void deleteTransaction(
+            final int transactionId
+    ) {
+        transactionsRepository.deleteTransaction(
+                transactionId
+        );
+    }
+
 
     /**
      * Delete All Transactions

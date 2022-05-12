@@ -15,8 +15,10 @@ public interface TransactionsDao {
     @Insert
     long insert(Transactions transactions);
 
-/*    @Delete
-    void delete(int transactionId);*/
+    @Query("DELETE from transactions WHERE id=:transactionId")
+    void deleteTransaction(
+            int transactionId
+    );
 
     @Query("DELETE FROM transactions")
     void deleteAllTransactions();
