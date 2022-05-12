@@ -10,4 +10,10 @@
     <style name="font_family_normal_text">
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
+    <style name="layout_list_view">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:background">#FFFBFB</item>
+    </style>
 </resources>
