@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,11 +26,11 @@ import java.util.List;
 public class TransactionFragment extends Fragment implements TransactionListAdapter.OnTransactionNoteListener {
 
     private TransactionListAdapter transactionListAdapter;
+    private TransactionFilter filterBottomSheetDialog;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       // return inflater.inflate(R.layout.fragment_transactions, container,false);
         View view = inflater.inflate(R.layout.transaction_listview, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.transactionListView);
         LinearLayout emptyTransactions = view.findViewById(R.id.emptyPageViewWrapper);
@@ -50,7 +51,6 @@ public class TransactionFragment extends Fragment implements TransactionListAdap
             @Override
             public void onChanged(final List<Transactions> transactions) {
                 transactionListAdapter.setTransactions(transactions);
-                System.out.println("HIIIIIIIII "+transactions.size());
                 if (transactions.size() > 0) {
                     emptyTransactions.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
@@ -72,6 +72,16 @@ public class TransactionFragment extends Fragment implements TransactionListAdap
                 fragmentTransaction.replace(R.id.fragment_container, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+            }
+        });
+
+        Button filterButton = view.findViewById(R.id.filterTransactionButton);
+        filterBottomSheetDialog = new TransactionFilter(transactionViewModel);
+
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                filterBottomSheetDialog.show(getParentFragmentManager(), "Tag");
             }
         });
 
