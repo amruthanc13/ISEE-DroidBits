@@ -2,8 +2,6 @@ package com.droidbits.moneycontrol.db.categories;
 
 import android.app.Application;
 
-import androidx.lifecycle.LiveData;
-
 import com.droidbits.moneycontrol.db.MoneyControlDB;
 
 import java.util.List;
@@ -11,37 +9,75 @@ import java.util.List;
 public class CategoriesRepository {
 
     private CategoriesDao categoriesDao;
-    private LiveData<List<Categories>> allCategories;
 
-    public CategoriesRepository(Application application){
-        MoneyControlDB database = MoneyControlDB.getInstance(application);
-        categoriesDao = database.categoriesDao();
+
+    /**
+     * Category repository constructor.
+     * @param application application to be used.
+     */
+    public CategoriesRepository(final Application application) {
+        MoneyControlDB db = MoneyControlDB.getInstance(application);
+        categoriesDao = db.categoriesDao();
     }
 
-    public LiveData<List<Categories>> getAllCategories() {
+    /**
+     * Get all the saved categories.
+     * @return list of saved categories.
+     */
+    public List<Categories> getAllCategories() {
 
         return categoriesDao.getAllCategories();
     }
 
-    public Categories getCategoriesById(final long categoriesId) {
 
-        return categoriesDao.getCategoriesById(categoriesId);
-    };
+    /**
+     * Insert a new category.
+     * @param category category to be saved.
+     */
+    public void insert(final Categories category) {
+            categoriesDao.insert(category);
 
-    public void deleteCategories(final int categoriesId) {
-
-        categoriesDao.deleteCategories(
-                categoriesId
-        );
     }
 
-    public Long insert(final Categories categories) {
-        return categoriesDao.insert(categories);
+
+
+    /**
+     * get a  category.
+     * @param categoryId category id.
+     * @return Category.
+     */
+    public Categories getSingleCategory(final int categoryId) {
+        return categoriesDao.getSingleCategory(categoryId);
     }
 
-    public void deleteAllCategories() {
+    /**
+     * get a category.
+     * @param categoryName category name.
+     * @return category.
+     */
+    public Categories getSingleCategory(final String categoryName) {
+        return categoriesDao.getSingleCategory(categoryName);
+    }
+    /**
+     * get a category.
+     * @return the category names
+     */
+    public String[] getCategoriesName() {
+        String income = "Income";
 
-        categoriesDao.deleteAllCategories();
+
+        return categoriesDao.getCategoriesName(income);
+    }
+
+    /**
+     * get a category.
+     * @return the category names
+     */
+    public int[] getCategoriesIcon() {
+        String income = "Income";
+
+
+        return categoriesDao.getCategoriesIcon(income);
     }
 
 }

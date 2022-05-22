@@ -13,6 +13,10 @@ import com.droidbits.moneycontrol.db.categories.CategoriesDao;
 import com.droidbits.moneycontrol.db.transaction.Transactions;
 import com.droidbits.moneycontrol.db.transaction.TransactionsDao;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import com.droidbits.moneycontrol.R;
+
 @Database(entities = {Transactions.class, Categories.class}, version = 1)
 public abstract class MoneyControlDB extends RoomDatabase {
 
@@ -20,6 +24,9 @@ public abstract class MoneyControlDB extends RoomDatabase {
     public abstract CategoriesDao categoriesDao();
 
     private static volatile MoneyControlDB dbInstance;
+    private static final int NUMBER_OF_THREADS = 4;
+    public static final ExecutorService DATABASE_WRITE_EXECUTOR =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public static synchronized MoneyControlDB getInstance(Context context){
         if (dbInstance == null) {
@@ -38,9 +45,33 @@ public abstract class MoneyControlDB extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db){
             super.onCreate(db);
+            DATABASE_WRITE_EXECUTOR.execute(MoneyControlDB::populateDatabase);
+
         }
     };
 
+    private static void populateDatabase() {
+
+        CategoriesDao categoriesDao = dbInstance.categoriesDao();
+
+        Categories cinema = new Categories(1, "Cinema", R.drawable.icon_cinema);
+        Categories travel = new Categories(2, "Travel", R.drawable.icon_travel);
+        Categories shopping = new Categories(3, "Shopping", R.drawable.icon_shopping);
+        Categories dine_out = new Categories(4, "Dine out", R.drawable.icon_dinner);
+        Categories bill = new Categories(5, "Bills", R.drawable.icon_bill);
+        Categories drinks = new Categories(6, "Drinks", R.drawable.icon_drinks);
+
+        categoriesDao.insert(cinema);
+        categoriesDao.insert(travel);
+        categoriesDao.insert(shopping);
+        categoriesDao.insert(dine_out);
+        categoriesDao.insert(bill);
+        categoriesDao.insert(drinks);
+
+
+
+
+    }
 
 }
 

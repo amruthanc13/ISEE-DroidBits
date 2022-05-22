@@ -44,10 +44,10 @@ public class CategoryBaseAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflater.inflate(R.layout.fragment_categories, null);
-        TextView txtView = (TextView) view.findViewById(R.id.textView);
+    /*    TextView txtView = (TextView) view.findViewById(R.id.textView);
         ImageView catIcons = (ImageView) view.findViewById(R.id.imageIcon);
         txtView.setText(catList[i]);
-        catIcons.setImageResource(catImages[i]);
+        catIcons.setImageResource(catImages[i]);*/
         return view;
     }
 }
