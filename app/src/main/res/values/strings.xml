@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MoneyControl</string>
+    <string name="app_name">Money Control</string>
     <string-array name="transaction_type">
         <item>Expense</item>
         <item>Income</item>

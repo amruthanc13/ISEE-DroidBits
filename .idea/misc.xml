@@ -3,7 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-<<<<<<< Updated upstream
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable-anydpi/ic_filter.xml" value="0.203" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.203" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/alert_dialogue_box.xml" value="0.2155" />
@@ -11,23 +10,21 @@
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/ic_delete_forever_white_24dp.xml" value="0.246" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/ic_edit_white_24dp.xml" value="0.246" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/ic_launcher_background.xml" value="0.203" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/layout_bg.xml" value="0.2785" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/row_separator.xml" value="0.246" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/categories_add.xml" value="0.3625" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/categories_grid_detail.xml" value="0.3625" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/categories_grid_item.xml" value="0.321875" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/category_custom_spinner.xml" value="0.3625" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/fragment_add_transactions.xml" value="0.4" />
-        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/fragment_categories.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/fragment_categories.xml" value="0.2" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/fragment_transactions.xml" value="0.20833333333333334" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/transaction_detail.xml" value="0.20833333333333334" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/transaction_filter.xml" value="0.1953125" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/transaction_listitem.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/transaction_listview.xml" value="0.24010416666666667" />
-=======
-        <entry key="..\:/Users/karthi/ISEE-DroidBits/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/karthi/ISEE-DroidBits/app/src/main/res/layout/fragment_add_transactions.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/karthi/ISEE-DroidBits/app/src/main/res/layout/fragment_categories.xml" value="0.1" />
-        <entry key="..\:/Users/karthi/ISEE-DroidBits/app/src/main/res/layout/transaction_listitem.xml" value="0.18802083333333333" />
-        <entry key="..\:/Users/karthi/ISEE-DroidBits/app/src/main/res/layout/transaction_listview.xml" value="0.18802083333333333" />
->>>>>>> Stashed changes
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="17" project-jdk-type="JavaSDK" />
 </project>

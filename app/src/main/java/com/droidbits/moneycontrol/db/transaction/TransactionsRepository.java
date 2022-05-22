@@ -11,7 +11,6 @@ import java.util.List;
 
 public class TransactionsRepository {
     private TransactionsDao transactionsDao;
-    private LiveData<List<Transactions>> allTransactions;
 
     public TransactionsRepository(Application application){
         MoneyControlDB database = MoneyControlDB.getInstance(application);

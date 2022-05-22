@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.transaction.Transactions;
+import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 
 import java.util.List;
 
@@ -39,11 +40,13 @@ public class TransactionFragment extends Fragment implements TransactionListAdap
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         TransactionsViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);
+        CategoriesViewModel categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
 
         transactionListAdapter = new TransactionListAdapter(
                 getActivity(),
                 this,
-                transactionViewModel
+                transactionViewModel,
+                categoriesViewModel
         );
         recyclerView.setAdapter(transactionListAdapter);
 
@@ -101,7 +104,7 @@ public class TransactionFragment extends Fragment implements TransactionListAdap
         bundle.putFloat("transactionAmount", transaction.getAmount());
         bundle.putString("transactionNote", transaction.getTextNote());
         bundle.putString("transactionType", transaction.getType());
-        bundle.putString("transactionCategory", transaction.getCategory());
+        bundle.putInt("transactionCategory", transaction.getCategory());
         bundle.putString("transactionMethod", transaction.getMethod());
 
         //Move to transaction detail fragment

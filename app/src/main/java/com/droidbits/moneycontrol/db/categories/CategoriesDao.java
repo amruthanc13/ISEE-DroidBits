@@ -1,31 +1,72 @@
 package com.droidbits.moneycontrol.db.categories;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-
 
 import java.util.List;
 
 @Dao
 public interface CategoriesDao {
 
-    @Insert
-    long insert(Categories categories);
+    // TODO: move to @Query decorator to allow for default values;
+    /**
+     * Insert a new category into the database.
+     * @param category category to be saved.
+     * @return category ID
+     */
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    long insert(Categories category);
 
-    @Query("DELETE from categories WHERE id=:categoriesId")
-    void deleteCategories(
-            int categoriesId
-    );
+    /**
+     * Delete all categories from the database.
+     */
+    @Query("DELETE FROM Categories")
+    void deleteAll();
 
-    @Query("DELETE FROM categories")
-    void deleteAllCategories();
+    /**
+     * Get single category.
+     * @param id category ID.
+     * @return Single category matching the ID
+     */
+    @Query("SELECT * FROM categories WHERE id=:id")
+    Categories getSingleCategory(int id);
 
-    @Query("SELECT * FROM categories ")
-    LiveData<List<Categories>> getAllCategories();
+    /**
+     * Get single category.
+     * @param name category name.
+     * @return Single category matching with name
+     */
+    @Query("SELECT * FROM categories WHERE name=:name ")
+    Categories getSingleCategory(String name);
+    /**
+     * Get all categories from the database.
+     * @return list of categories.
+     */
+    @Query("SELECT * FROM Categories")
+    List<Categories> getAllCategories();
 
-    @Query("SELECT * FROM categories WHERE id=:categoriesId")
-    Categories getCategoriesById(long categoriesId);
+
+
+
+    /**
+     * Get all categories name from the database.
+     * @param income income category.
+     * @return list of categories name.
+     */
+    @Query("SELECT name FROM Categories WHERE "
+            +
+            " name != :income")
+    String[] getCategoriesName(String income);
+    /**
+     * Get all categories name from the database.
+     * @param income income category.
+     * @return list of categories name.
+     */
+    @Query("SELECT icon FROM Categories WHERE "
+            +
+            " name != :income")
+    int[] getCategoriesIcon(String income);
 
 }

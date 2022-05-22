@@ -33,9 +33,9 @@ public class Transactions {
     /**
      * Foreign keys
      */
-    @ColumnInfo(name = "category")
+    @ColumnInfo(name = "categories")
     @Nullable
-    private String category;
+    private int category;
 
     /**
      * Constructor with amount, textNote, type, method, date and category
@@ -47,7 +47,7 @@ public class Transactions {
      * @param category
      */
     @Ignore
-    public Transactions(Float amount, @Nullable String textNote, String type, String method, Long date, @Nullable String category) {
+    public Transactions(Float amount, @Nullable String textNote, String type, String method, Long date, @Nullable int category) {
         this.amount = amount;
         this.textNote = textNote;
         this.type = type;
@@ -80,7 +80,7 @@ public class Transactions {
      * @param categoryId category id.
      */
     @Ignore
-    public Transactions(final float transAmount, final @Nullable String note, final @Nullable String categoryId) {
+    public Transactions(final float transAmount, final @Nullable String note, final @Nullable int categoryId) {
         this.textNote = note;
         this.amount = transAmount;
         this.category = categoryId;
@@ -115,7 +115,7 @@ public class Transactions {
     }
 
     @Nullable
-    public String getCategory() {
+    public int getCategory() {
         return category;
     }
 
@@ -147,7 +147,7 @@ public class Transactions {
         this.date = date;
     }
 
-    public void setCategory(@Nullable String category) {
+    public void setCategory(@Nullable int category) {
         this.category = category;
     }
 }

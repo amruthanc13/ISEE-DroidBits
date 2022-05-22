@@ -1,6 +1,7 @@
 package com.droidbits.moneycontrol.ui.transactions;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
@@ -23,13 +24,22 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.droidbits.moneycontrol.R;
+import com.droidbits.moneycontrol.db.categories.Categories;
 import com.droidbits.moneycontrol.db.transaction.Transactions;
+import com.droidbits.moneycontrol.ui.categories.AddCategory;
+import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
+import com.droidbits.moneycontrol.ui.categories.CategoryIconAdapter;
+import com.droidbits.moneycontrol.ui.categories.CategoryTransactionAdapter;
 import com.droidbits.moneycontrol.utils.DateUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import android.widget.Toast;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class AddTransactionFragment extends Fragment{
@@ -39,6 +49,8 @@ public class AddTransactionFragment extends Fragment{
     private String paymentMethod;
     private Long transactionDate;
     private TransactionsViewModel transactionViewModel;
+    private CategoriesViewModel categoriesViewModel;
+    private String categoryIconImage;
     private View currentView;
     private Button btnSave;
 
@@ -61,6 +73,12 @@ public class AddTransactionFragment extends Fragment{
         ArrayAdapter myadapter2 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.payment_method));
         myadapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         myspinner2.setAdapter(myadapter2);
+
+        categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
+        textCategory = v.findViewById(R.id.transactionCategory);
+        //Set Transaction category spinner
+        setTransactionCategorySpinner();
+
 
         etDate = v.findViewById(R.id.transactionDate);
         Calendar calendar = Calendar.getInstance();
@@ -189,6 +207,46 @@ public class AddTransactionFragment extends Fragment{
         }
         return true;
     }
+
+    private String[] getDrawableNameFromIcon(int[] icons){
+        List<String> listIconArray = new ArrayList<>();
+        for (int icon:icons){
+            listIconArray.add(getResources().getResourceEntryName(icon).split("icon_")[1]);
+        }
+        String[] stringIconArray = new String[listIconArray.size()];
+        stringIconArray = listIconArray.toArray(stringIconArray);
+        return stringIconArray;
+    }
+
+    private void setTransactionCategorySpinner(){
+        List<Categories> categories = categoriesViewModel.getAllCategories();
+
+        CategoryTransactionAdapter iconAdapter = new CategoryTransactionAdapter(getContext(), categories);
+        iconAdapter.setListOfCategroies(categories);
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext())
+                .setAdapter(iconAdapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int which) {
+                        String iconName = categories.get(which).getName();
+                        textCategory.setText(iconName);
+                    }
+                });
+        textCategory.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(final View v, final boolean hasFocus) {
+                if (hasFocus) {
+                    dialogBuilder.show();
+                }
+            }
+        });
+        textCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                dialogBuilder.show();
+            }
+        });
+
+    }
     /**
      * Submit method to submit the input from user.
      */
@@ -204,12 +262,13 @@ public class AddTransactionFragment extends Fragment{
 
         float transactionAmount = Float.parseFloat(tiedtTransactionAmount.getText().toString());
         String transactionNote  = tiedtTransactionNote.getText().toString().trim() + "";
+        int category = categoriesViewModel.getSingleCategory(textCategory.getText().toString()).getId();
         Transactions newTransaction = new Transactions((float) transactionAmount,
                 transactionNote,
                 transactionType,
                 paymentMethod,
                 DateUtils.getStartOfDayInMS(transactionDate),
-                ""
+                category
         );
 
 
