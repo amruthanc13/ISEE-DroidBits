@@ -8,13 +8,16 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.droidbits.moneycontrol.db.categories.Categories;
+import com.droidbits.moneycontrol.db.categories.CategoriesDao;
 import com.droidbits.moneycontrol.db.transaction.Transactions;
 import com.droidbits.moneycontrol.db.transaction.TransactionsDao;
 
-@Database(entities = {Transactions.class}, version = 1)
+@Database(entities = {Transactions.class, Categories.class}, version = 1)
 public abstract class MoneyControlDB extends RoomDatabase {
 
     public abstract TransactionsDao transactionsDao();
+    public abstract CategoriesDao categoriesDao();
 
     private static volatile MoneyControlDB dbInstance;
 
