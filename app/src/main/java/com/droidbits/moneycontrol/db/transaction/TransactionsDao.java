@@ -2,10 +2,8 @@ package com.droidbits.moneycontrol.db.transaction;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import java.util.List;
 
@@ -39,5 +37,18 @@ public interface TransactionsDao {
     @Query("SELECT * FROM transactions WHERE id=:transactionId ")
     Transactions getTransactionById(long transactionId);
 
+
+    /**
+     * Retrieve Filtered transactions from the database.
+     * @return Filtered transactions.
+     */
+    @Query("SELECT * FROM transactions "
+            + "WHERE amount>=:amountFrom "
+            + "AND  amount<=:amountTo "
+            + "AND (date BETWEEN :dateFrom AND :dateTo) "
+            + "AND (:paymentMethod IS NULL OR method =:paymentMethod) "
+            + "AND (:categoryId IS NULL OR categories =:categoryId) "
+            + "ORDER BY date DESC")
+    List<Transactions> filterTransactions(Float amountFrom, Float amountTo, Long dateFrom, Long dateTo, String paymentMethod, String categoryId);
 
 }

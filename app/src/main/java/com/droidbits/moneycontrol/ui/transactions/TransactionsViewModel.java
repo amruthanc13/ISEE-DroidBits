@@ -48,6 +48,15 @@ public class TransactionsViewModel extends AndroidViewModel {
     }
 
     /**
+     * Retrieve Filtered transactions from the database.
+     * @return Filtered transactions.
+     */
+    public List<Transactions> filterTransactions(Float amountFrom, Float amountTo, Long dateFrom, Long dateTo, String paymentMethod, String categoryId) {
+
+        return transactionsRepository.filterTransactions(amountFrom, amountTo, dateFrom, dateTo, paymentMethod, categoryId);
+    }
+
+    /**
      * Delete Transaction by transactionId
      * @param transactionId id.
      */

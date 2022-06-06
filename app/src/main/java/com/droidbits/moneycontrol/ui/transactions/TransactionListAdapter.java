@@ -94,7 +94,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
             Long date = current.getDate();
             String type = current.getType();
             Float amount = current.getAmount();
-            int category = current.getCategory();
+            String category = current.getCategory();
 
 
             String amountToString = CurrencyUtils.formatAmount(amount);
@@ -110,7 +110,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
             holder.transactionDate.setText(DateUtils.formatDate(date));
             holder.transactionAmount.setText(amountToString);
 
-            Categories categories = categoriesViewModel.getSingleCategory(category);
+            Categories categories = categoriesViewModel.getSingleCategory(Integer.parseInt(category));
             holder.transactionCategoryImage.setImageResource(categories.getIcon());
             holder.transactionCategoryTitle.setText(categories.getName());
 

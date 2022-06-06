@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -37,9 +38,12 @@ import android.widget.Toast;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 public class AddTransactionFragment extends Fragment{
@@ -53,6 +57,7 @@ public class AddTransactionFragment extends Fragment{
     private String categoryIconImage;
     private View currentView;
     private Button btnSave;
+    private Spinner paymentSpinner, transactionTypeSpinner;
 
     private static DecimalFormat df = new DecimalFormat("#.00");
 
@@ -64,43 +69,42 @@ public class AddTransactionFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_add_transactions, container,false);
-        Spinner myspinner = v.findViewById((R.id.spinnerTransactionType));
+        transactionTypeSpinner = v.findViewById((R.id.spinnerTransactionType));
         ArrayAdapter myadapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.transaction_type));
         myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        myspinner.setAdapter(myadapter);
+        transactionTypeSpinner.setAdapter(myadapter);
 
-        Spinner myspinner2 = v.findViewById((R.id.spinnerPaymentMethod));
+        //Transaction type on change
+        transactionTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(transactionTypeSpinner.getSelectedItem().toString().equals("Income")){
+                    textCategory.setVisibility(view.GONE);
+                    textCategory.setText("Income");
+                }
+                else{
+                    textCategory.setVisibility(view.VISIBLE);
+                    textCategory.getText().clear();
+                }
+                transactionTypeSpinner.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        paymentSpinner = v.findViewById((R.id.spinnerPaymentMethod));
         ArrayAdapter myadapter2 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.payment_method));
         myadapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        myspinner2.setAdapter(myadapter2);
+        paymentSpinner.setAdapter(myadapter2);
 
         categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
         textCategory = v.findViewById(R.id.transactionCategory);
+
         //Set Transaction category spinner
         setTransactionCategorySpinner();
-
-
-        etDate = v.findViewById(R.id.transactionDate);
-        Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        etDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        getActivity(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        month = month+1;
-                        String date = day+"/"+month+"/"+year;
-                        etDate.setText(date);
-                    }
-                },year,month,day);
-                datePickerDialog.show();
-            }
-        });
 
         AppCompatButton addTransactionLayout = v.findViewById(R.id.saveTransaction);
         addTransactionLayout.setOnClickListener(new View.OnClickListener() {
@@ -129,17 +133,38 @@ public class AddTransactionFragment extends Fragment{
         tiedtTransactionAmount = view.findViewById(R.id.transactionAmount);
         tiedtTransactionNote = view.findViewById(R.id.transactionNote);
         textCategory = view.findViewById(R.id.transactionCategory);
-        transactionType = ((Spinner)view.findViewById(R.id.spinnerTransactionType)).getSelectedItem().toString();
-        paymentMethod = ((Spinner)view.findViewById(R.id.spinnerPaymentMethod)).getSelectedItem().toString();;
-
 
         transactionViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);
         btnSave = view.findViewById(R.id.saveTransaction);
+
+        final Calendar myCalendar = Calendar.getInstance();
 
         etDate = view.findViewById(R.id.transactionDate);
         etDate.setText(DateUtils.formatDate(DateUtils.getStartOfCurrentDay().getTimeInMillis()));
         transactionDate = DateUtils.getStartOfCurrentDay().getTimeInMillis();
 
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(final DatePicker view, final int year, final int monthOfYear,
+                                  final int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateTransactionDateLabel(etDate, myCalendar);
+            }
+
+        };
+
+        etDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(getContext(), date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
 
         tiedtTransactionAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -208,6 +233,19 @@ public class AddTransactionFragment extends Fragment{
         return true;
     }
 
+    /**
+     * Method to update the transaction date with the selected date.
+     * @param editTextLayout transactionDateText transaction date
+     * @param myCalendar calendar the calendar to choose date
+     */
+    private void updateTransactionDateLabel(final EditText editTextLayout, final Calendar myCalendar) {
+        String myFormat = "dd-MM-yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        transactionDate = myCalendar.getTimeInMillis();
+
+        editTextLayout.setText(sdf.format(transactionDate));
+    }
+
     private String[] getDrawableNameFromIcon(int[] icons){
         List<String> listIconArray = new ArrayList<>();
         for (int icon:icons){
@@ -223,6 +261,7 @@ public class AddTransactionFragment extends Fragment{
 
         CategoryTransactionAdapter iconAdapter = new CategoryTransactionAdapter(getContext(), categories);
         iconAdapter.setListOfCategroies(categories);
+        textCategory.setText(categories.get(0).getName());
         MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext())
                 .setAdapter(iconAdapter, new DialogInterface.OnClickListener() {
                     @Override
@@ -248,13 +287,46 @@ public class AddTransactionFragment extends Fragment{
 
     }
     /**
+     * Method to check the input of transaction Date.
+     * @return Boolean if the input is qualify or not
+     */
+    private boolean checkTransactionCategory() {
+        String[] dropdownItems = categoriesViewModel.getCategoriesName();
+
+        if (transactionType.equals("Income") && textCategory.getText().toString().equals("Income")){
+            return true;
+        }
+
+        else if (textCategory.getText().toString().trim().isEmpty()) {
+            textCategory.setError("Please enter the category of your transaction");
+            requestFocus(textCategory);
+            return false;
+        }
+
+        else if (!Arrays.asList(dropdownItems).contains(textCategory.getText().toString().trim())) {
+            textCategory.setError("Category is not valid");
+            requestFocus(textCategory);
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
      * Submit method to submit the input from user.
      */
     private void submitForm() {
+        paymentMethod = paymentSpinner.getSelectedItem().toString();
+        transactionType = transactionTypeSpinner.getSelectedItem().toString();
+
+        Transactions newTransaction;
         if (!checkTransactionAmount()) {
             return;
         }
         if (!checkTransactionDate()) {
+            return;
+        }
+        if (!checkTransactionCategory()){
             return;
         }
 
@@ -262,22 +334,22 @@ public class AddTransactionFragment extends Fragment{
 
         float transactionAmount = Float.parseFloat(tiedtTransactionAmount.getText().toString());
         String transactionNote  = tiedtTransactionNote.getText().toString().trim() + "";
-        int category = categoriesViewModel.getSingleCategory(textCategory.getText().toString()).getId();
-        Transactions newTransaction = new Transactions((float) transactionAmount,
-                transactionNote,
-                transactionType,
-                paymentMethod,
-                DateUtils.getStartOfDayInMS(transactionDate),
-                category
-        );
 
+
+        int category = categoriesViewModel.getSingleCategory(textCategory.getText().toString()).getId();
+        newTransaction = new Transactions((float) transactionAmount,
+                    transactionNote,
+                    transactionType,
+                    paymentMethod,
+                    DateUtils.getStartOfDayInMS(transactionDate),
+                    Integer.toString(category)
+            );
 
         //Insert new Category in to the database
         long newTransactionId = transactionViewModel.insert(newTransaction);
         Log.d("newTransactionId", "Value:" + newTransactionId);
 
         Transactions insertedTransaction = transactionViewModel.getTransactionById(newTransactionId);
-
 
         Fragment fragment = new TransactionFragment();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -291,6 +363,5 @@ public class AddTransactionFragment extends Fragment{
         Toast.makeText(getContext(), total, Toast.LENGTH_LONG).show();
 
 }
-
 
 }

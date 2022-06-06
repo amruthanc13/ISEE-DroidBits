@@ -79,7 +79,7 @@ public class TransactionFragment extends Fragment implements TransactionListAdap
         });
 
         Button filterButton = view.findViewById(R.id.filterTransactionButton);
-        filterBottomSheetDialog = new TransactionFilter(transactionViewModel);
+        filterBottomSheetDialog = new TransactionFilter(transactionViewModel, categoriesViewModel, transactionListAdapter, recyclerView, emptyTransactions);
 
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +104,7 @@ public class TransactionFragment extends Fragment implements TransactionListAdap
         bundle.putFloat("transactionAmount", transaction.getAmount());
         bundle.putString("transactionNote", transaction.getTextNote());
         bundle.putString("transactionType", transaction.getType());
-        bundle.putInt("transactionCategory", transaction.getCategory());
+        bundle.putString("transactionCategory", transaction.getCategory());
         bundle.putString("transactionMethod", transaction.getMethod());
 
         //Move to transaction detail fragment

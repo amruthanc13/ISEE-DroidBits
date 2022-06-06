@@ -33,7 +33,7 @@
             android:textSize="19dp"
             android:textStyle="normal" />
 
-        <Spinner
+        <EditText
             android:id="@+id/spinnerCategories"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -104,16 +104,19 @@
             android:hint="To Date"
             />
     </LinearLayout>
+
     <Button
         android:id="@+id/applyFiltersTransaction"
-        android:layout_width="match_parent"
+        style="@style/basePrimaryRoundedButton"
+        android:layout_width="145dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginStart="130dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="130dp"
         android:layout_marginBottom="20dp"
         android:layout_weight="0"
-        android:text="Apply"
-        android:layout_marginEnd="130dp"
-        android:layout_marginStart="130dp"/>
+        android:text="Apply" />
+
 
     </LinearLayout>

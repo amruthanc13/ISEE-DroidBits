@@ -1,7 +1,6 @@
 package com.droidbits.moneycontrol.db.transaction;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -26,6 +25,14 @@ public class TransactionsRepository {
         return transactionsDao.getAllTransactions();
     }
 
+    /**
+     * Retrieve Filtered transactions from the database.
+     * @return Filtered transactions.
+     */
+    public List<Transactions> filterTransactions(Float amountFrom, Float amountTo, Long dateFrom, Long dateTo, String paymentMethod, String categoryId) {
+
+        return transactionsDao.filterTransactions(amountFrom, amountTo, dateFrom, dateTo, paymentMethod, categoryId);
+    }
     /**
      * Get transaction by id.
      * @param transactionId id.

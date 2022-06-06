@@ -12,20 +12,20 @@
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/ic_launcher_background.xml" value="0.203" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/layout_bg.xml" value="0.2785" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/row_separator.xml" value="0.246" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/activity_filtered_transactions.xml" value="0.20625" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/activity_main.xml" value="0.20625" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/categories_add.xml" value="0.3625" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/categories_grid_detail.xml" value="0.3625" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/categories_grid_item.xml" value="0.321875" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/category_custom_spinner.xml" value="0.3625" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/fragment_add_transactions.xml" value="0.4" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/fragment_categories.xml" value="0.2" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/fragment_home.xml" value="0.20625" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/fragment_transactions.xml" value="0.20833333333333334" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/transaction_detail.xml" value="0.20833333333333334" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/transaction_filter.xml" value="0.1953125" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/transaction_listitem.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/transaction_listview.xml" value="0.24010416666666667" />
-        <entry key="..\:/Users/harig/ISEE-DroidBits/app/src/main/res/layout/activity_filtered_transactions.xml" value="0.2341485507246377" />
-        <entry key="..\:/Users/harig/ISEE-DroidBits/app/src/main/res/layout/fragment_home.xml" value="0.12158054711246201" />
-        <entry key="..\:/Users/harig/ISEE-DroidBits/app/src/main/res/layout/transaction_filter.xml" value="0.2341485507246377" />
       </map>
     </option>
   </component>
