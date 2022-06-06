@@ -60,6 +60,7 @@ public abstract class MoneyControlDB extends RoomDatabase {
         Categories dine_out = new Categories(4, "Dine out", R.drawable.icon_dinner);
         Categories bill = new Categories(5, "Bills", R.drawable.icon_bill);
         Categories drinks = new Categories(6, "Drinks", R.drawable.icon_drinks);
+        Categories default_category = new Categories(-2, "Income", R.drawable.income);
 
         categoriesDao.insert(cinema);
         categoriesDao.insert(travel);
@@ -67,6 +68,7 @@ public abstract class MoneyControlDB extends RoomDatabase {
         categoriesDao.insert(dine_out);
         categoriesDao.insert(bill);
         categoriesDao.insert(drinks);
+        categoriesDao.insert(default_category);
 
 
 

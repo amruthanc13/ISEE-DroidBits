@@ -33,16 +33,19 @@ public class TransactionDetail extends Fragment {
         float amount = bundle.getFloat("transactionAmount");
         String note = bundle.getString("transactionNote");
         String type = bundle.getString("transactionType");
-        int category = bundle.getInt("transactionCategory");
+        String method = bundle.getString("transactionMethod");
+        String category = bundle.getString("transactionCategory");
 
 
         TextView transactionDate = view.findViewById(R.id.transactionDate);
         TextView transactionAmount = view.findViewById(R.id.transactionAmount);
         TextView transactionType = view.findViewById(R.id.transactionType);
+        TextView transactionMethod = view.findViewById(R.id.transactionMethod);
         TextView transactionNote = view.findViewById(R.id.transactionNote);
         TextView transactionCategory = view.findViewById(R.id.transactionCategoryTitle);
         ImageView categoryImage = view.findViewById(R.id.transactionCategoryImage);
 
+        transactionType.setText(type);
         // turn float to string
         String amountToString = CurrencyUtils.formatAmount(amount);
         // transaction Type
@@ -58,8 +61,9 @@ public class TransactionDetail extends Fragment {
         transactionAmount.setText(amountToString);
         transactionType.setText(type);
         transactionNote.setText(note);
+        transactionMethod.setText(method);
 
-        Categories categories = categoriesViewModel.getSingleCategory(category);
+        Categories categories = categoriesViewModel.getSingleCategory(Integer.parseInt(category));
         transactionCategory.setText(categories.getName());
         categoryImage.setImageResource(categories.getIcon());
 
