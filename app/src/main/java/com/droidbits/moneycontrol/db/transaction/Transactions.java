@@ -30,6 +30,14 @@ public class Transactions {
     @ColumnInfo(name = "date")
     private Long date;
 
+    @ColumnInfo(name = "is_repeating", defaultValue = "0")
+    @Nullable
+    private Boolean isRepeating;
+
+    @ColumnInfo(name = "repeating_interval_type", defaultValue = "1")
+    @Nullable
+    private Integer repeatingIntervalType;
+
     /**
      * Foreign keys
      */
@@ -54,6 +62,27 @@ public class Transactions {
         this.method = method;
         this.date = date;
         this.category = category;
+    }
+
+    /**
+     * Constructor with amount, textNote, type, method, date and category
+     * @param amount
+     * @param textNote
+     * @param type
+     * @param method
+     * @param date
+     * @param category
+     */
+    @Ignore
+    public Transactions(Float amount, @Nullable String textNote, String type, String method, Long date, @Nullable String category, boolean isRepeating , int repeatingIntervalType) {
+        this.amount = amount;
+        this.textNote = textNote;
+        this.type = type;
+        this.method = method;
+        this.date = date;
+        this.category = category;
+        this.isRepeating = isRepeating;
+        this.repeatingIntervalType = repeatingIntervalType;
     }
 
     /**
@@ -136,6 +165,17 @@ public class Transactions {
         return category;
     }
 
+    @Nullable
+    public Boolean getIsRepeating() {
+        return isRepeating;
+    }
+
+    @Nullable
+    public Integer getRepeatingIntervalType() {
+        return repeatingIntervalType;
+    }
+
+
     /**
      * Setters
      **/
@@ -166,5 +206,21 @@ public class Transactions {
 
     public void setCategory(@Nullable String category) {
         this.category = category;
+    }
+
+    public void setRepeating(@Nullable Boolean repeating) {
+        isRepeating = repeating;
+    }
+
+    public void setRepeatingIntervalType(@Nullable Integer repeatingIntervalType) {
+        this.repeatingIntervalType = repeatingIntervalType;
+    }
+
+    /**
+     * Recurring getter.
+     * @return whether transaction is recurring.
+     */
+    public Boolean isTransactionRepeating() {
+        return isRepeating;
     }
 }

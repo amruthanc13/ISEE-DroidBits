@@ -49,6 +49,28 @@ public interface TransactionsDao {
             + "AND (:paymentMethod IS NULL OR method =:paymentMethod) "
             + "AND (:categoryId IS NULL OR categories =:categoryId) "
             + "ORDER BY date DESC")
-    List<Transactions> filterTransactions(Float amountFrom, Float amountTo, Long dateFrom, Long dateTo, String paymentMethod, String categoryId);
+    List<Transactions> filterTransactions(
+            Float amountFrom,
+            Float amountTo,
+            Long dateFrom,
+            Long dateTo,
+            String paymentMethod,
+            String categoryId);
+
+    /**
+     * Update transaction recurring params.
+     * @param transactionId id.
+     * @param isRepeating flag.
+     * @param repeatingIntervalType type.
+     */
+    @Query("UPDATE transactions SET "
+            + "is_repeating=:isRepeating, "
+            + "repeating_interval_type=:repeatingIntervalType "
+            + "WHERE id=:transactionId ")
+    void updateTransactionRecurringFields(
+            int transactionId,
+            Boolean isRepeating,
+            Integer repeatingIntervalType
+    );
 
 }

@@ -77,7 +77,7 @@
 
             <TextView
                 style="@style/font_family_normal_text"
-                android:layout_width="wrap_content"
+                android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="left"
@@ -103,6 +103,41 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/repeatingIntervalLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/font_family_normal_text"
+                android:layout_width="198dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="left"
+                android:text="Transaction Repeats"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#4D4D50"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/repeatingInterval"
+                style="@style/font_family_normal_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:gravity="right"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#4D4D50"
+                android:textSize="20sp"
+                tools:ignore="RtlHardcoded" />
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -110,7 +145,7 @@
 
             <TextView
                 style="@style/font_family_normal_text"
-                android:layout_width="wrap_content"
+                android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="left"
@@ -142,7 +177,7 @@
 
             <TextView
                 style="@style/font_family_normal_text"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="left"
@@ -270,6 +305,8 @@
             android:textColor="#4D4D50"
             android:textSize="20sp"
             tools:ignore="RtlHardcoded" />
+
+
     </LinearLayout>
 
 </LinearLayout>
