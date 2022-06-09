@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -34,6 +35,7 @@ import com.droidbits.moneycontrol.ui.categories.CategoryTransactionAdapter;
 import com.droidbits.moneycontrol.utils.DateUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.math.RoundingMode;
@@ -58,6 +60,12 @@ public class AddTransactionFragment extends Fragment{
     private View currentView;
     private Button btnSave;
     private Spinner paymentSpinner, transactionTypeSpinner;
+    private Transactions lastAddedTransaction;
+
+    private boolean isRepeating;
+    private int repeatingInterval;
+    private Switch isRepeatingSwitch;
+    private EditText repeatingIntervalSpinner;
 
     private static DecimalFormat df = new DecimalFormat("#.00");
 
@@ -94,7 +102,7 @@ public class AddTransactionFragment extends Fragment{
 
             }
         });
-
+        isRepeatingSwitch = v.findViewById(R.id.repeatingSwitch);
         paymentSpinner = v.findViewById((R.id.spinnerPaymentMethod));
         ArrayAdapter myadapter2 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.payment_method));
         myadapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -135,6 +143,23 @@ public class AddTransactionFragment extends Fragment{
         textCategory = view.findViewById(R.id.transactionCategory);
 
         transactionViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);
+
+        repeatingIntervalSpinner = view.findViewById(R.id.repeatingInterval);
+        repeatingIntervalSpinner(view);
+
+        isRepeatingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean flag) {
+                if (flag){
+                    repeatingIntervalSpinner.setVisibility(view.VISIBLE);
+                }
+                else{
+                    repeatingIntervalSpinner.setVisibility(view.GONE);
+                }
+            }
+        });
+
+
         btnSave = view.findViewById(R.id.saveTransaction);
 
         final Calendar myCalendar = Calendar.getInstance();
@@ -234,6 +259,17 @@ public class AddTransactionFragment extends Fragment{
     }
 
     /**
+     * Method to check the input of transaction Date.
+     * @return Boolean if the input is qualify or not
+     */
+    private boolean checkRepeating() {
+        if (isRepeatingSwitch.isChecked() && repeatingIntervalSpinner.getText().toString().trim().isEmpty()) {
+            repeatingIntervalSpinner.setError("Choose Repeating Interval");
+            return false;
+        }
+        return true;
+    }
+    /**
      * Method to update the transaction date with the selected date.
      * @param editTextLayout transactionDateText transaction date
      * @param myCalendar calendar the calendar to choose date
@@ -286,6 +322,36 @@ public class AddTransactionFragment extends Fragment{
         });
 
     }
+
+    private void repeatingIntervalSpinner(final View view){
+        String[] dropdownItems = {"Daily", "Weekly", "Monthly", "Yearly"};
+
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext())
+                .setItems(dropdownItems, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int which) {
+
+                        repeatingIntervalSpinner.setText(dropdownItems[which]);
+                    }
+                });
+
+        repeatingIntervalSpinner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(final View v, final boolean hasFocus) {
+                if (hasFocus) {
+                    dialogBuilder.show();
+                }
+            }
+        });
+
+        repeatingIntervalSpinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                dialogBuilder.show();
+            }
+        });
+    }
+
     /**
      * Method to check the input of transaction Date.
      * @return Boolean if the input is qualify or not
@@ -318,6 +384,7 @@ public class AddTransactionFragment extends Fragment{
     private void submitForm() {
         paymentMethod = paymentSpinner.getSelectedItem().toString();
         transactionType = transactionTypeSpinner.getSelectedItem().toString();
+        isRepeating = isRepeatingSwitch.isChecked();
 
         Transactions newTransaction;
         if (!checkTransactionAmount()) {
@@ -327,6 +394,31 @@ public class AddTransactionFragment extends Fragment{
             return;
         }
         if (!checkTransactionCategory()){
+            return;
+        }
+
+        if (isRepeatingSwitch.isChecked()) {
+            switch (repeatingIntervalSpinner.getText().toString()) {
+                case "Daily":
+                    repeatingInterval = 1;
+                    break;
+                case "Weekly":
+                    repeatingInterval = 2;
+                    break;
+                case "Monthly":
+                    repeatingInterval = 3;
+                    break;
+                case "Yearly":
+                    repeatingInterval = 4;
+                    break;
+                default:
+                    repeatingInterval = 0;
+            }
+        } else {
+            repeatingInterval = 0;
+        }
+
+        if (!checkRepeating()){
             return;
         }
 
@@ -345,11 +437,24 @@ public class AddTransactionFragment extends Fragment{
                     Integer.toString(category)
             );
 
-        //Insert new Category in to the database
+        if (isRepeating) {
+            newTransaction.setRepeating(true);
+            newTransaction.setRepeatingIntervalType(repeatingInterval);
+
+        } else {
+            newTransaction.setRepeating(false);
+            newTransaction.setRepeatingIntervalType(0);
+        }
+
+        //Insert new transaction  in to the database
         long newTransactionId = transactionViewModel.insert(newTransaction);
         Log.d("newTransactionId", "Value:" + newTransactionId);
 
         Transactions insertedTransaction = transactionViewModel.getTransactionById(newTransactionId);
+
+        if (insertedTransaction.isTransactionRepeating()) {
+            lastAddedTransaction = processAddRecurringTransaction(insertedTransaction);
+        }
 
         Fragment fragment = new TransactionFragment();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -363,5 +468,92 @@ public class AddTransactionFragment extends Fragment{
         Toast.makeText(getContext(), total, Toast.LENGTH_LONG).show();
 
 }
+
+    /**
+     * Process and create recurring transactions.
+     * @param transaction initial transaction.
+     * @return last transaction.
+     */
+    private Transactions processAddRecurringTransaction(final Transactions transaction) {
+        Transactions copyTransaction = new Transactions();
+
+        Integer repeatingIntervalType = transaction.getRepeatingIntervalType();
+
+        Calendar repeatingDate = DateUtils.getStartOfDay(transaction.getDate());
+        Calendar today = DateUtils.getStartOfCurrentDay();
+        int counter = 0;
+
+        copyTransaction.setAmount(transaction.getAmount());
+        copyTransaction.setCategory(transaction.getCategory());
+        copyTransaction.setMethod(transaction.getMethod());
+        copyTransaction.setType(transaction.getType());
+        copyTransaction.setTextNote(transaction.getTextNote());
+        copyTransaction.setRepeating(transaction.getIsRepeating());
+        copyTransaction.setRepeatingIntervalType(repeatingIntervalType);
+        copyTransaction.setId(transaction.getId());
+        copyTransaction.setDate(transaction.getDate());
+
+        int frequency=0;
+        int howMuchToAdd =1;
+
+        if (repeatingIntervalType != null) {
+
+            switch (repeatingIntervalType) {
+                case 1:
+                    frequency = Calendar.DAY_OF_YEAR;
+                    break;
+                case 2:
+                    frequency = Calendar.WEEK_OF_YEAR;
+                    break;
+                case 3:
+                    frequency = Calendar.MONTH;
+                    break;
+                case 4:
+                    frequency = Calendar.YEAR;
+                    break;
+            }
+
+            do {
+                repeatingDate.add(frequency, howMuchToAdd);
+
+                if (repeatingDate.getTimeInMillis() <= today.getTimeInMillis()) {
+                    // add a new transaction
+                    // save currentTransaction as non-repeating.
+
+                    copyTransaction.setRepeating(false);
+                    copyTransaction.setRepeatingIntervalType(0);
+
+                    transactionViewModel.updateTransactionRepeatingFields(
+                            copyTransaction.getId(),
+                            copyTransaction.getIsRepeating(),
+                            copyTransaction.getRepeatingIntervalType()
+                    );
+
+                    Transactions newTransaction = new Transactions();
+
+                    newTransaction.setAmount(copyTransaction.getAmount());
+                    newTransaction.setCategory(copyTransaction.getCategory());
+                    newTransaction.setMethod(copyTransaction.getMethod());
+                    newTransaction.setType(copyTransaction.getType());
+                    newTransaction.setTextNote(copyTransaction.getTextNote());
+                    newTransaction.setRepeating(true);
+                    newTransaction.setRepeatingIntervalType(repeatingIntervalType);
+
+                    newTransaction.setDate(DateUtils.getStartOfDay(repeatingDate.getTimeInMillis()).getTimeInMillis());
+
+                    long newTransactionId = transactionViewModel.insert(newTransaction);
+
+                    copyTransaction = transactionViewModel.getTransactionById(newTransactionId);
+
+                    counter++;
+                }
+
+            } while (repeatingDate.getTimeInMillis() <= today.getTimeInMillis());
+        }
+
+        Log.v("REPEATING", "TRANSACTIONS ADDED: " + (counter + 1));
+
+        return copyTransaction;
+    }
 
 }

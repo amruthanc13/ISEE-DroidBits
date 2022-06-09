@@ -119,6 +119,44 @@
         android:inputType="text"
         />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal">
+
+
+        <Switch
+            android:id="@+id/repeatingSwitch"
+            style="@style/font_family_normal_text"
+            android:layout_width="wrap_content"
+            android:layout_height="41dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center_vertical"
+            android:showText="false"
+            android:switchPadding="7dp"
+            android:text="Repeating"
+            android:textAlignment="inherit"
+            android:textAllCaps="false"
+            android:textIsSelectable="false"
+            android:textSize="15dp"
+            />
+
+        <EditText
+            android:id="@+id/repeatingInterval"
+            android:layout_width="218dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="Choose Repeating Interval"
+            android:inputType="text"
+            android:textSize="15dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/saveTransaction"
         style="@style/basePrimaryRoundedButton"

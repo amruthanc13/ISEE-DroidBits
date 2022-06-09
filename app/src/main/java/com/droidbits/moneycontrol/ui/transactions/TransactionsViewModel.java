@@ -83,4 +83,16 @@ public class TransactionsViewModel extends AndroidViewModel {
     public LiveData<List<Transactions>> getAllTransactions(){
         return allTransactions;
     }
+
+    public void updateTransactionRepeatingFields(
+            final int transactionId,
+            final Boolean isRepeating,
+            final Integer repeatingIntervalType
+    ) {
+        transactionsRepository.updateTransactionRepeatingFields(
+                transactionId,
+                isRepeating,
+                repeatingIntervalType
+        );
+    }
 }

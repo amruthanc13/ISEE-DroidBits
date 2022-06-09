@@ -1,10 +1,12 @@
 package com.droidbits.moneycontrol.ui.transactions;
 
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -35,6 +37,11 @@ public class TransactionDetail extends Fragment {
         String type = bundle.getString("transactionType");
         String method = bundle.getString("transactionMethod");
         String category = bundle.getString("transactionCategory");
+        Boolean isRepeating = bundle.getBoolean("isRepeating");
+        int repeatingIntervalType = 0;
+        if(isRepeating){
+            repeatingIntervalType = bundle.getInt("repeatingIntervalType");
+        }
 
 
         TextView transactionDate = view.findViewById(R.id.transactionDate);
@@ -44,6 +51,8 @@ public class TransactionDetail extends Fragment {
         TextView transactionNote = view.findViewById(R.id.transactionNote);
         TextView transactionCategory = view.findViewById(R.id.transactionCategoryTitle);
         ImageView categoryImage = view.findViewById(R.id.transactionCategoryImage);
+        LinearLayout repeatingIntervalLayout = view.findViewById(R.id.repeatingIntervalLayout);
+        TextView repeatingInterval = view.findViewById(R.id.repeatingInterval);
 
         transactionType.setText(type);
         // turn float to string
@@ -62,6 +71,11 @@ public class TransactionDetail extends Fragment {
         transactionType.setText(type);
         transactionNote.setText(note);
         transactionMethod.setText(method);
+        if(repeatingIntervalType != 0){
+            String[] dropdownItems = {"Daily", "Weekly", "Monthly", "Yearly"};
+            repeatingIntervalLayout.setVisibility(View.VISIBLE);
+            repeatingInterval.setText(dropdownItems[repeatingIntervalType-1]);
+        }
 
         Categories categories = categoriesViewModel.getSingleCategory(Integer.parseInt(category));
         transactionCategory.setText(categories.getName());

@@ -16,12 +16,15 @@ import com.droidbits.moneycontrol.db.transaction.TransactionsDao;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import com.droidbits.moneycontrol.R;
+import com.droidbits.moneycontrol.db.users.Users;
+import com.droidbits.moneycontrol.db.users.UsersDao;
 
-@Database(entities = {Transactions.class, Categories.class}, version = 1)
+@Database(entities = {Transactions.class, Categories.class, Users.class}, version = 1)
 public abstract class MoneyControlDB extends RoomDatabase {
 
     public abstract TransactionsDao transactionsDao();
     public abstract CategoriesDao categoriesDao();
+    public abstract UsersDao usersDao();
 
     private static volatile MoneyControlDB dbInstance;
     private static final int NUMBER_OF_THREADS = 4;

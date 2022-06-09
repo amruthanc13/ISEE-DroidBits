@@ -106,6 +106,8 @@ public class TransactionFragment extends Fragment implements TransactionListAdap
         bundle.putString("transactionType", transaction.getType());
         bundle.putString("transactionCategory", transaction.getCategory());
         bundle.putString("transactionMethod", transaction.getMethod());
+        bundle.putBoolean("isRepeating", transaction.getIsRepeating());
+        bundle.putInt("repeatingIntervalType", transaction.getRepeatingIntervalType());
 
         //Move to transaction detail fragment
         Fragment fragment = new TransactionDetail();

@@ -71,5 +71,22 @@ public class TransactionsRepository {
         transactionsDao.deleteAllTransactions();
     }
 
+    /**
+     * Update transaction recurring fields.
+     * @param transactionId id.
+     * @param isRepeating flag.
+     * @param repeatingIntervalType type.
+     */
+    public void updateTransactionRepeatingFields(
+            final int transactionId,
+            final Boolean isRepeating,
+            final Integer repeatingIntervalType
+    ) {
+
+        transactionsDao.updateTransactionRecurringFields(
+                transactionId,
+                isRepeating,
+                repeatingIntervalType);
+    }
 
 }
