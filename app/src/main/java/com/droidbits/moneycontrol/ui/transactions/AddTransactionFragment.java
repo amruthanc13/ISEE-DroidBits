@@ -449,7 +449,9 @@ public class AddTransactionFragment extends Fragment{
         //Insert new transaction  in to the database
         long newTransactionId = transactionViewModel.insert(newTransaction);
         Log.d("newTransactionId", "Value:" + newTransactionId);
-
+        //Todo: checkBudget(category): (query to fetch sum of amt from transaction for this category =total expense,
+        // budget = budgetViewModel.getSingleBudget(category), Budgetamt = budget.getAmout
+        // if totalexpense>=budgetAmt : throw notificaton
         Transactions insertedTransaction = transactionViewModel.getTransactionById(newTransactionId);
 
         if (insertedTransaction.isTransactionRepeating()) {
