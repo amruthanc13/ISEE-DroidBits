@@ -10,6 +10,9 @@
     <item android:title="Categories"
         android:icon="@drawable/ic_baseline_category_24"
         android:id="@+id/categories"/>
+    <item android:title="Budget"
+        android:icon="@drawable/ic_budget"
+        android:id="@+id/budget"/>
     <item android:title="Settings"
         android:icon="@drawable/ic_baseline_settings_24"
         android:id="@+id/settings"/>

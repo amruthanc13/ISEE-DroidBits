@@ -29,13 +29,27 @@ public interface TransactionsDao {
             + "ORDER BY date DESC")
     LiveData<List<Transactions>> getAllTransactions();
 
+    //Get sum of expenses
+    @Query("SELECT SUM(amount) FROM transactions WHERE type = 'Expense' ")
+    double getTransactionSum();
+
     /**
      * Get transaction by id.
      * @param transactionId id.
      * @return transaction.
      */
+
     @Query("SELECT * FROM transactions WHERE id=:transactionId ")
     Transactions getTransactionById(long transactionId);
+
+    /**
+     * Get sum of Expenses
+     */
+
+
+
+
+
 
 
     /**

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.droidbits.moneycontrol.ui.budget.BudgetFragment;
 import com.droidbits.moneycontrol.ui.categories.CategoriesFragment;
 import com.droidbits.moneycontrol.ui.home.HomeFragment;
 import com.droidbits.moneycontrol.ui.settings.SettingsFragment;
@@ -41,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case R.id.categories:
                             selectedFragment = new CategoriesFragment();
+                            break;
+                        case R.id.budget:
+                            selectedFragment = new BudgetFragment();
                             break;
                         case R.id.settings:
                             selectedFragment = new SettingsFragment();
