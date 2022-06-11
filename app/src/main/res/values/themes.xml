@@ -83,5 +83,10 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/button_small_text</item>
     </style>
+    <style name="primaryRoundedButtonBlockRed" parent="basePrimaryRoundedButton">
+        <item name="android:backgroundTint">@color/colorExpense</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
 
 </resources>
