@@ -44,12 +44,18 @@ public class CategoriesFragment extends Fragment implements CategoriesAdapter.On
         adapter.setCategories(categoriesViewModel.getAllCategories());
 
         AppCompatButton addCategory = view.findViewById(R.id.addCategories);
-        categoryBottomSheetDialog = new AddCategory(categoriesViewModel);
 
         addCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                categoryBottomSheetDialog.show(getParentFragmentManager(), "Tag");
+                Fragment fragment = new AddCategory(categoriesViewModel);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+               // categoryBottomSheetDialog.show(getParentFragmentManager(), "Tag");
             }
         });
 

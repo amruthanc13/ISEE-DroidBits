@@ -17,14 +17,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.categories.Categories;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddCategory extends BottomSheetDialogFragment {
+public class AddCategory extends Fragment {
     private CategoriesViewModel categoriesViewModel;
     private EditText categoryName;
     private EditText dropdown;
@@ -137,7 +136,7 @@ public class AddCategory extends BottomSheetDialogFragment {
 
         //Insert new Category in to the database
         categoriesViewModel.insert(newCategory);
-        this.dismiss();
+       // this.dismiss();
 
         Fragment fragment = new CategoriesFragment();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

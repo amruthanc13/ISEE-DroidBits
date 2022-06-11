@@ -1,4 +1,6 @@
 <resources>
+    <!-- Shared Preferences strings -->
+    <string name="shared_preferences_file_key">com.droidbits.moneycontrol.sharedpreferences</string>
     <string name="app_name">finzo</string>
     <string-array name="transaction_type">
         <item>Expense</item>
