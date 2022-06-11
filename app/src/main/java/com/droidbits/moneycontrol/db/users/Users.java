@@ -31,6 +31,10 @@ import androidx.room.PrimaryKey;
         @ColumnInfo(name = "password")
         private String password;
 
+        @ColumnInfo(name = "access_pin")
+        private String accessPin;
+
+
 
         /**
          * Get user id.
@@ -75,6 +79,14 @@ import androidx.room.PrimaryKey;
             return password;
         }
 
+        /**
+         * Get user access pin.
+         * @return access pin.
+         */
+        public String getAccessPin() {
+            return accessPin;
+        }
+
 
         /**
          * Set user id.
@@ -114,6 +126,14 @@ import androidx.room.PrimaryKey;
          */
         public void setPassword(final String password) {
             this.password = password;
+        }
+
+        /**
+         * Set user access pin.
+         * @param mAccessPin access pin.
+         */
+        public void setAccessPin(final String mAccessPin) {
+            this.accessPin = mAccessPin;
         }
 
 
