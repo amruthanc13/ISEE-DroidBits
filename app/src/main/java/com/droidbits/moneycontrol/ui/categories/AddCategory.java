@@ -133,7 +133,6 @@ public class AddCategory extends Fragment {
         String name = categoryName.getText().toString().trim() + "";
         Categories newCategory = new Categories(name, resID);
 
-
         //Insert new Category in to the database
         categoriesViewModel.insert(newCategory);
        // this.dismiss();

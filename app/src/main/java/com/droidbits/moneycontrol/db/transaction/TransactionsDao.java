@@ -26,8 +26,9 @@ public interface TransactionsDao {
      * @return all transactions.
      */
     @Query("SELECT * FROM transactions "
+            + "WHERE user_id=:userId "
             + "ORDER BY date DESC")
-    LiveData<List<Transactions>> getAllTransactions();
+    LiveData<List<Transactions>> getAllTransactions(String userId);
 
     //Get sum of expenses
     @Query("SELECT SUM(amount) FROM transactions WHERE type = 'Expense' ")
@@ -39,17 +40,8 @@ public interface TransactionsDao {
      * @return transaction.
      */
 
-    @Query("SELECT * FROM transactions WHERE id=:transactionId ")
-    Transactions getTransactionById(long transactionId);
-
-    /**
-     * Get sum of Expenses
-     */
-
-
-
-
-
+    @Query("SELECT * FROM transactions WHERE id=:transactionId AND user_id=:userId ")
+    Transactions getTransactionById(long transactionId, String userId);
 
 
     /**
@@ -62,6 +54,7 @@ public interface TransactionsDao {
             + "AND (date BETWEEN :dateFrom AND :dateTo) "
             + "AND (:paymentMethod IS NULL OR method =:paymentMethod) "
             + "AND (:categoryId IS NULL OR categories =:categoryId) "
+            + "AND user_id =:userId "
             + "ORDER BY date DESC")
     List<Transactions> filterTransactions(
             Float amountFrom,
@@ -69,7 +62,8 @@ public interface TransactionsDao {
             Long dateFrom,
             Long dateTo,
             String paymentMethod,
-            String categoryId);
+            String categoryId,
+            String userId);
 
     /**
      * Update transaction recurring params.
@@ -81,7 +75,7 @@ public interface TransactionsDao {
             + "is_repeating=:isRepeating, "
             + "repeating_interval_type=:repeatingIntervalType "
             + "WHERE id=:transactionId ")
-    void updateTransactionRecurringFields(
+    void updateTransactionRepeatingFields(
             int transactionId,
             Boolean isRepeating,
             Integer repeatingIntervalType

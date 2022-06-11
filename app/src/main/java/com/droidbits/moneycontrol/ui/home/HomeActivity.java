@@ -62,6 +62,8 @@ public class HomeActivity extends AppCompatActivity {
                         case R.id.settings:
                             selectedFragment = new SettingsFragment();
                             break;
+                        default:
+                            selectedFragment = new HomeFragment();
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
                     return true;

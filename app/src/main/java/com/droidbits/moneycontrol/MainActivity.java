@@ -33,20 +33,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //Checking if the app is running for the 1st time
-                boolean isFirstTime = sharedPreferencesUtils.getFirstTime();
-
-
-                    Intent intent = new Intent(getApplication(), SignInActivity.class);
-                    startActivity(intent);
-                    finish();
-
-            }
-        }, TIMER);
-
         MoneyControlDB db = MoneyControlDB.getInstance(this);
 
     }

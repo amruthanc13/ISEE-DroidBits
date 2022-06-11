@@ -44,8 +44,8 @@ public interface CategoriesDao {
      * Get all categories from the database.
      * @return list of categories.
      */
-    @Query("SELECT * FROM Categories where name != 'Income'")
-    List<Categories> getAllCategories();
+    @Query("SELECT * FROM Categories where name != 'Income' AND  user_id=:userId")
+    List<Categories> getAllCategories(String userId);
 
 
 

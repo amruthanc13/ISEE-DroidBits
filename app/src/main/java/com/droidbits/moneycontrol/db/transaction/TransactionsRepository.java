@@ -6,14 +6,17 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import com.droidbits.moneycontrol.db.MoneyControlDB;
+import com.droidbits.moneycontrol.utils.SharedPreferencesUtils;
 
 import java.util.List;
 
 public class TransactionsRepository {
     private TransactionsDao transactionsDao;
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
     public TransactionsRepository(Application application){
         MoneyControlDB database = MoneyControlDB.getInstance(application);
+        sharedPreferencesUtils = new SharedPreferencesUtils(application);
         transactionsDao = database.transactionsDao();
     }
 
@@ -22,8 +25,11 @@ public class TransactionsRepository {
      * @return all transactions in the database.
      */
     public LiveData<List<Transactions>> getAllTransactions() {
-
-        return transactionsDao.getAllTransactions();
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        if (currentUserId.equals("")) {
+            return null;
+        }
+        return transactionsDao.getAllTransactions(currentUserId);
     }
 
     /**
@@ -32,7 +38,11 @@ public class TransactionsRepository {
      */
     public List<Transactions> filterTransactions(Float amountFrom, Float amountTo, Long dateFrom, Long dateTo, String paymentMethod, String categoryId) {
 
-        return transactionsDao.filterTransactions(amountFrom, amountTo, dateFrom, dateTo, paymentMethod, categoryId);
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        if (currentUserId.equals("")) {
+            return null;
+        }
+        return transactionsDao.filterTransactions(amountFrom, amountTo, dateFrom, dateTo, paymentMethod, categoryId, currentUserId);
     }
     /**
      * Get transaction by id.
@@ -40,8 +50,11 @@ public class TransactionsRepository {
      * @return transaction.
      */
     public Transactions getTransactionById(final long transactionId) {
-
-        return transactionsDao.getTransactionById(transactionId);
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        if (currentUserId.equals("")) {
+            return null;
+        }
+        return transactionsDao.getTransactionById(transactionId, currentUserId);
     };
 
     /**
@@ -61,6 +74,11 @@ public class TransactionsRepository {
      * @return transaction id.
      */
     public Long insert(final Transactions transaction) {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        if (currentUserId.equals("")) {
+            return null;
+        }
+        transaction.setUserId(currentUserId);
         return transactionsDao.insert(transaction);
     }
 
@@ -88,7 +106,7 @@ public class TransactionsRepository {
             final Integer repeatingIntervalType
     ) {
 
-        transactionsDao.updateTransactionRecurringFields(
+        transactionsDao.updateTransactionRepeatingFields(
                 transactionId,
                 isRepeating,
                 repeatingIntervalType);
