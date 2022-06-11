@@ -298,13 +298,15 @@ public class SignInActivity extends AppCompatActivity {
 
     private void createDefaultUserCategories(){
 
-        Categories cinema = new Categories(1, "Cinema", R.drawable.icon_cinema);
-        Categories travel = new Categories(2, "Travel", R.drawable.icon_travel);
-        Categories shopping = new Categories(3, "Shopping", R.drawable.icon_shopping);
-        Categories dine_out = new Categories(4, "Dine out", R.drawable.icon_dinner);
-        Categories bill = new Categories(5, "Bills", R.drawable.icon_bill);
-        Categories drinks = new Categories(6, "Drinks", R.drawable.icon_drinks);
-        Categories default_category = new Categories(-2, "Income", R.drawable.income);
+        Categories cinema = new Categories( "Cinema", R.drawable.icon_cinema);
+        Categories travel = new Categories( "Travel", R.drawable.icon_travel);
+        Categories shopping = new Categories( "Shopping", R.drawable.icon_shopping);
+        Categories dine_out = new Categories( "Dine out", R.drawable.icon_dinner);
+        Categories bill = new Categories( "Bills", R.drawable.icon_bill);
+        Categories drinks = new Categories( "Drinks", R.drawable.icon_drinks);
+        Categories income_category = new Categories( "Income", R.drawable.income);
+
+
 
         categoriesViewModel.insert(cinema);
         categoriesViewModel.insert(travel);
@@ -312,6 +314,6 @@ public class SignInActivity extends AppCompatActivity {
         categoriesViewModel.insert(dine_out);
         categoriesViewModel.insert(bill);
         categoriesViewModel.insert(drinks);
-        categoriesViewModel.insert(default_category);
+        categoriesViewModel.insert(income_category);
     }
 }

@@ -3,12 +3,14 @@ package com.droidbits.moneycontrol.db.categories;
 import android.app.Application;
 
 import com.droidbits.moneycontrol.db.MoneyControlDB;
+import com.droidbits.moneycontrol.utils.SharedPreferencesUtils;
 
 import java.util.List;
 
 public class CategoriesRepository {
 
     private CategoriesDao categoriesDao;
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
 
     /**
@@ -17,6 +19,7 @@ public class CategoriesRepository {
      */
     public CategoriesRepository(final Application application) {
         MoneyControlDB db = MoneyControlDB.getInstance(application);
+        sharedPreferencesUtils = new SharedPreferencesUtils(application);
         categoriesDao = db.categoriesDao();
     }
 
@@ -25,8 +28,13 @@ public class CategoriesRepository {
      * @return list of saved categories.
      */
     public List<Categories> getAllCategories() {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
 
-        return categoriesDao.getAllCategories();
+        if (currentUserId.equals("")) {
+            return null;
+        }
+
+        return categoriesDao.getAllCategories(currentUserId);
     }
 
 
@@ -35,10 +43,15 @@ public class CategoriesRepository {
      * @param category category to be saved.
      */
     public void insert(final Categories category) {
-            categoriesDao.insert(category);
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
 
+        if (currentUserId.equals("")) {
+            return;
+        }
+        category.setUserId(currentUserId);
+
+        categoriesDao.insert(category);
     }
-
 
 
     /**

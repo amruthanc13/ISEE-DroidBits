@@ -1,13 +1,37 @@
 package com.droidbits.moneycontrol.db.transaction;
 
+import static androidx.room.ForeignKey.CASCADE;
+import static androidx.room.ForeignKey.SET_NULL;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "transactions")
+import com.droidbits.moneycontrol.db.categories.Categories;
+import com.droidbits.moneycontrol.db.users.Users;
+
+@Entity(tableName = "transactions",
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Categories.class,
+                        parentColumns = "id",
+                        childColumns = "categories",
+                        onDelete = SET_NULL
+                ),
+                @ForeignKey(
+                        entity = Users.class,
+                        parentColumns = "id",
+                        childColumns = "user_id",
+                        onDelete = CASCADE
+        )
+        },
+        indices = {@Index("categories"), @Index("user_id")}
+)
 public class Transactions {
 
     @PrimaryKey(autoGenerate = true)
@@ -44,6 +68,10 @@ public class Transactions {
     @ColumnInfo(name = "categories")
     @Nullable
     private String category;
+
+    @ColumnInfo(name = "user_id")
+    @Nullable
+    private String userId;
 
     /**
      * Constructor with amount, textNote, type, method, date and category
@@ -175,6 +203,10 @@ public class Transactions {
         return repeatingIntervalType;
     }
 
+    @Nullable
+    public String getUserId() {
+        return userId;
+    }
 
     /**
      * Setters
@@ -222,5 +254,9 @@ public class Transactions {
      */
     public Boolean isTransactionRepeating() {
         return isRepeating;
+    }
+
+    public void setUserId(@Nullable String userId) {
+        this.userId = userId;
     }
 }

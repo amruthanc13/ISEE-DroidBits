@@ -1,15 +1,30 @@
 package com.droidbits.moneycontrol.db.categories;
 
 
+import static androidx.room.ForeignKey.CASCADE;
+
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import com.droidbits.moneycontrol.db.users.Users;
 
 
 @Entity(
-    tableName = "categories"
+    tableName = "categories",
+        foreignKeys = {
+        @ForeignKey(
+                entity = Users.class,
+                parentColumns = "id",
+                childColumns = "user_id",
+                onDelete = CASCADE
+        ),
+        },
+        indices = {@Index("user_id")}
 )
 public class Categories {
 
@@ -22,6 +37,13 @@ public class Categories {
     @ColumnInfo(name = "icon")
     @Nullable
     private int icon;
+
+
+    // Foreign keys
+    @ColumnInfo(name = "user_id")
+    @Nullable
+    private String userId;
+
 
     /**
      * Category constructor.
@@ -84,6 +106,10 @@ public class Categories {
         return icon;
     }
 
+    @Nullable
+    public String getUserId() {
+        return userId;
+    }
 
     /**
      * Category id setter.
@@ -107,6 +133,10 @@ public class Categories {
      */
     public void setIcon(final int categoryIcon) {
         this.icon = categoryIcon;
+    }
+
+    public void setUserId(@Nullable String userId) {
+        this.userId = userId;
     }
 
 }
