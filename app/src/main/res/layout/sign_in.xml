@@ -80,7 +80,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:hint="Your 4-digit access token"
-                    app:endIconMode="password_toggle">
+                    app:endIconMode="password_toggle"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/accessTokenValueText"
@@ -130,7 +131,8 @@
                 android:id="@+id/emailInputGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Your email">
+                android:hint="Your email"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailInputText"
@@ -145,7 +147,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:hint="Your access token"
-                app:endIconMode="password_toggle">
+                app:endIconMode="password_toggle"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/accessTokenInputText"
@@ -161,7 +164,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="15dp"
                 android:hint="Repeat your access token"
-                app:endIconMode="password_toggle">
+                app:endIconMode="password_toggle"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/repeatAccessTokenInputText"
