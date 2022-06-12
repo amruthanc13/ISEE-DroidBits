@@ -93,4 +93,28 @@ public interface TransactionsDao {
     void updateTransactionAmountsDefaultCurrency(float conversionRate, String userId);
 
 
+    /**
+     * Retrieve sum of transaction income amount for a specified category.
+     * @param categoryId category id.
+     * @param ownerId owner id.
+     * @return sum of transaction income amount with matching categoryId
+     */
+    @Query("SELECT SUM(amount) FROM transactions "
+            + "WHERE categories=:categoryId "
+            + "AND user_id=:ownerId "
+            + "AND type =:income")
+    float getTotalIncomeByCategoryId(String categoryId, String ownerId, String income);
+
+    /**
+     * Retrieve sum of transaction expense amount for a specified category.
+     * @param categoryId category id.
+     * @param ownerId owner id.
+     * @return sum of transaction expense amount with matching categoryId
+     */
+    @Query("SELECT SUM(amount) FROM transactions "
+            + "WHERE categories=:categoryId "
+            + "AND user_id=:ownerId "
+            + "AND type =:expense")
+    float getTotalIExpenseByCategoryId(String categoryId, String ownerId, String expense);
+
 }
