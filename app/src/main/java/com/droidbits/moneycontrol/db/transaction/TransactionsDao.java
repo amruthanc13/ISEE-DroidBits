@@ -31,8 +31,12 @@ public interface TransactionsDao {
     LiveData<List<Transactions>> getAllTransactions(String userId);
 
     //Get sum of expenses
-    @Query("SELECT SUM(amount) FROM transactions WHERE type = 'Expense' ")
-    double getTransactionSum();
+    @Query("SELECT SUM(amount) FROM transactions WHERE type = 'Expense' AND user_id=:userId")
+    double getExpenseTransactionSum(String userId);
+
+    //Get sum of income
+    @Query("SELECT SUM(amount) FROM transactions WHERE type = 'Income' AND user_id=:userId")
+    double getIncomeTransactionSum(String userId);
 
     /**
      * Get transaction by id.

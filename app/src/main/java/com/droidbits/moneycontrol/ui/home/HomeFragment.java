@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.categories.Categories;
@@ -13,6 +14,7 @@ import com.droidbits.moneycontrol.db.transaction.TransactionsRepository;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.transactions.AddTransactionFragment;
 import com.droidbits.moneycontrol.ui.transactions.TransactionsViewModel;
+import com.droidbits.moneycontrol.utils.CurrencyUtils;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -32,6 +34,8 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
+    private TextView totalIncomeText, totalExpenseText;
+
     private CategoriesViewModel categoriesViewModel;
     private TransactionsViewModel transactionViewModel;
 
@@ -41,6 +45,10 @@ public class HomeFragment extends Fragment {
     @Override
     public  View onCreateView( LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // text view details
+        totalIncomeText = view.findViewById(R.id.totalIncomeText);
+        totalExpenseText = view.findViewById(R.id.totalExpenseText);
 
         //graph details
         pieChart = view.findViewById(R.id.pieChart);
@@ -66,10 +74,28 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        // set total income
+        initializeTotalIncome();
+
+        // set total expense
+        initializeTotalExpense();
+
         // Pie Chart
         initializePieChart(view);
 
         return view;
+    }
+
+    private void initializeTotalIncome() {
+         float totalIncome = (float) transactionViewModel.getIncomeTransactionSum();
+
+         totalIncomeText.setText(CurrencyUtils.formatAmount(totalIncome));
+    }
+
+    private void initializeTotalExpense() {
+        float totalExpense = (float) transactionViewModel.getExpenseTransactionSum();
+
+        totalExpenseText.setText(CurrencyUtils.formatAmount(totalExpense));
     }
 
     private void initializePieChart(final View view) {

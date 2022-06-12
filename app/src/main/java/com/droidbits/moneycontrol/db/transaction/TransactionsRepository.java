@@ -1,7 +1,6 @@
 package com.droidbits.moneycontrol.db.transaction;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -90,8 +89,16 @@ public class TransactionsRepository {
         transactionsDao.deleteAllTransactions();
     }
 
-    public double getTransactionSum(){
-        return transactionsDao.getTransactionSum();
+    public double getExpenseTransactionSum(){
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+
+        return transactionsDao.getExpenseTransactionSum(currentUserId);
+    }
+
+    public double getIncomeTransactionSum(){
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+
+        return transactionsDao.getIncomeTransactionSum(currentUserId);
     }
 
     /**
