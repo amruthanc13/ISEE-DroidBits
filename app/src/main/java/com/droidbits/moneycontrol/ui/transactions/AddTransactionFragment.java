@@ -36,9 +36,7 @@ import com.droidbits.moneycontrol.db.MoneyControlDB;
 import com.droidbits.moneycontrol.db.categories.Categories;
 import com.droidbits.moneycontrol.db.currency.CurrencyDao;
 import com.droidbits.moneycontrol.db.transaction.Transactions;
-import com.droidbits.moneycontrol.ui.categories.AddCategory;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
-import com.droidbits.moneycontrol.ui.categories.CategoryIconAdapter;
 import com.droidbits.moneycontrol.ui.categories.CategoryTransactionAdapter;
 import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 import com.droidbits.moneycontrol.utils.DateUtils;
@@ -105,11 +103,10 @@ public class AddTransactionFragment extends Fragment{
         transactionTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(transactionTypeSpinner.getSelectedItem().toString().equals("Income")){
+                if (transactionTypeSpinner.getSelectedItem().toString().equals("Income")) {
                     textCategory.setVisibility(view.GONE);
                     textCategory.setText("Income");
-                }
-                else{
+                } else{
                     textCategory.setVisibility(view.VISIBLE);
                     textCategory.getText().clear();
                 }
@@ -176,10 +173,9 @@ public class AddTransactionFragment extends Fragment{
         isRepeatingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean flag) {
-                if (flag){
+                if (flag) {
                     repeatingIntervalSpinner.setVisibility(view.VISIBLE);
-                }
-                else{
+                } else {
                     repeatingIntervalSpinner.setVisibility(view.GONE);
                 }
             }
@@ -308,9 +304,9 @@ public class AddTransactionFragment extends Fragment{
         editTextLayout.setText(sdf.format(transactionDate));
     }
 
-    private String[] getDrawableNameFromIcon(int[] icons){
+    private String[] getDrawableNameFromIcon(int[] icons) {
         List<String> listIconArray = new ArrayList<>();
-        for (int icon:icons){
+        for (int icon:icons) {
             listIconArray.add(getResources().getResourceEntryName(icon).split("icon_")[1]);
         }
         String[] stringIconArray = new String[listIconArray.size()];
@@ -318,7 +314,7 @@ public class AddTransactionFragment extends Fragment{
         return stringIconArray;
     }
 
-    private void setTransactionCategorySpinner(){
+    private void setTransactionCategorySpinner() {
         List<Categories> categories = categoriesViewModel.getAllCategories();
 
         CategoryTransactionAdapter iconAdapter = new CategoryTransactionAdapter(getContext(), categories);
@@ -349,7 +345,7 @@ public class AddTransactionFragment extends Fragment{
 
     }
 
-    private void repeatingIntervalSpinner(final View view){
+    private void repeatingIntervalSpinner(final View view) {
         String[] dropdownItems = {"Daily", "Weekly", "Monthly", "Yearly"};
 
         MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext())
@@ -385,11 +381,9 @@ public class AddTransactionFragment extends Fragment{
     private boolean checkTransactionCategory() {
         String[] dropdownItems = categoriesViewModel.getCategoriesName();
 
-        if (transactionType.equals("Income") && textCategory.getText().toString().equals("Income")){
+        if (transactionType.equals("Income") && textCategory.getText().toString().equals("Income")) {
             return true;
-        }
-
-        else if (textCategory.getText().toString().trim().isEmpty()) {
+        } else if (textCategory.getText().toString().trim().isEmpty()) {
             textCategory.setError("Please enter the category of your transaction");
             requestFocus(textCategory);
             return false;
@@ -419,7 +413,7 @@ public class AddTransactionFragment extends Fragment{
         if (!checkTransactionDate()) {
             return;
         }
-        if (!checkTransactionCategory()){
+        if (!checkTransactionCategory()) {
             return;
         }
 
@@ -444,7 +438,7 @@ public class AddTransactionFragment extends Fragment{
             repeatingInterval = 0;
         }
 
-        if (!checkRepeating()){
+        if (!checkRepeating()) {
             return;
         }
 
@@ -522,8 +516,8 @@ public class AddTransactionFragment extends Fragment{
         copyTransaction.setId(transaction.getId());
         copyTransaction.setDate(transaction.getDate());
 
-        int frequency=0;
-        int howMuchToAdd =1;
+        int frequency = 0;
+        int howMuchToAdd = 1;
 
         if (repeatingIntervalType != null) {
 

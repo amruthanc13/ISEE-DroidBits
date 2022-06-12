@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
@@ -16,7 +15,6 @@ import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.budget.Budget;
 import com.droidbits.moneycontrol.db.categories.Categories;
-import com.droidbits.moneycontrol.ui.categories.CategoriesAdapter;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.utils.CurrencyUtils;
 
@@ -46,7 +44,7 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
 
     @Override
     public void onBindViewHolder(@NonNull BudgetAdapter.BudgetViewHolder holder, int position) {
-        if(budgets != null){
+        if (budgets != null) {
             Budget current =  budgets.get(position);
            // Context context = holder.budget.getContext();
             Float amount = current.getAmount();
@@ -56,7 +54,7 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
             Categories categories = categoriesViewModel.getSingleCategory(Integer.parseInt(category));
             holder.categoryImage.setImageResource(categories.getIcon());
             holder.categoryTitle.setText(categories.getName());
-            viewBinderHelper.bind(holder.swipeRevealLayout,Integer.toString(current.getId()));
+            viewBinderHelper.bind(holder.swipeRevealLayout, Integer.toString(current.getId()));
         }
     }
     public void setBudgets(final List<Budget> budgets) {

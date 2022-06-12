@@ -10,20 +10,14 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.categories.Categories;
-import com.droidbits.moneycontrol.db.transaction.Transactions;
-import com.droidbits.moneycontrol.ui.transactions.AddTransactionFragment;
-import com.droidbits.moneycontrol.ui.transactions.TransactionFilter;
 
-import java.util.List;
-
-public class CategoriesFragment extends Fragment implements CategoriesAdapter.OnCategoryNoteListener{
+public class CategoriesFragment extends Fragment implements CategoriesAdapter.OnCategoryNoteListener {
 
     private CategoriesAdapter adapter;
     private AddCategory  categoryBottomSheetDialog;
@@ -31,7 +25,7 @@ public class CategoriesFragment extends Fragment implements CategoriesAdapter.On
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_categories, container,false);
+        View view = inflater.inflate(R.layout.fragment_categories, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.categories_grid_view);
 
         adapter = new CategoriesAdapter(getActivity(), this);

@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.categories.Categories;
-import com.droidbits.moneycontrol.db.transaction.Transactions;
 
 import java.util.List;
 

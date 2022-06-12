@@ -13,7 +13,7 @@ public class TransactionsRepository {
     private TransactionsDao transactionsDao;
     private SharedPreferencesUtils sharedPreferencesUtils;
 
-    public TransactionsRepository(Application application){
+    public TransactionsRepository(Application application) {
         MoneyControlDB database = MoneyControlDB.getInstance(application);
         sharedPreferencesUtils = new SharedPreferencesUtils(application);
         transactionsDao = database.transactionsDao();
@@ -33,7 +33,6 @@ public class TransactionsRepository {
 
     /**
      * Retrieve Filtered transactions from the database.
-     * @return Filtered transactions.
      */
     public List<Transactions> filterTransactions(Float amountFrom, Float amountTo, Long dateFrom, Long dateTo, String paymentMethod, String categoryId) {
 
@@ -89,13 +88,13 @@ public class TransactionsRepository {
         transactionsDao.deleteAllTransactions();
     }
 
-    public double getExpenseTransactionSum(){
+    public double getExpenseTransactionSum() {
         String currentUserId = sharedPreferencesUtils.getCurrentUserId();
 
         return transactionsDao.getExpenseTransactionSum(currentUserId);
     }
 
-    public double getIncomeTransactionSum(){
+    public double getIncomeTransactionSum() {
         String currentUserId = sharedPreferencesUtils.getCurrentUserId();
 
         return transactionsDao.getIncomeTransactionSum(currentUserId);

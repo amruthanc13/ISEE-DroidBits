@@ -30,7 +30,7 @@ public class Budget {
     private Float amount;
 
     /**
-     * Foreign keys
+     * Foreign keys.
      */
     @ColumnInfo(name = "categories")
     @Nullable

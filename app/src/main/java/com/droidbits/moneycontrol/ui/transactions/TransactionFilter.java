@@ -25,11 +25,8 @@ import com.droidbits.moneycontrol.utils.DateUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import org.apache.commons.lang3.ObjectUtils;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class TransactionFilter extends BottomSheetDialogFragment {
@@ -51,9 +48,9 @@ public class TransactionFilter extends BottomSheetDialogFragment {
     private String categoryId;
 
     private final Calendar calendarFromDate = Calendar.getInstance(), calendarToDate = Calendar.getInstance(), calendarTemp = Calendar.getInstance();
+
     /**
      * Public constructor to initialize viewModels.
-     * @param tViewModel transaction viewmodel.
      */
     public TransactionFilter(
             final TransactionsViewModel tViewModel,
@@ -182,27 +179,26 @@ public class TransactionFilter extends BottomSheetDialogFragment {
     /**
      * Apply filter conditions
      */
-    private void applyFilter(){
+    private void applyFilter() {
         paymentFilter = paymentFilterSpinner.getSelectedItem().toString();
 
-        if (!fromAmount.getText().toString().isEmpty()){
+        if (!fromAmount.getText().toString().isEmpty()) {
             amountFrom = Float.parseFloat(fromAmount.getText().toString());
-        }else{
+        } else {
             amountFrom = Float.MIN_VALUE;
         }
 
-        if (!toAmount.getText().toString().isEmpty()){
+        if (!toAmount.getText().toString().isEmpty()) {
             amountTo = Float.parseFloat(toAmount.getText().toString());
-        }else{
+        } else {
             amountTo = Float.MAX_VALUE;
         }
 
-        if (!fromDate.getText().toString().isEmpty()){
+        if (!fromDate.getText().toString().isEmpty()) {
             dateFrom = DateUtils.getStartOfDayInMS(calendarFromDate.getTimeInMillis());
             System.out.println(dateFrom);
-        }
-        else{
-            calendarTemp.set(1700,1,1);
+        } else {
+            calendarTemp.set(1700, 1, 1);
             dateFrom = DateUtils.getStartOfDayInMS(calendarTemp.getTimeInMillis());
 
         }
@@ -211,12 +207,12 @@ public class TransactionFilter extends BottomSheetDialogFragment {
             dateTo = DateUtils.getStartOfDayInMS(calendarToDate.getTimeInMillis());
         }
         else{
-            calendarTemp.set(4000,1,1);
+            calendarTemp.set(4000, 1, 1);
             dateTo = DateUtils.getStartOfDayInMS(calendarTemp.getTimeInMillis());
         }
 
         if (!paymentFilter.isEmpty()){
-            if(paymentFilter.equals("Select All")){
+            if (paymentFilter.equals("Select All")) {
                 paymentFilter = null;
             }
         }
@@ -249,7 +245,7 @@ public class TransactionFilter extends BottomSheetDialogFragment {
     }
 
 
-    private void setCategoryFilterSpinner(){
+    private void setCategoryFilterSpinner() {
         List<Categories> categories = buildCategoryFilterList();
 
         CategoryTransactionAdapter iconAdapter = new CategoryTransactionAdapter(getContext(), categories);
@@ -260,9 +256,9 @@ public class TransactionFilter extends BottomSheetDialogFragment {
                     @Override
                     public void onClick(final DialogInterface dialog, final int which) {
                         String iconName = categories.get(which).getName();
-                        if(categories.get(which).getId() != -1){
+                        if (categories.get(which).getId() != -1) {
                             categoryId = Integer.toString(categories.get(which).getId());
-                        }else{
+                        } else {
                             categoryId = null;
                         }
                         categoryFilterSpinner.setText(iconName);

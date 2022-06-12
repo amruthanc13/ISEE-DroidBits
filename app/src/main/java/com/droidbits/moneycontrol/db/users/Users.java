@@ -1,13 +1,9 @@
 package com.droidbits.moneycontrol.db.users;
 
-import static androidx.room.ForeignKey.SET_NULL;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
     @Entity(tableName = "users")
