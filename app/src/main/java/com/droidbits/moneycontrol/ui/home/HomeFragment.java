@@ -29,12 +29,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
     private TextView totalIncomeText, totalExpenseText, pieChartTitle;
+
+    private LinearLayout summaryContainer;
+    private RecyclerView featuredRecycler;
+    private RecyclerView.Adapter adapter;
 
     private CategoriesViewModel categoriesViewModel;
     private TransactionsViewModel transactionViewModel;
@@ -49,6 +55,10 @@ public class HomeFragment extends Fragment {
         // text view details
         totalIncomeText = view.findViewById(R.id.totalIncomeText);
         totalExpenseText = view.findViewById(R.id.totalExpenseText);
+
+        //cumulative expense detials
+        summaryContainer = view.findViewById(R.id.summaryContainer);
+        featuredRecycler = view.findViewById(R.id.featured_recycler);
 
         //graph details
         pieChart = view.findViewById(R.id.pieChart);
@@ -83,7 +93,50 @@ public class HomeFragment extends Fragment {
         // Pie Chart
         initializePieChart(view);
 
+        // cumulative expense
+        featuredRecycler(view);
+
         return view;
+    }
+
+    private void featuredRecycler(final View rView) {
+
+        featuredRecycler.setHasFixedSize(true);
+        featuredRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        ArrayList<FeaturedHelperClass> featuredLocation = new ArrayList<>();
+
+        //Daily avg
+        Float dailyAvgExpense = 10f;
+        Float dailyAvgIncome = 20f;
+
+        if (dailyAvgExpense != 0 && dailyAvgIncome !=0) {
+
+            String expAmountDaily = CurrencyUtils.formatAmount(dailyAvgExpense);
+            String incAmountDaily = CurrencyUtils.formatAmount(dailyAvgIncome);
+
+            summaryContainer.setVisibility(View.VISIBLE);
+            featuredLocation.add(new FeaturedHelperClass("Daily Average", expAmountDaily, incAmountDaily));
+
+        }
+
+        //Monthly avg
+        Float monthlyAvgExpense = 30f;
+        Float monthlyAvgIncome = 40f;
+
+        if (dailyAvgExpense != 0 && dailyAvgIncome !=0) {
+
+            String expAmountMonthly = CurrencyUtils.formatAmount(monthlyAvgExpense);
+            String incAmountMonthly = CurrencyUtils.formatAmount(monthlyAvgIncome);
+
+            summaryContainer.setVisibility(View.VISIBLE);
+            featuredLocation.add(new FeaturedHelperClass("Monthly Average", expAmountMonthly, incAmountMonthly));
+
+        }
+
+        adapter = new FeaturedAdapter(featuredLocation);
+
+        featuredRecycler.setAdapter(adapter);
     }
 
     private void initializeTotalIncome() {
