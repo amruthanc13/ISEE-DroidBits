@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    private TextView totalIncomeText, totalExpenseText;
+    private TextView totalIncomeText, totalExpenseText, pieChartTitle;
 
     private CategoriesViewModel categoriesViewModel;
     private TransactionsViewModel transactionViewModel;
@@ -111,6 +111,10 @@ public class HomeFragment extends Fragment {
         }
 
         LinearLayout pieLayout = view.findViewById(R.id.pieChartContainer);
+
+        pieChartTitle = view.findViewById(R.id.pieChartTitle);
+        pieChartTitle.setText("Expense by Categories:");
+
 
         if (length == 0) {
             pieLayout.setVisibility(view.GONE);
