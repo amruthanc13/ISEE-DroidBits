@@ -112,4 +112,36 @@ public class TransactionsRepository {
                 repeatingIntervalType);
     }
 
+    /**
+     * Get sum of transaction income amount by categoryID.
+     * @param categoryId category id.
+     * @return sum of transaction income amount with matching categoryId
+     */
+    public Float getTotalIncomeByCategoryId(final String categoryId) {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String income = "Income";
+
+        if (currentUserId.equals("")) {
+            return null;
+        }
+
+        return transactionsDao.getTotalIncomeByCategoryId(categoryId, currentUserId, income);
+    }
+
+    /**
+     * Get sum of transaction expense amount by categoryID.
+     * @param categoryId category id.
+     * @return sum of transaction expense amount with matching categoryId
+     */
+    public Float getTotalIExpenseByCategoryId(final String categoryId) {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String expense = "Expense";
+
+        if (currentUserId.equals("")) {
+            return null;
+        }
+
+        return transactionsDao.getTotalIExpenseByCategoryId(categoryId, currentUserId, expense);
+    }
+
 }

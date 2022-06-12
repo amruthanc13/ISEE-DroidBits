@@ -76,10 +76,14 @@ public class CategoriesRepository {
      * @return the category names
      */
     public String[] getCategoriesName() {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
         String income = "Income";
 
+        if (currentUserId.equals("")) {
+            return null;
+        }
 
-        return categoriesDao.getCategoriesName(income);
+        return categoriesDao.getCategoriesName(currentUserId, income);
     }
 
     /**
