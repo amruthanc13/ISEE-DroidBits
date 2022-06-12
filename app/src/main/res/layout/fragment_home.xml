@@ -51,11 +51,12 @@
                         android:textSize="16dp" />
 
                     <TextView
-                        android:id="@+id/accountIncomeText"
+                        android:id="@+id/totalIncomeText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textAlignment="textEnd"
+                        android:textColor="@color/colorIncome"
                         android:textSize="16dp" />
 
                 </LinearLayout>
@@ -75,11 +76,12 @@
                         android:textSize="16dp" />
 
                     <TextView
-                        android:id="@+id/accountExpenseText"
+                        android:id="@+id/totalExpenseText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textAlignment="textEnd"
+                        android:textColor="@color/colorExpense"
                         android:textSize="16dp" />
                 </LinearLayout>
 
