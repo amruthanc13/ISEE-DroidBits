@@ -4,7 +4,6 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
 
 import com.droidbits.moneycontrol.db.categories.Categories;
@@ -15,7 +14,7 @@ import java.util.List;
 public class CategoriesViewModel extends AndroidViewModel {
     private CategoriesRepository categoriesRepository;
 
-    public CategoriesViewModel(@NonNull Application application){
+    public CategoriesViewModel(@NonNull Application application) {
         super(application);
         categoriesRepository = new CategoriesRepository(application);
 
@@ -25,7 +24,7 @@ public class CategoriesViewModel extends AndroidViewModel {
      * Insert a new category in the database.
      * @param categories category to be added.
      */
-    public void insert(Categories categories){
+    public void insert(Categories categories) {
          categoriesRepository.insert(categories);
     }
 

@@ -13,11 +13,11 @@ import java.util.List;
 public class BudgetViewModel extends AndroidViewModel {
     private BudgetRepository budgetRepository;
 
-    public BudgetViewModel(Application application){
+    public BudgetViewModel(Application application) {
         super(application);
         budgetRepository = new BudgetRepository(application);
     }
-    public void insert(Budget budget){
+    public void insert(Budget budget) {
         budgetRepository.insert(budget);
     }
     public LiveData<List<Budget>> getAllBudget() {
@@ -30,7 +30,7 @@ public class BudgetViewModel extends AndroidViewModel {
         return budgetRepository.getSingleBudget(id);
     }
 
-    public void updateBudgetAmountsDefaultCurrency(float exchangeRate){
+    public void updateBudgetAmountsDefaultCurrency(float exchangeRate) {
         budgetRepository.updateBudgetAmountsDefaultCurrency(exchangeRate);
     }
 }

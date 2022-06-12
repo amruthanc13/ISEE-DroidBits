@@ -18,15 +18,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.budget.Budget;
 import com.droidbits.moneycontrol.db.categories.Categories;
-import com.droidbits.moneycontrol.ui.budget.BudgetFragment;
-import com.droidbits.moneycontrol.ui.budget.BudgetViewModel;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.categories.CategoryTransactionAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BudgetAdd extends BottomSheetDialogFragment {
@@ -68,7 +64,7 @@ public class BudgetAdd extends BottomSheetDialogFragment {
         });
         return view;
     }
-    private void setBudgetCategorySpinner(){
+    private void setBudgetCategorySpinner() {
         //todo: replace getAllCategories with a new function to fetch unique categories using query
         List<Categories> categories = categoriesViewModel.getAllCategories();
 

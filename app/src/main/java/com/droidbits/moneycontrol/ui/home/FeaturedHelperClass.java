@@ -2,7 +2,9 @@ package com.droidbits.moneycontrol.ui.home;
 
 public class FeaturedHelperClass {
 
-    private String title, expense, income;
+    private String title;
+    private String expense;
+    private String income;
 
     public FeaturedHelperClass(String title, String expense, String income) {
         this.title = title;

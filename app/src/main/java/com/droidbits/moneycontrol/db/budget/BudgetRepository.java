@@ -6,7 +6,6 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.droidbits.moneycontrol.db.MoneyControlDB;
-import com.droidbits.moneycontrol.db.categories.Categories;
 import com.droidbits.moneycontrol.db.users.UsersDao;
 import com.droidbits.moneycontrol.utils.SharedPreferencesUtils;
 
@@ -50,7 +49,7 @@ public class BudgetRepository {
         String currentUserId = sharedPreferencesUtils.getCurrentUserId();
 
         if (currentUserId.equals("")) {
-            return ;
+            return;
         }
         budget.setUserId(currentUserId);
 

@@ -60,7 +60,9 @@ public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.Featur
 
     public static class FeaturedViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView title, expense, income;
+        private TextView title;
+        private TextView expense;
+        private TextView income;
 
         /**
          * View holder.

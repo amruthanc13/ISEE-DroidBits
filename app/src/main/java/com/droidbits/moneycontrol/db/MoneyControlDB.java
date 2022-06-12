@@ -21,7 +21,6 @@ import com.droidbits.moneycontrol.db.transaction.TransactionsDao;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.users.Users;
 import com.droidbits.moneycontrol.db.users.UsersDao;
 
@@ -40,7 +39,7 @@ public abstract class MoneyControlDB extends RoomDatabase {
     public static final ExecutorService DATABASE_WRITE_EXECUTOR =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    public static synchronized MoneyControlDB getInstance(Context context){
+    public static synchronized MoneyControlDB getInstance(Context context) {
         if (dbInstance == null) {
                 if (dbInstance == null) {
                     dbInstance = Room.databaseBuilder(context.getApplicationContext(),
@@ -53,9 +52,9 @@ public abstract class MoneyControlDB extends RoomDatabase {
         return dbInstance;
     }
 
-    private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback(){
+    private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
         @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db){
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
             DATABASE_WRITE_EXECUTOR.execute(MoneyControlDB::populateDatabase);
 
