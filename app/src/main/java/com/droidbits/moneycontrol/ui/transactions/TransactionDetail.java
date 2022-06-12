@@ -16,11 +16,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.categories.Categories;
+import com.droidbits.moneycontrol.db.currency.CurrencyRepository;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
+import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 import com.droidbits.moneycontrol.utils.CurrencyUtils;
 import com.droidbits.moneycontrol.utils.DateUtils;
 
 public class TransactionDetail extends Fragment {
+    private static final String CURRENCY_DEFAULT_NAME = "Currency";
 
 
     @Nullable
@@ -30,6 +33,8 @@ public class TransactionDetail extends Fragment {
         View view = inf.inflate(R.layout.transaction_detail, container, false);
 
         CategoriesViewModel categoriesViewModel= new ViewModelProvider(this).get(CategoriesViewModel.class);
+        DefaultsViewModel defaultsViewModel = new ViewModelProvider(this).get(DefaultsViewModel.class);
+
         Bundle bundle = this.getArguments();
         Long date = bundle.getLong("transactionDate");
         float amount = bundle.getFloat("transactionAmount");
@@ -56,7 +61,9 @@ public class TransactionDetail extends Fragment {
 
         transactionType.setText(type);
         // turn float to string
-        String amountToString = CurrencyUtils.formatAmount(amount);
+        String defaultCurrency = defaultsViewModel.getDefaultValue(CURRENCY_DEFAULT_NAME);
+        String defaultCurrencySymbol = defaultsViewModel.getCurrencySymbol(defaultCurrency);
+        String amountToString = CurrencyUtils.formatAmount(amount, defaultCurrencySymbol);
         // transaction Type
         if (type.equals("Expense")) {
             transactionType.setTextColor(ContextCompat.getColor(getContext(), R.color.colorExpense));

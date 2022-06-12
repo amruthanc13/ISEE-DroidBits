@@ -98,4 +98,12 @@ public class TransactionsViewModel extends AndroidViewModel {
                 repeatingIntervalType
         );
     }
+
+    /**
+     * Update transaction amounts.
+     * @param conversionRate conversion rate.
+     */
+    public void updateTransactionAmountsDefaultCurrency(final float conversionRate) {
+        transactionsRepository.updateTransactionAmountsDefaultCurrency(conversionRate);
+    }
 }

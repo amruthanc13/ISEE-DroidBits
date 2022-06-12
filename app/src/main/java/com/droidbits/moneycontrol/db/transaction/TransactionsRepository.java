@@ -112,4 +112,19 @@ public class TransactionsRepository {
                 repeatingIntervalType);
     }
 
+    /**
+     * Update transaction amounts.
+     * @param conversionRate conversion rate.
+     */
+    public void updateTransactionAmountsDefaultCurrency(final float conversionRate) {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+
+        if (currentUserId.equals("")) {
+            return;
+        }
+
+        transactionsDao.updateTransactionAmountsDefaultCurrency(conversionRate, currentUserId);
+    }
+
+
 }

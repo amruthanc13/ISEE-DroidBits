@@ -17,9 +17,11 @@ import com.droidbits.moneycontrol.R;
 
 import com.droidbits.moneycontrol.db.categories.Categories;
 import com.droidbits.moneycontrol.db.categories.CategoriesDao;
+import com.droidbits.moneycontrol.db.defaults.Defaults;
 import com.droidbits.moneycontrol.db.users.Users;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.home.HomeActivity;
+import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 import com.droidbits.moneycontrol.utils.SharedPreferencesUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
@@ -30,6 +32,7 @@ import java.util.List;
 public class SignInActivity extends AppCompatActivity {
     private CategoriesViewModel categoriesViewModel;
     private UsersViewModel usersViewModel;
+    private DefaultsViewModel defaultsViewModel;
     private  Users user;
     private SharedPreferencesUtils sharedPreferencesUtils;
 
@@ -69,6 +72,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPreferencesUtils = new SharedPreferencesUtils(getApplication());
         categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
+        defaultsViewModel = new ViewModelProvider(this).get(DefaultsViewModel.class);
         setContentView(R.layout.sign_in);
         signInContainer = findViewById(R.id.signinContainer);
         signUpContainer = findViewById(R.id.signupContainer);
@@ -293,6 +297,7 @@ public class SignInActivity extends AppCompatActivity {
         sharedPreferencesUtils.setCurrentUserId(String.valueOf(userId));
 
         createDefaultUserCategories();
+        createDefaultUserCurrency();
 
     }
 
@@ -315,5 +320,10 @@ public class SignInActivity extends AppCompatActivity {
         categoriesViewModel.insert(bill);
         categoriesViewModel.insert(drinks);
         categoriesViewModel.insert(income_category);
+    }
+
+    private void createDefaultUserCurrency(){
+        Defaults defaultCurrency = new Defaults("Currency", "EUR");
+        defaultsViewModel.insert(defaultCurrency);
     }
 }

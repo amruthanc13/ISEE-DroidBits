@@ -81,4 +81,16 @@ public interface TransactionsDao {
             Integer repeatingIntervalType
     );
 
+    /**
+     * Update transaction amounts default currency.
+     * @param conversionRate conversion rate.
+     * @param userId user id.
+     */
+    @Query("UPDATE transactions SET "
+            + "amount=:conversionRate * amount "
+            + "WHERE user_id=:userId;"
+    )
+    void updateTransactionAmountsDefaultCurrency(float conversionRate, String userId);
+
+
 }

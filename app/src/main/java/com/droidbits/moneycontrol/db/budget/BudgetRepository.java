@@ -7,11 +7,15 @@ import androidx.lifecycle.LiveData;
 
 import com.droidbits.moneycontrol.db.MoneyControlDB;
 import com.droidbits.moneycontrol.db.categories.Categories;
+import com.droidbits.moneycontrol.db.users.UsersDao;
+import com.droidbits.moneycontrol.utils.SharedPreferencesUtils;
 
 import java.util.List;
 
 public class BudgetRepository {
     private BudgetDao budgetDao;
+    private UsersDao userDao;
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
     /**
      * Category repository constructor.
@@ -19,6 +23,7 @@ public class BudgetRepository {
      */
     public BudgetRepository(final Application application) {
         MoneyControlDB db = MoneyControlDB.getInstance(application);
+        sharedPreferencesUtils = new SharedPreferencesUtils(application);
         budgetDao = db.budgetDao();
     }
 
@@ -27,8 +32,13 @@ public class BudgetRepository {
      * @return list of saved categories.
      */
     public LiveData<List<Budget>> getAllBudget() {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
 
-        return budgetDao.getAllBudget();
+        if (currentUserId.equals("")) {
+            return null;
+        }
+
+        return budgetDao.getAllBudget(currentUserId);
     }
 
 
@@ -37,6 +47,13 @@ public class BudgetRepository {
      * @param budget category to be saved.
      */
     public void insert(final Budget budget) {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+
+        if (currentUserId.equals("")) {
+            return ;
+        }
+        budget.setUserId(currentUserId);
+
         budgetDao.insert(budget);
 
     }
@@ -47,6 +64,7 @@ public class BudgetRepository {
      * @return Category.
      */
     public Budget getSingleBudget(final int id) {
+
         return budgetDao.getSingleBudget(id);
     }
 
@@ -56,7 +74,26 @@ public class BudgetRepository {
      * @return category.
      */
     public Budget getBudgetWithCategory(final String category) {
-        return budgetDao.getBudgetWithCategory(category);
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+
+        if (currentUserId.equals("")) {
+            return null;
+        }
+        return budgetDao.getBudgetWithCategory(category, currentUserId);
+    }
+
+    /**
+     * Convert budgets.
+     * @param conversionRate conversion rate.
+     */
+    public void updateBudgetAmountsDefaultCurrency(final float conversionRate) {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+
+        if (currentUserId.equals("")) {
+            return;
+        }
+
+        budgetDao.updateBudgetAmountsDefaultCurrency(conversionRate, currentUserId);
     }
 
 

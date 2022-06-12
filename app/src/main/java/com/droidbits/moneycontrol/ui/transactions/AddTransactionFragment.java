@@ -25,18 +25,32 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.droidbits.moneycontrol.R;
+import com.droidbits.moneycontrol.db.MoneyControlDB;
 import com.droidbits.moneycontrol.db.categories.Categories;
+import com.droidbits.moneycontrol.db.currency.CurrencyDao;
 import com.droidbits.moneycontrol.db.transaction.Transactions;
 import com.droidbits.moneycontrol.ui.categories.AddCategory;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.categories.CategoryIconAdapter;
 import com.droidbits.moneycontrol.ui.categories.CategoryTransactionAdapter;
+import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 import com.droidbits.moneycontrol.utils.DateUtils;
+import com.droidbits.moneycontrol.utils.FormatterUtils;
+import com.droidbits.moneycontrol.utils.NetworkUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import android.widget.Switch;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -49,8 +63,11 @@ import java.util.Locale;
 
 
 public class AddTransactionFragment extends Fragment{
+    private static final String CURRENCY_DEFAULT_NAME = "Currency";
     private EditText tiedtTransactionAmount, tiedtTransactionNote;
-    private EditText textCategory;
+    private EditText textCategory, currencySpinner;
+    private CurrencyDao currencyDao;
+    private DefaultsViewModel defaultsViewModel;
     private String transactionType;
     private String paymentMethod;
     private Long transactionDate;
@@ -61,6 +78,8 @@ public class AddTransactionFragment extends Fragment{
     private Button btnSave;
     private Spinner paymentSpinner, transactionTypeSpinner;
     private Transactions lastAddedTransaction;
+    private RequestQueue requestQueue;
+    private Float exchangeRate = 1f;
 
     private boolean isRepeating;
     private int repeatingInterval;
@@ -108,6 +127,12 @@ public class AddTransactionFragment extends Fragment{
         myadapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         paymentSpinner.setAdapter(myadapter2);
 
+        requestQueue = Volley.newRequestQueue(getContext());
+        currencySpinner = v.findViewById(R.id.default_currency_spinner);
+        currencyDao = MoneyControlDB.getInstance(getContext()).currencyDao();
+        defaultsViewModel = new ViewModelProvider(this).get(DefaultsViewModel.class);
+        setDefaultCurrencySpinner();
+
         categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
         textCategory = v.findViewById(R.id.transactionCategory);
 
@@ -141,6 +166,7 @@ public class AddTransactionFragment extends Fragment{
         tiedtTransactionAmount = view.findViewById(R.id.transactionAmount);
         tiedtTransactionNote = view.findViewById(R.id.transactionNote);
         textCategory = view.findViewById(R.id.transactionCategory);
+
 
         transactionViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);
 
@@ -425,6 +451,7 @@ public class AddTransactionFragment extends Fragment{
         Log.d("String Text", "Value:" + paymentMethod);
 
         float transactionAmount = Float.parseFloat(tiedtTransactionAmount.getText().toString());
+        transactionAmount = transactionAmount / exchangeRate;
         String transactionNote  = tiedtTransactionNote.getText().toString().trim() + "";
 
 
@@ -556,6 +583,127 @@ public class AddTransactionFragment extends Fragment{
         Log.v("REPEATING", "TRANSACTIONS ADDED: " + (counter + 1));
 
         return copyTransaction;
+    }
+
+    private void setDefaultCurrencySpinner() {
+        String[] dropdownItems = currencyDao.getAllCurrencyCodes();
+
+        //set currency spinner value
+
+        String stringCurrency = defaultsViewModel.getDefaultValue(CURRENCY_DEFAULT_NAME);
+        currencySpinner.setText(stringCurrency);
+
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext())
+                .setTitle("Select the transaction currency")
+                .setItems(dropdownItems, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int which) {
+                        updateDefaultCurrency(dropdownItems[which]);
+                    }
+                });
+
+        currencySpinner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(final View v, final boolean hasFocus) {
+                if (hasFocus) {
+                    dialogBuilder.show();
+                }
+            }
+        });
+
+        currencySpinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                dialogBuilder.show();
+            }
+        });
+        currencySpinner.setInputType(0);
+    }
+    private void updateDefaultCurrency(final String newCurrency) {
+        if (!NetworkUtils.isNetworkConnectionAvailable(getContext())) {
+            Toast.makeText(
+                    getContext(),
+                    "No network connectivity, can't change the default currency!",
+                    Toast.LENGTH_LONG
+            ).show();
+            return;
+        }
+
+        requestExchangeRate(newCurrency);
+    }
+
+    private void requestExchangeRate(final String targetCurrency) {
+        String originalCurrency = defaultsViewModel.getDefaultValue(CURRENCY_DEFAULT_NAME);
+
+        MaterialAlertDialogBuilder exchangeRateDialogBuilder = new MaterialAlertDialogBuilder(getContext())
+                .setTitle("Update default currency?")
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int which) {
+                        Toast.makeText(getContext(), "Update of default currency cancelled", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int which) {
+                        if (!originalCurrency.equals(targetCurrency)) {
+                            // exchangeRate = getExchangeRate(originalCurrency,targetCurrency);
+                            if (exchangeRate != null) {
+                                currencySpinner.setText(targetCurrency);
+                            }
+                        }
+                    }
+                });
+
+        String requestUrl = "https://api.exchangerate.host/latest?base="
+                + originalCurrency
+                + "&symbols="
+                + targetCurrency;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                requestUrl,
+                null,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(final JSONObject response) {
+                        try {
+                            exchangeRate = Float.parseFloat(
+                                    response.getJSONObject("rates").get(targetCurrency).toString()
+                            );
+                            exchangeRateDialogBuilder
+                                    .setMessage("Exchange rate: 1 "
+                                            + originalCurrency
+                                            + " = "
+                                            + FormatterUtils.roundToFourDecimals(exchangeRate)
+                                            + " "
+                                            + targetCurrency
+                                    ).show();
+                        } catch (final JSONException e) {
+                            System.out.println(e);
+                            Toast.makeText(
+                                    getContext(),
+                                    "Something went wrong, please try again!",
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(final VolleyError error) {
+                // TODO: Handle error
+                Toast.makeText(
+                        getContext(),
+                        "Something went wrong, please try again!",
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+
     }
 
 }

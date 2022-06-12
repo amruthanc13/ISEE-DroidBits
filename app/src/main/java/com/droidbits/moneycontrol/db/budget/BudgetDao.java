@@ -40,13 +40,25 @@ public interface BudgetDao {
      * Get all budget from the database.
      * @return list of budget.
      */
-    @Query("SELECT * FROM budget")
-    LiveData<List<Budget>> getAllBudget();
+    @Query("SELECT * FROM budget where user_id =:userID")
+    LiveData<List<Budget>> getAllBudget(String userID);
 
     /**
      * Get budget from the database.
      * @return single budget.
      */
-    @Query("SELECT * FROM budget where categories=:categoryID")
-    Budget getBudgetWithCategory(String categoryID);
+    @Query("SELECT * FROM budget where categories=:categoryID and user_id =:userID")
+    Budget getBudgetWithCategory(String categoryID, String userID);
+
+    /**
+     * Update budget amounts default currency.
+     * @param conversionRate conversion rate.
+     * @param userId owner id.
+     */
+    @Query("UPDATE budget SET "
+            + "amount=:conversionRate * amount "
+            + "WHERE user_id=:userId;"
+    )
+    void updateBudgetAmountsDefaultCurrency(float conversionRate, String userId);
+
 }

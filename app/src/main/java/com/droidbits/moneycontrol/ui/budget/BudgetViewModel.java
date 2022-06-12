@@ -29,4 +29,8 @@ public class BudgetViewModel extends AndroidViewModel {
     public Budget getSingleBudget(final int id) {
         return budgetRepository.getSingleBudget(id);
     }
+
+    public void updateBudgetAmountsDefaultCurrency(float exchangeRate){
+        budgetRepository.updateBudgetAmountsDefaultCurrency(exchangeRate);
+    }
 }

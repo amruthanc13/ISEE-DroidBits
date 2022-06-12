@@ -1,13 +1,26 @@
 package com.droidbits.moneycontrol.db.budget;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.droidbits.moneycontrol.db.users.Users;
+
 @Entity(
-        tableName = "budget"
+        tableName = "budget",
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Users.class,
+                        parentColumns = "id",
+                        childColumns = "user_id",
+                        onDelete = CASCADE
+                )
+        }
 )
 public class Budget {
     @PrimaryKey(autoGenerate = true)
@@ -22,6 +35,10 @@ public class Budget {
     @ColumnInfo(name = "categories")
     @Nullable
     private String category;
+
+    @ColumnInfo(name = "user_id")
+    @Nullable
+    private String userId;
 
     public Budget(int id, Float amount, String category) {
         this.id = id;
@@ -49,6 +66,15 @@ public class Budget {
 
     public void setAmount(Float amount) {
         this.amount = amount;
+    }
+
+    @Nullable
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(@Nullable String userId) {
+        this.userId = userId;
     }
 
     @Nullable

@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.transaction.Transactions;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
+import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 
 import java.util.List;
 
@@ -41,12 +42,14 @@ public class TransactionFragment extends Fragment implements TransactionListAdap
 
         TransactionsViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);
         CategoriesViewModel categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
+        DefaultsViewModel defaultsViewModel = new ViewModelProvider(this).get(DefaultsViewModel.class);
 
         transactionListAdapter = new TransactionListAdapter(
                 getActivity(),
                 this,
                 transactionViewModel,
-                categoriesViewModel
+                categoriesViewModel,
+                defaultsViewModel
         );
         recyclerView.setAdapter(transactionListAdapter);
 

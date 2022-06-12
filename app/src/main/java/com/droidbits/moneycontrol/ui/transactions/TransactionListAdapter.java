@@ -22,6 +22,7 @@ import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.categories.Categories;
 import com.droidbits.moneycontrol.db.transaction.Transactions;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
+import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 import com.droidbits.moneycontrol.utils.CurrencyUtils;
 import com.droidbits.moneycontrol.utils.DateUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -29,10 +30,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.List;
 
 public class TransactionListAdapter extends RecyclerView.Adapter<TransactionListAdapter.TransactionViewHolder> {
+    private static final String CURRENCY_DEFAULT_NAME = "Currency";
     private List<Transactions> transactions;
     private final LayoutInflater layoutInflater;
     private final TransactionsViewModel transactionViewModel;
     private final CategoriesViewModel categoriesViewModel;
+    private final DefaultsViewModel defaultsViewModel;
     private final OnTransactionNoteListener mOnNoteListener;
     private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
 
@@ -46,13 +49,15 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
             final @NonNull Context context,
             final OnTransactionNoteListener onNoteListener,
             final TransactionsViewModel transactionVM,
-            final CategoriesViewModel categoryVM
+            final CategoriesViewModel categoryVM,
+            final DefaultsViewModel defaultVM
 
     ) {
         layoutInflater = LayoutInflater.from(context);
         transactionViewModel = transactionVM;
         mOnNoteListener = onNoteListener;
         categoriesViewModel = categoryVM;
+        defaultsViewModel =  defaultVM;
     }
 
     @Override
@@ -97,7 +102,9 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
             String category = current.getCategory();
 
 
-            String amountToString = CurrencyUtils.formatAmount(amount);
+            String defaultCurrency = defaultsViewModel.getDefaultValue(CURRENCY_DEFAULT_NAME);
+            String defaultCurrencySymbol = defaultsViewModel.getCurrencySymbol(defaultCurrency);
+            String amountToString = CurrencyUtils.formatAmount(amount, defaultCurrencySymbol);
 
             if (type.equals("Expense")) {
                 holder.transactionAmount.setTextColor(ContextCompat.getColor(context, R.color.colorExpense));

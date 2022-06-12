@@ -12,6 +12,10 @@ import com.droidbits.moneycontrol.db.budget.Budget;
 import com.droidbits.moneycontrol.db.budget.BudgetDao;
 import com.droidbits.moneycontrol.db.categories.Categories;
 import com.droidbits.moneycontrol.db.categories.CategoriesDao;
+import com.droidbits.moneycontrol.db.currency.Currency;
+import com.droidbits.moneycontrol.db.currency.CurrencyDao;
+import com.droidbits.moneycontrol.db.defaults.Defaults;
+import com.droidbits.moneycontrol.db.defaults.DefaultsDao;
 import com.droidbits.moneycontrol.db.transaction.Transactions;
 import com.droidbits.moneycontrol.db.transaction.TransactionsDao;
 
@@ -21,13 +25,15 @@ import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.users.Users;
 import com.droidbits.moneycontrol.db.users.UsersDao;
 
-@Database(entities = {Transactions.class, Categories.class, Budget.class, Users.class}, version = 1)
+@Database(entities = {Transactions.class, Categories.class, Budget.class, Users.class, Currency.class, Defaults.class}, version = 1)
 public abstract class MoneyControlDB extends RoomDatabase {
 
     public abstract TransactionsDao transactionsDao();
     public abstract CategoriesDao categoriesDao();
     public abstract BudgetDao budgetDao();
     public abstract UsersDao usersDao();
+    public abstract CurrencyDao currencyDao();
+    public abstract DefaultsDao defaultsDao();
 
     private static volatile MoneyControlDB dbInstance;
     private static final int NUMBER_OF_THREADS = 4;
@@ -58,25 +64,21 @@ public abstract class MoneyControlDB extends RoomDatabase {
 
     private static void populateDatabase() {
 
-        CategoriesDao categoriesDao = dbInstance.categoriesDao();
+        CurrencyDao currencyDao = dbInstance.currencyDao();
 
-        Categories cinema = new Categories(1, "Cinema", R.drawable.icon_cinema);
-        Categories travel = new Categories(2, "Travel", R.drawable.icon_travel);
-        Categories shopping = new Categories(3, "Shopping", R.drawable.icon_shopping);
-        Categories dine_out = new Categories(4, "Dine out", R.drawable.icon_dinner);
-        Categories bill = new Categories(5, "Bills", R.drawable.icon_bill);
-        Categories drinks = new Categories(6, "Drinks", R.drawable.icon_drinks);
-        Categories default_category = new Categories(-2, "Income", R.drawable.income);
+        Currency euro = new Currency("EUR", "€");
+        Currency uDollar = new Currency("USD", "$");
+        Currency yen = new Currency("JPY", "¥");
+        Currency pound = new Currency("GBP", "£");
+        Currency rupee = new Currency("INR", "₹");
+        Currency won = new Currency("KRW", "₩");
 
-        categoriesDao.insert(cinema);
-        categoriesDao.insert(travel);
-        categoriesDao.insert(shopping);
-        categoriesDao.insert(dine_out);
-        categoriesDao.insert(bill);
-        categoriesDao.insert(drinks);
-        categoriesDao.insert(default_category);
-
-
+        currencyDao.insert(euro);
+        currencyDao.insert(uDollar);
+        currencyDao.insert(yen);
+        currencyDao.insert(pound);
+        currencyDao.insert(rupee);
+        currencyDao.insert(won);
 
 
     }
