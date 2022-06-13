@@ -134,7 +134,7 @@ public class HomeFragment extends Fragment {
         monthlyAvgExpense = (float)transactionViewModel.getMonthlyAvg("Expense");
 
 
-        if (dailyAvgExpense != 0 && dailyAvgIncome != 0) {
+        if (dailyAvgExpense != 0 || dailyAvgIncome != 0) {
 
             String expAmountDaily = CurrencyUtils.formatAmount(dailyAvgExpense, defaultCurrencySymbol);
             String incAmountDaily = CurrencyUtils.formatAmount(dailyAvgIncome, defaultCurrencySymbol);
@@ -144,7 +144,7 @@ public class HomeFragment extends Fragment {
 
         }
 
-        if (monthlyAvgExpense != 0 && monthlyAvgIncome != 0) {
+        if (monthlyAvgExpense != 0 || monthlyAvgIncome != 0) {
 
 
             String expAmountMonthly = CurrencyUtils.formatAmount(monthlyAvgExpense);

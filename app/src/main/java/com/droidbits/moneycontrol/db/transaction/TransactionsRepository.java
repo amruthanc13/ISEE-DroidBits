@@ -125,6 +125,11 @@ public class TransactionsRepository {
                 repeatingIntervalType);
     }
 
+    public double getCategorySum(String categoryId){
+        return transactionsDao.getCategorySum(categoryId);
+    }
+
+
     /**
      * Update transaction amounts.
      * @param conversionRate conversion rate.
