@@ -57,6 +57,17 @@ public interface TransactionsDao {
     @Query("SELECT * FROM transactions WHERE id=:transactionId AND user_id=:userId ")
     Transactions getTransactionById(long transactionId, String userId);
 
+    /**
+     * Get sum of Expenses
+     */
+    @Query("SELECT SUM(amount) FROM transactions WHERE categories =:categoryId")
+    double getCategorySum(String categoryId);
+
+
+
+
+
+
 
     /**
      * Retrieve Filtered transactions from the database.

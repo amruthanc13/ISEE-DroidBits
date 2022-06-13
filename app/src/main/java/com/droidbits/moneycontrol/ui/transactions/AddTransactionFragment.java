@@ -1,7 +1,11 @@
 package com.droidbits.moneycontrol.ui.transactions;
 
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
@@ -20,6 +24,7 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -32,10 +37,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.droidbits.moneycontrol.R;
+import com.droidbits.moneycontrol.db.budget.Budget;
 import com.droidbits.moneycontrol.db.MoneyControlDB;
 import com.droidbits.moneycontrol.db.categories.Categories;
 import com.droidbits.moneycontrol.db.currency.CurrencyDao;
 import com.droidbits.moneycontrol.db.transaction.Transactions;
+import com.droidbits.moneycontrol.ui.budget.BudgetViewModel;
+import com.droidbits.moneycontrol.ui.categories.AddCategory;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.categories.CategoryTransactionAdapter;
 import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
@@ -45,6 +53,7 @@ import com.droidbits.moneycontrol.utils.NetworkUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -73,12 +82,14 @@ public class AddTransactionFragment extends Fragment {
     private Long transactionDate;
     private TransactionsViewModel transactionViewModel;
     private CategoriesViewModel categoriesViewModel;
+    private BudgetViewModel budgetViewModel;
     private String categoryIconImage;
     private View currentView;
     private Button btnSave;
     private Spinner paymentSpinner;
     private Spinner transactionTypeSpinner;
     private Transactions lastAddedTransaction;
+    private EditText budgetDialog;
     private RequestQueue requestQueue;
     private Float exchangeRate = 1f;
 
@@ -136,6 +147,8 @@ public class AddTransactionFragment extends Fragment {
         categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
         textCategory = v.findViewById(R.id.transactionCategory);
 
+        budgetViewModel = new ViewModelProvider(this).get(BudgetViewModel.class);
+
         //Set Transaction category spinner
         setTransactionCategorySpinner();
 
@@ -166,7 +179,6 @@ public class AddTransactionFragment extends Fragment {
         tiedtTransactionAmount = view.findViewById(R.id.transactionAmount);
         tiedtTransactionNote = view.findViewById(R.id.transactionNote);
         textCategory = view.findViewById(R.id.transactionCategory);
-
 
         transactionViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);
 
@@ -469,6 +481,9 @@ public class AddTransactionFragment extends Fragment {
             newTransaction.setRepeatingIntervalType(0);
         }
 
+       checkBudget(Integer.toString(category));
+
+
         //Insert new transaction  in to the database
         long newTransactionId = transactionViewModel.insert(newTransaction);
         Log.d("newTransactionId", "Value:" + newTransactionId);
@@ -493,6 +508,37 @@ public class AddTransactionFragment extends Fragment {
         Toast.makeText(getContext(), total, Toast.LENGTH_LONG).show();
 
 }
+
+    private void checkBudget( String category) {
+        double totalExpense = transactionViewModel.getCategorySum(category);
+        System.out.print(totalExpense);
+        double budgetAmount = budgetViewModel.getBudgetAmountByCategory(category);
+        if ((budgetAmount!= 0) && (totalExpense >= budgetAmount)) {
+            String message = "Budget limit exceeded";
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(
+                    getContext()
+            )
+                    .setSmallIcon(R.drawable.ic_message)
+                    .setContentTitle("New Notification")
+                    .setContentText(message)
+                    .setAutoCancel(true);
+
+            NotificationManager mNotificationManager;
+            mNotificationManager =
+                    (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                String channelId = "Notification";
+                NotificationChannel channel = new NotificationChannel(
+                        channelId,
+                        "Channel human readable title",
+                        NotificationManager.IMPORTANCE_HIGH);
+                mNotificationManager.createNotificationChannel(channel);
+                builder.setChannelId(channelId);
+            }
+            mNotificationManager.notify(0,builder.build());
+            System.out.print("You have exceeded the limit");
+        }
+    }
 
     /**
      * Process and create recurring transactions.
