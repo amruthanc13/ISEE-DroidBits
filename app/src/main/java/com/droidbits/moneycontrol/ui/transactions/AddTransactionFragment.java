@@ -60,10 +60,12 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class AddTransactionFragment extends Fragment{
+public class AddTransactionFragment extends Fragment {
     private static final String CURRENCY_DEFAULT_NAME = "Currency";
-    private EditText tiedtTransactionAmount, tiedtTransactionNote;
-    private EditText textCategory, currencySpinner;
+    private EditText tiedtTransactionAmount;
+    private EditText tiedtTransactionNote;
+    private EditText textCategory;
+    private EditText currencySpinner;
     private CurrencyDao currencyDao;
     private DefaultsViewModel defaultsViewModel;
     private String transactionType;
@@ -74,7 +76,8 @@ public class AddTransactionFragment extends Fragment{
     private String categoryIconImage;
     private View currentView;
     private Button btnSave;
-    private Spinner paymentSpinner, transactionTypeSpinner;
+    private Spinner paymentSpinner;
+    private Spinner transactionTypeSpinner;
     private Transactions lastAddedTransaction;
     private RequestQueue requestQueue;
     private Float exchangeRate = 1f;
@@ -93,7 +96,7 @@ public class AddTransactionFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View v = inflater.inflate(R.layout.fragment_add_transactions, container,false);
+        View v = inflater.inflate(R.layout.fragment_add_transactions, container, false);
         transactionTypeSpinner = v.findViewById((R.id.spinnerTransactionType));
         ArrayAdapter myadapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.transaction_type));
         myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -106,7 +109,7 @@ public class AddTransactionFragment extends Fragment{
                 if (transactionTypeSpinner.getSelectedItem().toString().equals("Income")) {
                     textCategory.setVisibility(view.GONE);
                     textCategory.setText("Income");
-                } else{
+                } else {
                     textCategory.setVisibility(view.VISIBLE);
                     textCategory.getText().clear();
                 }
@@ -387,9 +390,7 @@ public class AddTransactionFragment extends Fragment{
             textCategory.setError("Please enter the category of your transaction");
             requestFocus(textCategory);
             return false;
-        }
-
-        else if (!Arrays.asList(dropdownItems).contains(textCategory.getText().toString().trim())) {
+        } else if (!Arrays.asList(dropdownItems).contains(textCategory.getText().toString().trim())) {
             textCategory.setError("Category is not valid");
             requestFocus(textCategory);
             return false;
@@ -401,6 +402,7 @@ public class AddTransactionFragment extends Fragment{
     /**
      * Submit method to submit the input from user.
      */
+    @SuppressWarnings({"checkstyle", "magicnumber"})
     private void submitForm() {
         paymentMethod = paymentSpinner.getSelectedItem().toString();
         transactionType = transactionTypeSpinner.getSelectedItem().toString();
@@ -497,6 +499,7 @@ public class AddTransactionFragment extends Fragment{
      * @param transaction initial transaction.
      * @return last transaction.
      */
+    @SuppressWarnings({"checkstyle", "magicnumber"})
     private Transactions processAddRecurringTransaction(final Transactions transaction) {
         Transactions copyTransaction = new Transactions();
 

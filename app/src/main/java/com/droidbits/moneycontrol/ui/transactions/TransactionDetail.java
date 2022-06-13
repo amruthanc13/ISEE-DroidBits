@@ -1,7 +1,6 @@
 package com.droidbits.moneycontrol.ui.transactions;
 
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.categories.Categories;
-import com.droidbits.moneycontrol.db.currency.CurrencyRepository;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 import com.droidbits.moneycontrol.utils.CurrencyUtils;
@@ -32,7 +30,7 @@ public class TransactionDetail extends Fragment {
             final LayoutInflater inf, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inf.inflate(R.layout.transaction_detail, container, false);
 
-        CategoriesViewModel categoriesViewModel= new ViewModelProvider(this).get(CategoriesViewModel.class);
+        CategoriesViewModel categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
         DefaultsViewModel defaultsViewModel = new ViewModelProvider(this).get(DefaultsViewModel.class);
 
         Bundle bundle = this.getArguments();
@@ -44,7 +42,7 @@ public class TransactionDetail extends Fragment {
         String category = bundle.getString("transactionCategory");
         Boolean isRepeating = bundle.getBoolean("isRepeating");
         int repeatingIntervalType = 0;
-        if(isRepeating){
+        if (isRepeating) {
             repeatingIntervalType = bundle.getInt("repeatingIntervalType");
         }
 
@@ -78,10 +76,10 @@ public class TransactionDetail extends Fragment {
         transactionType.setText(type);
         transactionNote.setText(note);
         transactionMethod.setText(method);
-        if(repeatingIntervalType != 0){
+        if (repeatingIntervalType != 0) {
             String[] dropdownItems = {"Daily", "Weekly", "Monthly", "Yearly"};
             repeatingIntervalLayout.setVisibility(View.VISIBLE);
-            repeatingInterval.setText(dropdownItems[repeatingIntervalType-1]);
+            repeatingInterval.setText(dropdownItems[repeatingIntervalType - 1]);
         }
 
         Categories categories = categoriesViewModel.getSingleCategory(Integer.parseInt(category));

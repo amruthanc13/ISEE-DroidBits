@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.droidbits.moneycontrol.R;
 
 import com.droidbits.moneycontrol.db.categories.Categories;
-import com.droidbits.moneycontrol.db.categories.CategoriesDao;
 import com.droidbits.moneycontrol.db.defaults.Defaults;
 import com.droidbits.moneycontrol.db.users.Users;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
@@ -260,6 +259,7 @@ public class SignInActivity extends AppCompatActivity {
     /**
      * Execute sign in and move to home screen.
      */
+    @SuppressWarnings({"checkstyle", "magicnumber"})
     private void signUp() {
         if (!emailInputText.getText().toString().matches(EMAIL_ADDRESS_PATTERN)) {
             emailInputGroup.setError("Please enter a valid email address.");
@@ -301,28 +301,28 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
-    private void createDefaultUserCategories(){
+    private void createDefaultUserCategories() {
 
-        Categories cinema = new Categories( "Cinema", R.drawable.icon_cinema);
-        Categories travel = new Categories( "Travel", R.drawable.icon_travel);
-        Categories shopping = new Categories( "Shopping", R.drawable.icon_shopping);
-        Categories dine_out = new Categories( "Dine out", R.drawable.icon_dinner);
-        Categories bill = new Categories( "Bills", R.drawable.icon_bill);
-        Categories drinks = new Categories( "Drinks", R.drawable.icon_drinks);
-        Categories income_category = new Categories( "Income", R.drawable.income);
+        Categories cinema = new Categories("Cinema", R.drawable.icon_cinema);
+        Categories travel = new Categories("Travel", R.drawable.icon_travel);
+        Categories shopping = new Categories("Shopping", R.drawable.icon_shopping);
+        Categories dineOut = new Categories("Dine out", R.drawable.icon_dinner);
+        Categories bill = new Categories("Bills", R.drawable.icon_bill);
+        Categories drinks = new Categories("Drinks", R.drawable.icon_drinks);
+        Categories incomeCategory = new Categories("Income", R.drawable.income);
 
 
 
         categoriesViewModel.insert(cinema);
         categoriesViewModel.insert(travel);
         categoriesViewModel.insert(shopping);
-        categoriesViewModel.insert(dine_out);
+        categoriesViewModel.insert(dineOut);
         categoriesViewModel.insert(bill);
         categoriesViewModel.insert(drinks);
-        categoriesViewModel.insert(income_category);
+        categoriesViewModel.insert(incomeCategory);
     }
 
-    private void createDefaultUserCurrency(){
+    private void createDefaultUserCurrency() {
         Defaults defaultCurrency = new Defaults("Currency", "EUR");
         defaultsViewModel.insert(defaultCurrency);
     }

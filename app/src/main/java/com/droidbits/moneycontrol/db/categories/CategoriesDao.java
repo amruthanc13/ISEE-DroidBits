@@ -43,6 +43,8 @@ public interface CategoriesDao {
 
     /**
      * Get all categories from the database.
+     * @param userId
+     * @return list of categories
      */
     @Query("SELECT * FROM Categories where name != 'Income' AND  user_id=:userId")
     List<Categories> getAllCategories(String userId);
@@ -50,6 +52,9 @@ public interface CategoriesDao {
 
     /**
      * Get all categories name from the database.
+     * @param userId
+     * @param income
+     * @return string of categories
      */
     @Query("SELECT name FROM Categories WHERE "
             +

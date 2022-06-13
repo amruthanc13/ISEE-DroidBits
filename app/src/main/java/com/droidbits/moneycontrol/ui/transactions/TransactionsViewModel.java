@@ -15,7 +15,7 @@ public class TransactionsViewModel extends AndroidViewModel {
     private TransactionsRepository transactionsRepository;
     private LiveData<List<Transactions>> allTransactions;
 
-    public TransactionsViewModel(@NonNull Application application){
+    public TransactionsViewModel(@NonNull Application application) {
         super(application);
         transactionsRepository = new TransactionsRepository(application);
         allTransactions = transactionsRepository.getAllTransactions();
@@ -26,7 +26,7 @@ public class TransactionsViewModel extends AndroidViewModel {
      * @param transactions transaction to be added.
      * @return id of inserted transaction.
      */
-    public long insert(Transactions transactions){
+    public long insert(Transactions transactions) {
         return transactionsRepository.insert(transactions);
     }
 
@@ -49,7 +49,13 @@ public class TransactionsViewModel extends AndroidViewModel {
 
     /**
      * Retrieve Filtered transactions from the database.
-     * @return Filtered transactions.
+     * @param amountFrom
+     * @param amountTo
+     * @param categoryId
+     * @param dateFrom
+     * @param dateTo
+     * @param paymentMethod
+     * @return list of transaction
      */
     public List<Transactions> filterTransactions(Float amountFrom, Float amountTo, Long dateFrom, Long dateTo, String paymentMethod, String categoryId) {
 
@@ -57,7 +63,7 @@ public class TransactionsViewModel extends AndroidViewModel {
     }
 
     /**
-     * Delete Transaction by transactionId
+     * Delete Transaction by transactionId.
      * @param transactionId id.
      */
     public void deleteTransaction(
@@ -82,17 +88,17 @@ public class TransactionsViewModel extends AndroidViewModel {
     }
 
     /**
-     * Delete All Transactions
+     * Delete All Transactions.
      */
-    public void deleteAllTransactions(){
+    public void deleteAllTransactions() {
         transactionsRepository.deleteAllTransactions();
     }
 
-    public double getExpenseTransactionSum(){
+    public double getExpenseTransactionSum() {
         return transactionsRepository.getExpenseTransactionSum();
     }
 
-    public double getIncomeTransactionSum(){
+    public double getIncomeTransactionSum() {
         return transactionsRepository.getIncomeTransactionSum();
     }
 
@@ -100,7 +106,7 @@ public class TransactionsViewModel extends AndroidViewModel {
      * Get all transactions.
      * @return LiveData of transaction list.
      */
-    public LiveData<List<Transactions>> getAllTransactions(){
+    public LiveData<List<Transactions>> getAllTransactions() {
         return allTransactions;
     }
 

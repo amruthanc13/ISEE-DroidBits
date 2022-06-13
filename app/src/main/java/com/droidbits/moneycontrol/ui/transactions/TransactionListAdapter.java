@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
@@ -41,9 +39,11 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
 
     /**
      * Creating adapter for Transaction.
-     * @param context context
-     * @param onNoteListener the onNotelistener
-     * @param transactionVM the view model for creating new transactions
+     * @param categoryVM
+     * @param context
+     * @param defaultVM
+     * @param transactionVM
+     * @param onNoteListener
      */
     public TransactionListAdapter(
             final @NonNull Context context,
@@ -149,7 +149,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
 
             });
 
-            viewBinderHelper.bind(holder.swipeRevealLayout,Integer.toString(current.getId()));
+            viewBinderHelper.bind(holder.swipeRevealLayout, Integer.toString(current.getId()));
         }
     }
 
