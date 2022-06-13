@@ -40,6 +40,9 @@ public class BudgetRepository {
         budgetDao.insert(budget);
 
     }
+    public double getBudgetAmountByCategory(String categoryId){
+        return budgetDao.getBudgetAmountByCategory(categoryId);
+    }
 
     /**
      * get a  budget.
@@ -49,6 +52,7 @@ public class BudgetRepository {
     public Budget getSingleBudget(final int id) {
         return budgetDao.getSingleBudget(id);
     }
+
 
     /**
      * get a category.

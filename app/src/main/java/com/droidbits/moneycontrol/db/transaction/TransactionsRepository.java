@@ -72,9 +72,9 @@ public class TransactionsRepository {
         transactionsDao.deleteAllTransactions();
     }
 
-    public double getTransactionSum(){
-        return transactionsDao.getTransactionSum();
-    }
+   public double getCategorySum(String categoryId){
+        return transactionsDao.getCategorySum(categoryId);
+   }
 
     /**
      * Update transaction recurring fields.

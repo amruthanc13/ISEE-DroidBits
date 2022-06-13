@@ -76,8 +76,8 @@ public class TransactionsViewModel extends AndroidViewModel {
         transactionsRepository.deleteAllTransactions();
     }
 
-    public double getTransactionSum(){
-        return transactionsRepository.getTransactionSum();
+    public double getCategorySum(String categoryId){
+        return transactionsRepository.getCategorySum(categoryId);
     }
     /**
      * Get all transactions.
