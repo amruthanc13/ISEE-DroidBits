@@ -63,7 +63,7 @@ public class Transactions {
     private Integer repeatingIntervalType;
 
     /**
-     * Foreign keys
+     * Foreign keys.
      */
     @ColumnInfo(name = "categories")
     @Nullable
@@ -74,7 +74,7 @@ public class Transactions {
     private String userId;
 
     /**
-     * Constructor with amount, textNote, type, method, date and category
+     * Constructor with amount, textNote, type, method, date and category.
      * @param amount
      * @param textNote
      * @param type
@@ -93,16 +93,18 @@ public class Transactions {
     }
 
     /**
-     * Constructor with amount, textNote, type, method, date and category
+     * Constructor with amount, textNote, type, method, date and category.
      * @param amount
      * @param textNote
      * @param type
      * @param method
      * @param date
      * @param category
+     * @param isRepeating
+     * @param repeatingIntervalType
      */
     @Ignore
-    public Transactions(Float amount, @Nullable String textNote, String type, String method, Long date, @Nullable String category, boolean isRepeating , int repeatingIntervalType) {
+    public Transactions(Float amount, @Nullable String textNote, String type, String method, Long date, @Nullable String category, boolean isRepeating, int repeatingIntervalType) {
         this.amount = amount;
         this.textNote = textNote;
         this.type = type;
@@ -114,7 +116,7 @@ public class Transactions {
     }
 
     /**
-     * Constructor with amount, textNote, type, method, date and category
+     * Constructor with amount, textNote, type, method, date and category.
      * @param amount
      * @param textNote
      * @param type
@@ -131,7 +133,7 @@ public class Transactions {
     }
 
     /**
-     * Empty constructor
+     * Empty constructor.
      */
     public Transactions() {
     }
@@ -168,9 +170,7 @@ public class Transactions {
         return amount;
     }
 
-    /**
-     * Getters
-     **/
+
     @Nullable
     public String getTextNote() {
         return textNote;
@@ -207,10 +207,6 @@ public class Transactions {
     public String getUserId() {
         return userId;
     }
-
-    /**
-     * Setters
-     **/
 
     public void setId(int id) {
         this.id = id;

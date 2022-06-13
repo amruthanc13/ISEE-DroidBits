@@ -24,6 +24,7 @@ public class CategoriesFragment extends Fragment implements CategoriesAdapter.On
 
     @Nullable
     @Override
+    @SuppressWarnings({"checkstyle", "magicnumber"})
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_categories, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.categories_grid_view);

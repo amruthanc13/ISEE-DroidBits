@@ -33,6 +33,13 @@ public class TransactionsRepository {
 
     /**
      * Retrieve Filtered transactions from the database.
+     * @param paymentMethod
+     * @param dateTo
+     * @param dateFrom
+     * @param categoryId
+     * @param amountTo
+     * @param amountFrom
+     * @return list of transactions
      */
     public List<Transactions> filterTransactions(Float amountFrom, Float amountTo, Long dateFrom, Long dateTo, String paymentMethod, String categoryId) {
 

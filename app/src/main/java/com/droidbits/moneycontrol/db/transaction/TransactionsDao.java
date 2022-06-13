@@ -23,6 +23,7 @@ public interface TransactionsDao {
 
     /**
      * Retrieve all transactions from the database.
+     * @param userId
      * @return all transactions.
      */
     @Query("SELECT * FROM transactions "
@@ -30,17 +31,26 @@ public interface TransactionsDao {
             + "ORDER BY date DESC")
     LiveData<List<Transactions>> getAllTransactions(String userId);
 
-    //Get sum of expenses
+    /**
+     * get sum of expenses.
+     * @param userId
+     * @return sum
+     */
     @Query("SELECT SUM(amount) FROM transactions WHERE type = 'Expense' AND user_id=:userId")
     double getExpenseTransactionSum(String userId);
 
-    //Get sum of income
+    /**
+     * get sum of income.
+     * @param userId
+     * @return sum
+     */
     @Query("SELECT SUM(amount) FROM transactions WHERE type = 'Income' AND user_id=:userId")
     double getIncomeTransactionSum(String userId);
 
     /**
      * Get transaction by id.
      * @param transactionId id.
+     * @param userId
      * @return transaction.
      */
 
@@ -50,6 +60,13 @@ public interface TransactionsDao {
 
     /**
      * Retrieve Filtered transactions from the database.
+     * @param userId
+     * @param amountFrom
+     * @param amountTo
+     * @param categoryId
+     * @param dateFrom
+     * @param dateTo
+     * @param paymentMethod
      * @return Filtered transactions.
      */
     @Query("SELECT * FROM transactions "
@@ -101,6 +118,7 @@ public interface TransactionsDao {
      * Retrieve sum of transaction income amount for a specified category.
      * @param categoryId category id.
      * @param ownerId owner id.
+     * @param income
      * @return sum of transaction income amount with matching categoryId
      */
     @Query("SELECT SUM(amount) FROM transactions "
@@ -113,6 +131,7 @@ public interface TransactionsDao {
      * Retrieve sum of transaction expense amount for a specified category.
      * @param categoryId category id.
      * @param ownerId owner id.
+     * @param expense
      * @return sum of transaction expense amount with matching categoryId
      */
     @Query("SELECT SUM(amount) FROM transactions "

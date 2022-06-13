@@ -36,12 +36,17 @@ public interface BudgetDao {
 
     /**
      * Get all budget from the database.
+     * @param userID
+     * @return list of budget
      */
     @Query("SELECT * FROM budget where user_id =:userID")
     LiveData<List<Budget>> getAllBudget(String userID);
 
     /**
      * Get budget from the database.
+     * @param categoryID
+     * @param userID
+     * @return budget object
      */
     @Query("SELECT * FROM budget where categories=:categoryID and user_id =:userID")
     Budget getBudgetWithCategory(String categoryID, String userID);

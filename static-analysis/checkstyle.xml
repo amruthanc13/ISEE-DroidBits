@@ -22,8 +22,17 @@
 <module name="Checker">
 
     <property name="severity" value="warning"/>
+	<module name="SuppressWarningsFilter"/>
 
     <module name="TreeWalker">
+	
+		<module name="SuppressWarningsHolder"/>
+
+		<module name="SuppressWarnings">
+		  <property name="id" value="checkstyle:suppresswarnings"/>
+		</module> 
+
+		<module name="SuppressWithNearbyCommentFilter"/>
 
         <!-- Checks for Javadoc comments.                     -->
         <!-- See https://checkstyle.org/config_javadoc.html -->
@@ -137,8 +146,9 @@
             <property name="severity" value="error"/>
         </module>
         <module name="EqualsHashCode"/>
-        <module name="MagicNumber"/>
-        <module name="MissingSwitchDefault"/>
+        <module name="MagicNumber">
+		  <property name="id" value="checkstyle:magicnumber"/>
+		</module>
         <module name="MultipleVariableDeclarations">
             <property name="severity" value="error"/>
         </module>

@@ -37,7 +37,9 @@ public class HomeFragment extends Fragment {
 
     private static final String CURRENCY_DEFAULT_NAME = "Currency";
 
-    private TextView totalIncomeText, totalExpenseText, pieChartTitle;
+    private TextView totalIncomeText;
+    private TextView totalExpenseText;
+    private TextView pieChartTitle;
 
     private LinearLayout summaryContainer;
     private RecyclerView featuredRecycler;
@@ -53,7 +55,7 @@ public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
-    public  View onCreateView( LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public  View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         // text view details
@@ -109,6 +111,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    @SuppressWarnings({"checkstyle", "magicnumber"})
     private void featuredRecycler(final View rView) {
 
         featuredRecycler.setHasFixedSize(true);
@@ -131,7 +134,7 @@ public class HomeFragment extends Fragment {
         monthlyAvgExpense = (float)transactionViewModel.getMonthlyAvg("Expense");
 
 
-        if (dailyAvgExpense != 0 && dailyAvgIncome !=0) {
+        if (dailyAvgExpense != 0 && dailyAvgIncome != 0) {
 
             String expAmountDaily = CurrencyUtils.formatAmount(dailyAvgExpense, defaultCurrencySymbol);
             String incAmountDaily = CurrencyUtils.formatAmount(dailyAvgIncome, defaultCurrencySymbol);
@@ -141,7 +144,7 @@ public class HomeFragment extends Fragment {
 
         }
 
-        if (monthlyAvgExpense != 0 && monthlyAvgIncome !=0) {
+        if (monthlyAvgExpense != 0 && monthlyAvgIncome != 0) {
 
 
             String expAmountMonthly = CurrencyUtils.formatAmount(monthlyAvgExpense);
@@ -240,6 +243,7 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @SuppressWarnings({"checkstyle", "magicnumber"})
     private void addDataSet(final float[] yData, final String[] xData) {
         ArrayList<PieEntry> yEntrys = new ArrayList<>();
         ArrayList<String> xEntrys = new ArrayList<>();

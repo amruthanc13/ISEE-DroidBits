@@ -73,6 +73,7 @@ public final class DateUtils {
      * Returns 23:59:59:999 of the current day.
      * @return Calendar instance set to 23:59:59:999 of the current day.
      */
+    @SuppressWarnings({"checkstyle", "magicnumber"})
     public static Calendar getEndOfCurrentDay() {
         Calendar date = new GregorianCalendar();
         date.set(Calendar.HOUR_OF_DAY, 23);
@@ -115,6 +116,7 @@ public final class DateUtils {
      * @param milliseconds date in milliseconds.
      * @return Calendar instance set to 23:59:59:999 of a certain day.
      */
+    @SuppressWarnings({"checkstyle", "magicnumber"})
     public static Calendar getEndOfDay(final long milliseconds) {
         Calendar date = new GregorianCalendar();
         date.setTimeInMillis(milliseconds);

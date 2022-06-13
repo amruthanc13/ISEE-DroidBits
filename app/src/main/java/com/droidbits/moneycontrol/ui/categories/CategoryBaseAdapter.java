@@ -11,8 +11,8 @@ import com.droidbits.moneycontrol.R;
 public class CategoryBaseAdapter extends BaseAdapter {
 
     Context context;
-    String catList[];
-    int catImages[];
+    String[] catList;
+    int[] catImages;
     LayoutInflater inflater;
 
 

@@ -14,18 +14,17 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.droidbits.moneycontrol.R;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.textfield.TextInputEditText;
 
-public class SettingsFragment extends Fragment{
+public class SettingsFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container,false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         // onclick event for FAQ button
-        Button FAQButton = view.findViewById(R.id.helpButton);
-        FAQButton.setOnClickListener(new View.OnClickListener() {
+        Button fAQButton = view.findViewById(R.id.helpButton);
+        fAQButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v)  {
                 Fragment fragment = new HelpMenuFragment();
@@ -38,8 +37,8 @@ public class SettingsFragment extends Fragment{
         });
 
         // onclick event for set defaults button
-        Button DefaultSetButton = view.findViewById(R.id.default_button);
-        DefaultSetButton.setOnClickListener(new View.OnClickListener() {
+        Button defaultSetButton = view.findViewById(R.id.default_button);
+        defaultSetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v)  {
                 Fragment fragment = new DefaultValuesFragment();

@@ -31,27 +31,29 @@ import java.util.List;
 
 public class TransactionFilter extends BottomSheetDialogFragment {
     private TransactionsViewModel transactionsViewModel;
-    private CategoriesViewModel categoriesViewModel ;
-    RecyclerView recyclerView ;
+    private CategoriesViewModel categoriesViewModel;
+    RecyclerView recyclerView;
     LinearLayout emptyTransactions;
     private EditText categoryFilterSpinner;
     private Spinner paymentFilterSpinner;
     private EditText fromDate;
     private EditText toDate;
     private String paymentFilter;
-    private Long dateFrom, dateTo;
-    private EditText fromAmount, toAmount;
-    private Float amountFrom, amountTo;
+    private Long dateFrom;
+    private Long dateTo;
+    private EditText fromAmount;
+    private EditText toAmount;
+    private Float amountFrom;
+    private Float amountTo;
     private Button filterButton;
     private TransactionListAdapter transactionsListAdapter;
     DatePickerDialog.OnDateSetListener setListener;
     private String categoryId;
 
-    private final Calendar calendarFromDate = Calendar.getInstance(), calendarToDate = Calendar.getInstance(), calendarTemp = Calendar.getInstance();
+    private final Calendar calendarFromDate = Calendar.getInstance();
+    private final Calendar calendarToDate = Calendar.getInstance();
+    private final Calendar calendarTemp = Calendar.getInstance();
 
-    /**
-     * Public constructor to initialize viewModels.
-     */
     public TransactionFilter(
             final TransactionsViewModel tViewModel,
             final CategoriesViewModel cViewModel,
@@ -177,8 +179,9 @@ public class TransactionFilter extends BottomSheetDialogFragment {
     }
 
     /**
-     * Apply filter conditions
+     * Apply filter conditions.
      */
+    @SuppressWarnings({"checkstyle", "magicnumber"})
     private void applyFilter() {
         paymentFilter = paymentFilterSpinner.getSelectedItem().toString();
 
@@ -203,15 +206,14 @@ public class TransactionFilter extends BottomSheetDialogFragment {
 
         }
 
-        if (!toDate.getText().toString().isEmpty()){
+        if (!toDate.getText().toString().isEmpty()) {
             dateTo = DateUtils.getStartOfDayInMS(calendarToDate.getTimeInMillis());
-        }
-        else{
+        } else {
             calendarTemp.set(4000, 1, 1);
             dateTo = DateUtils.getStartOfDayInMS(calendarTemp.getTimeInMillis());
         }
 
-        if (!paymentFilter.isEmpty()){
+        if (!paymentFilter.isEmpty()) {
             if (paymentFilter.equals("Select All")) {
                 paymentFilter = null;
             }
