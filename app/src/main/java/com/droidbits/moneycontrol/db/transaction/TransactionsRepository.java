@@ -166,4 +166,26 @@ public class TransactionsRepository {
         return transactionsDao.getTotalIExpenseByCategoryId(categoryId, currentUserId, expense);
     }
 
+
+    public double getMonthlyAvg(final String transactionType) {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+
+        if (currentUserId.equals("")) {
+            return 0;
+        }
+
+        return transactionsDao.getMonthlyAvg(transactionType, currentUserId);
+    }
+
+    public double getDailyAvg(final String transactionType) {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+
+        if (currentUserId.equals("")) {
+            return 0;
+        }
+
+        return transactionsDao.getDailyAvg(transactionType, currentUserId);
+    }
+
+
 }

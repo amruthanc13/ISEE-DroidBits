@@ -121,4 +121,12 @@ public interface TransactionsDao {
             + "AND type =:expense")
     float getTotalIExpenseByCategoryId(String categoryId, String ownerId, String expense);
 
+    @Query("SELECT AVG(monthly_sum) from (SELECT sum(amount) as monthly_sum, strftime('%Y-%m', date / 1000, 'unixepoch') as month from transactions " +
+            " where type=:transactionType and user_id=:userId group by month )")
+    double getMonthlyAvg( String transactionType, String userId);
+
+    @Query("SELECT AVG(daily_sum) from (SELECT sum(amount) as daily_sum, date(date/1000, 'unixepoch', 'localtime') as day from transactions " +
+            " where type=:transactionType and user_id=:userId group by day )")
+    double getDailyAvg( String transactionType, String userId);
+
 }

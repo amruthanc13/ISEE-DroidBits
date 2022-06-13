@@ -9,9 +9,8 @@ import android.widget.TextView;
 
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.categories.Categories;
-import com.droidbits.moneycontrol.db.categories.CategoriesRepository;
-import com.droidbits.moneycontrol.db.transaction.TransactionsRepository;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
+import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 import com.droidbits.moneycontrol.ui.transactions.AddTransactionFragment;
 import com.droidbits.moneycontrol.ui.transactions.TransactionsViewModel;
 import com.droidbits.moneycontrol.utils.CurrencyUtils;
@@ -36,6 +35,8 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
+    private static final String CURRENCY_DEFAULT_NAME = "Currency";
+
     private TextView totalIncomeText, totalExpenseText, pieChartTitle;
 
     private LinearLayout summaryContainer;
@@ -44,6 +45,9 @@ public class HomeFragment extends Fragment {
 
     private CategoriesViewModel categoriesViewModel;
     private TransactionsViewModel transactionViewModel;
+    private DefaultsViewModel defaultsViewModel;
+
+    private String defaultCurrencySymbol;
 
     private PieChart pieChart;
 
@@ -66,6 +70,12 @@ public class HomeFragment extends Fragment {
         //view Models
         categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
         transactionViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);
+        defaultsViewModel = new ViewModelProvider(this).get(DefaultsViewModel.class);
+
+        String defaultCurrency = defaultsViewModel.getDefaultValue(CURRENCY_DEFAULT_NAME);
+        defaultCurrencySymbol = defaultsViewModel.getCurrencySymbol(defaultCurrency);
+
+
 
         //button details
         AppCompatButton addTransactionLayout = view.findViewById(R.id.addTransactionButton);
@@ -107,24 +117,32 @@ public class HomeFragment extends Fragment {
         ArrayList<FeaturedHelperClass> featuredLocation = new ArrayList<>();
 
         //Daily avg
-        Float dailyAvgExpense = 10f;
-        Float dailyAvgIncome = 20f;
+        Float dailyAvgExpense = 0F;
+        Float dailyAvgIncome = 0F;
+
+        //Monthly avg
+        Float monthlyAvgExpense = 0F;
+        Float monthlyAvgIncome = 0F;
+
+        dailyAvgExpense = (float)transactionViewModel.getDailyAvg("Expense");
+        dailyAvgIncome = (float)transactionViewModel.getDailyAvg("Income");
+
+        monthlyAvgIncome = (float)transactionViewModel.getMonthlyAvg("Income");
+        monthlyAvgExpense = (float)transactionViewModel.getMonthlyAvg("Expense");
+
 
         if (dailyAvgExpense != 0 && dailyAvgIncome !=0) {
 
-            String expAmountDaily = CurrencyUtils.formatAmount(dailyAvgExpense);
-            String incAmountDaily = CurrencyUtils.formatAmount(dailyAvgIncome);
+            String expAmountDaily = CurrencyUtils.formatAmount(dailyAvgExpense, defaultCurrencySymbol);
+            String incAmountDaily = CurrencyUtils.formatAmount(dailyAvgIncome, defaultCurrencySymbol);
 
             summaryContainer.setVisibility(View.VISIBLE);
             featuredLocation.add(new FeaturedHelperClass("Daily Average", expAmountDaily, incAmountDaily));
 
         }
 
-        //Monthly avg
-        Float monthlyAvgExpense = 30f;
-        Float monthlyAvgIncome = 40f;
+        if (monthlyAvgExpense != 0 && monthlyAvgIncome !=0) {
 
-        if (dailyAvgExpense != 0 && dailyAvgIncome !=0) {
 
             String expAmountMonthly = CurrencyUtils.formatAmount(monthlyAvgExpense);
             String incAmountMonthly = CurrencyUtils.formatAmount(monthlyAvgIncome);
@@ -142,13 +160,12 @@ public class HomeFragment extends Fragment {
     private void initializeTotalIncome() {
          float totalIncome = (float) transactionViewModel.getIncomeTransactionSum();
 
-         totalIncomeText.setText(CurrencyUtils.formatAmount(totalIncome));
+         totalIncomeText.setText(CurrencyUtils.formatAmount(totalIncome, defaultCurrencySymbol));
     }
 
     private void initializeTotalExpense() {
         float totalExpense = (float) transactionViewModel.getExpenseTransactionSum();
-
-        totalExpenseText.setText(CurrencyUtils.formatAmount(totalExpense));
+        totalExpenseText.setText(CurrencyUtils.formatAmount(totalExpense, defaultCurrencySymbol));
     }
 
     private void initializePieChart(final View view) {

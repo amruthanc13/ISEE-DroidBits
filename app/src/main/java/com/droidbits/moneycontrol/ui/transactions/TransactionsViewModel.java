@@ -123,4 +123,16 @@ public class TransactionsViewModel extends AndroidViewModel {
     public void updateTransactionAmountsDefaultCurrency(final float conversionRate) {
         transactionsRepository.updateTransactionAmountsDefaultCurrency(conversionRate);
     }
+
+    public double getMonthlyAvg(final String transactionType){
+        return transactionsRepository.getMonthlyAvg(transactionType);
+    }
+
+    public double getDailyAvg(final String transactionType){
+        return transactionsRepository.getDailyAvg(transactionType);
+    }
+
+
+
+
 }
