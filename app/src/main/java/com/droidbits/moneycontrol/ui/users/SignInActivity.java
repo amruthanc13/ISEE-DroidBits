@@ -324,6 +324,11 @@ public class SignInActivity extends AppCompatActivity {
 
     private void createDefaultUserCurrency() {
         Defaults defaultCurrency = new Defaults("Currency", "EUR");
+        Defaults defaultCategory = new Defaults("Category", "Cinema");
+        Defaults defaultPayment = new Defaults("Payment", "Credit Card");
+
         defaultsViewModel.insert(defaultCurrency);
+        defaultsViewModel.insert(defaultCategory);
+        defaultsViewModel.insert(defaultPayment);
     }
 }

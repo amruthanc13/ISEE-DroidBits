@@ -74,6 +74,8 @@ import java.util.Locale;
 
 public class AddTransactionFragment extends Fragment {
     private static final String CURRENCY_DEFAULT_NAME = "Currency";
+    private static final String CATEGORY_DEFAULT_NAME = "Category";
+    private static final String PAYMENT_METHOD_DEFAULT_NAME = "Payment";
     private LinearLayout linearLayoutRecurruing;
     private TextInputEditText tiedtTransactionAmount;
     private TextInputLayout tilTransactionAmount;
@@ -113,6 +115,7 @@ public class AddTransactionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_add_transactions, container, false);
+        defaultsViewModel = new ViewModelProvider(this).get(DefaultsViewModel.class);
 
         //Transaction type on change
         setTransactionTypeSpinner(v);
@@ -125,7 +128,7 @@ public class AddTransactionFragment extends Fragment {
         requestQueue = Volley.newRequestQueue(getContext());
         currencySpinner = v.findViewById(R.id.default_currency_spinner);
         currencyDao = MoneyControlDB.getInstance(getContext()).currencyDao();
-        defaultsViewModel = new ViewModelProvider(this).get(DefaultsViewModel.class);
+
         setDefaultCurrencySpinner();
 
         categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
@@ -195,6 +198,10 @@ public class AddTransactionFragment extends Fragment {
 
         paymentSpinner = view.findViewById((R.id.spinnerPaymentMethod));
         String[] dropdownItems = new String[]{"Credit Card", "Debit Card", "Cash", "Paypal", "Other"};
+
+        //set payment mode spinner value
+        String defaultPaymentMode = defaultsViewModel.getDefaultValue(PAYMENT_METHOD_DEFAULT_NAME);
+        paymentSpinner.setText(defaultPaymentMode);
 
         MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext())
                 .setTitle("Select the payment method")
@@ -393,7 +400,11 @@ public class AddTransactionFragment extends Fragment {
 
         CategoryTransactionAdapter iconAdapter = new CategoryTransactionAdapter(getContext(), categories);
         iconAdapter.setListOfCategroies(categories);
-        textCategory.setText(categories.get(0).getName());
+
+        //set default category
+        String defaultCategory = defaultsViewModel.getDefaultValue(CATEGORY_DEFAULT_NAME);
+        textCategory.setText(defaultCategory);
+
         MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext())
                 .setAdapter(iconAdapter, new DialogInterface.OnClickListener() {
                     @Override

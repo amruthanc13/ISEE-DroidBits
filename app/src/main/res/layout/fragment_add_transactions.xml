@@ -125,7 +125,7 @@
                     android:minHeight="50dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Type"/>
+                    android:hint="Select Type"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -178,7 +178,7 @@
                     android:minHeight="50dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Type"/>
+                    android:hint="Select method"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

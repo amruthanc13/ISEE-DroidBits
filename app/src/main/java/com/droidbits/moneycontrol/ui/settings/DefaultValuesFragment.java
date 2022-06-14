@@ -24,10 +24,12 @@ import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.MoneyControlDB;
 import com.droidbits.moneycontrol.db.currency.CurrencyDao;
 import com.droidbits.moneycontrol.ui.budget.BudgetViewModel;
+import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.transactions.TransactionsViewModel;
 import com.droidbits.moneycontrol.utils.FormatterUtils;
 import com.droidbits.moneycontrol.utils.NetworkUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,14 +38,19 @@ import org.json.JSONObject;
 public class DefaultValuesFragment extends Fragment {
 
     private static final String CURRENCY_DEFAULT_NAME = "Currency";
+    private static final String CATEGORY_DEFAULT_NAME = "Category";
+    private static final String PAYMENT_METHOD_DEFAULT_NAME = "Payment";
 
-    private EditText defaultCurrencySpinner;
+    private TextInputEditText defaultCategorySpinner;
+    private TextInputEditText defaultCurrencySpinner;
+    private TextInputEditText defaultPaymentSpinner;
     private Float exchangeRate;
 
     private CurrencyDao currencyDao;
     private DefaultsViewModel defaultsViewModel;
     private TransactionsViewModel transactionsViewModel;
     private BudgetViewModel budgetViewModel;
+    private CategoriesViewModel categoriesViewModel;
 
     private RequestQueue requestQueue;
 
@@ -59,6 +66,7 @@ public class DefaultValuesFragment extends Fragment {
         transactionsViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);
         defaultsViewModel = new ViewModelProvider(this).get(DefaultsViewModel.class);
         budgetViewModel = new ViewModelProvider(this).get(BudgetViewModel.class);
+        categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
 
         requestQueue = Volley.newRequestQueue(getContext());
 
@@ -66,6 +74,14 @@ public class DefaultValuesFragment extends Fragment {
         currencyDao = MoneyControlDB.getInstance(getContext()).currencyDao();
         defaultCurrencySpinner = view.findViewById(R.id.default_currency_spinner);
         setDefaultCurrencySpinner();
+
+        //Set Default Category
+        defaultCategorySpinner = view.findViewById(R.id.default_category_spinner);
+        setDefaultCategorySpinner();
+
+        //Set Default Payment mode
+        defaultPaymentSpinner = view.findViewById(R.id.default_payment_spinner);
+        setDefaultPaymentModeSpinner();
 
         return view;
     }
@@ -106,6 +122,76 @@ public class DefaultValuesFragment extends Fragment {
             }
         });
         defaultCurrencySpinner.setInputType(0);
+    }
+
+    private void setDefaultCategorySpinner() {
+        String[] dropdownItems = categoriesViewModel.getCategoriesName();
+
+        //set payment mode spinner value
+        String stringCategory = defaultsViewModel.getDefaultValue(CATEGORY_DEFAULT_NAME);
+        defaultCategorySpinner.setText(stringCategory);
+
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext())
+                .setTitle("Select the transaction category")
+                .setItems(dropdownItems, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int which) {
+                        defaultsViewModel.updateDefaultValue(CATEGORY_DEFAULT_NAME, dropdownItems[which]);
+                        defaultCategorySpinner.setText(dropdownItems[which]);
+                    }
+                });
+
+        defaultCategorySpinner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(final View v, final boolean hasFocus) {
+                if (hasFocus) {
+                    dialogBuilder.show();
+                }
+            }
+        });
+
+        defaultCategorySpinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                dialogBuilder.show();
+            }
+        });
+        defaultCategorySpinner.setInputType(0);
+    }
+
+    private void setDefaultPaymentModeSpinner() {
+        String[] dropdownItems = new String[]{"Credit Card", "Debit Card", "Cash", "Paypal", "Other"};
+
+        //set payment mode spinner value
+        String stringPayment = defaultsViewModel.getDefaultValue(PAYMENT_METHOD_DEFAULT_NAME);
+        defaultPaymentSpinner.setText(stringPayment);
+
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext())
+                .setTitle("Select the payment mode")
+                .setItems(dropdownItems, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int which) {
+                        defaultsViewModel.updateDefaultValue(PAYMENT_METHOD_DEFAULT_NAME, dropdownItems[which]);
+                        defaultPaymentSpinner.setText(dropdownItems[which]);
+                    }
+                });
+
+        defaultPaymentSpinner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(final View v, final boolean hasFocus) {
+                if (hasFocus) {
+                    dialogBuilder.show();
+                }
+            }
+        });
+
+        defaultPaymentSpinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                dialogBuilder.show();
+            }
+        });
+        defaultPaymentSpinner.setInputType(0);
     }
 
     /**

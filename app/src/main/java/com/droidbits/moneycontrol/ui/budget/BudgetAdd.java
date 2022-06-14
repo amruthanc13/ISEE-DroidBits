@@ -21,6 +21,7 @@ import com.droidbits.moneycontrol.db.budget.Budget;
 import com.droidbits.moneycontrol.db.categories.Categories;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.categories.CategoryTransactionAdapter;
+import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
@@ -30,10 +31,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BudgetAdd extends Fragment {
+
+    private static final String CATEGORY_DEFAULT_NAME = "Category";
+
     private TextInputEditText inputEditBudgetAmount;
     private TextInputLayout inputLayoutAmount;
     private TextInputLayout inputLayoutCategory;
     private BudgetViewModel budgetViewModel;
+    private DefaultsViewModel defaultsViewModel;
     private EditText categorySpinner;
     private Button buttonSave;
     private CategoriesViewModel categoriesViewModel;
@@ -54,6 +59,7 @@ public class BudgetAdd extends Fragment {
             final LayoutInflater inf, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inf.inflate(R.layout.budget_fragment_add, container, false);
         categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
+        defaultsViewModel = new ViewModelProvider(this).get(DefaultsViewModel.class);
 
         // amount
         inputEditBudgetAmount = view.findViewById(R.id.budgetAmount);
@@ -82,7 +88,11 @@ public class BudgetAdd extends Fragment {
 
         CategoryTransactionAdapter iconAdapter = new CategoryTransactionAdapter(getContext(), categories);
         iconAdapter.setListOfCategroies(categories);
-        categorySpinner.setText(categories.get(0).getName());
+
+        //set default category
+        String defaultCategory = defaultsViewModel.getDefaultValue(CATEGORY_DEFAULT_NAME);
+        categorySpinner.setText(defaultCategory);
+
         MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext())
                 .setAdapter(iconAdapter, new DialogInterface.OnClickListener() {
                     @Override
