@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,12 +23,15 @@ import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.categories.CategoryTransactionAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
 public class BudgetAdd extends Fragment {
+    private TextInputEditText inputEditBudgetAmount;
+    private TextInputLayout inputLayoutAmount;
     private BudgetViewModel budgetViewModel;
-    private EditText amount;
     private EditText categorySpinner;
     private Button buttonSave;
     private CategoriesViewModel categoriesViewModel;
@@ -48,7 +52,11 @@ public class BudgetAdd extends Fragment {
             final LayoutInflater inf, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inf.inflate(R.layout.budget_fragment_add, container, false);
         categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
-        amount = view.findViewById(R.id.budgetAmount);
+
+        // amount
+        inputEditBudgetAmount = view.findViewById(R.id.budgetAmount);
+        inputLayoutAmount = view.findViewById(R.id.tileAmount);
+
         categorySpinner = view.findViewById(R.id.budgetCategory);
         buttonSave = view.findViewById(R.id.saveBudget);
 
@@ -96,10 +104,12 @@ public class BudgetAdd extends Fragment {
     }
 
     private void submitForm() {
-        // Todo: Add validations for amount
+        if (!checkBudgetAmount()) {
+            return;
+        }
 
         int category = categoriesViewModel.getSingleCategory(categorySpinner.getText().toString()).getId();
-        float budgetAmount = Float.parseFloat(amount.getText().toString());
+        float budgetAmount = Float.parseFloat(inputEditBudgetAmount.getText().toString());
         Budget newBudget = new Budget(budgetAmount, Integer.toString(category));
 
 
@@ -114,5 +124,26 @@ public class BudgetAdd extends Fragment {
         fragmentTransaction.commit();
 
         Toast.makeText(getContext(), "Added new budget", Toast.LENGTH_LONG).show();
+    }
+
+    public void requestFocus(final View view) {
+        if (view.requestFocus()) {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
+    private boolean checkBudgetAmount() {
+        if (inputEditBudgetAmount.getText().toString().trim().isEmpty()) {
+            inputLayoutAmount.setError("Please enter an amount");
+            requestFocus(inputEditBudgetAmount);
+            return false;
+        }
+
+        if (Float.parseFloat(inputEditBudgetAmount.getText().toString().trim()) <= 0) {
+            inputLayoutAmount.setError("Amount should be larger than 0");
+            requestFocus(inputEditBudgetAmount);
+            return false;
+        }
+        return true;
     }
 }
