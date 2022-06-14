@@ -18,31 +18,17 @@ public class FAQAdapter extends BaseExpandableListAdapter {
 
 
     private String[] faqs = {
-            "Q1. Question 1?",
-            "Q2. Question 2?",
-            "Q3. Question 3?",
-            "Q4. Question 4?",
-            "Q5. Question 5?",
-            "Q6. WQuestion 6?",
-            "Q7. Question 7?",
-            "Q8. Question 8?",
-            "Q9. Question 9?",
-            "Q10. Question 10?",
-            "Q11. Question 11?"
+            "Q1. How can I add a new Transaction?",
+            "Q2. How can I add a new Category?",
+            "Q3. How can I delete a Transaction?",
+            "Q4. Can I filter Transaction?"
     };
 
     private String[][] answer = {
-            {"Answer 1"},
-            {"Answer 2"},
-            {"Answer 3"},
-            {"Answer 4"},
-            {"Answer 5"},
-            {"Answer 6"},
-            {"Answer 7"},
-            {"Answer 8"},
-            {"Answer 9"},
-            {"Answer 10"},
-            {"Answer 11"}
+            {"You can add a new Transaction by clicking on the 'Add Transaction' Button on Home or Transaction Page"},
+            {"You can add a new category from Categories Page"},
+            {"You can delete a transaction by swiping the transaction left and clicking on delete icon"},
+            {"You can Filter the transaction by clicking on filter icon in the transaction page and giving filter values"}
 
     };
 

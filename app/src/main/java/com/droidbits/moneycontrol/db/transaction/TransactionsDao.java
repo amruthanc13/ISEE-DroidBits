@@ -60,14 +60,8 @@ public interface TransactionsDao {
     /**
      * Get sum of Expenses
      */
-    @Query("SELECT SUM(amount) FROM transactions WHERE categories =:categoryId")
-    double getCategorySum(String categoryId);
-
-
-
-
-
-
+    @Query("SELECT SUM(amount) FROM transactions WHERE categories =:categoryId AND user_id=:userId")
+    double getCategorySum(String categoryId, String userId);
 
     /**
      * Retrieve Filtered transactions from the database.

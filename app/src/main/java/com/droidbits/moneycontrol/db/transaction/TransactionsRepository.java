@@ -126,7 +126,12 @@ public class TransactionsRepository {
     }
 
     public double getCategorySum(String categoryId){
-        return transactionsDao.getCategorySum(categoryId);
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+
+        if (currentUserId.equals("")) {
+            return 0;
+        }
+        return transactionsDao.getCategorySum(categoryId, currentUserId);
     }
 
 

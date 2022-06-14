@@ -16,23 +16,27 @@ import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.budget.Budget;
 import com.droidbits.moneycontrol.db.categories.Categories;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
+import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 import com.droidbits.moneycontrol.utils.CurrencyUtils;
 
 import java.util.List;
 
 public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetViewHolder> {
+    private static final String CURRENCY_DEFAULT_NAME = "Currency";
     private List<Budget> budgets;
     private final LayoutInflater layoutInflater;
     private static final String TAG = "CategoryAdapter";
     private OnBudgetNoteListener mOnNoteListener;
     private final CategoriesViewModel categoriesViewModel;
+    private final DefaultsViewModel defaultsViewModel;
     private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
 
 
-    public BudgetAdapter(final @NonNull Context context, OnBudgetNoteListener mOnNoteListener, CategoriesViewModel categoriesViewModel) {
+    public BudgetAdapter(final @NonNull Context context, OnBudgetNoteListener mOnNoteListener, CategoriesViewModel categoriesViewModel, DefaultsViewModel defaultsViewModel) {
         this.layoutInflater = LayoutInflater.from(context);
         this.mOnNoteListener = mOnNoteListener;
         this.categoriesViewModel = categoriesViewModel;
+        this.defaultsViewModel = defaultsViewModel;
     }
 
     @NonNull
@@ -47,9 +51,11 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
         if (budgets != null) {
             Budget current =  budgets.get(position);
            // Context context = holder.budget.getContext();
+            String defaultCurrency = defaultsViewModel.getDefaultValue(CURRENCY_DEFAULT_NAME);
+            String defaultCurrencySymbol = defaultsViewModel.getCurrencySymbol(defaultCurrency);
             Float amount = current.getAmount();
             String category = current.getCategory();
-            String amountToString = CurrencyUtils.formatAmount(amount);
+            String amountToString = CurrencyUtils.formatAmount(amount, defaultCurrencySymbol);
             holder.budgetAmount.setText(amountToString);
             Categories categories = categoriesViewModel.getSingleCategory(Integer.parseInt(category));
             holder.categoryImage.setImageResource(categories.getIcon());

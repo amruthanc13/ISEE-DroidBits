@@ -25,7 +25,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
-public class BudgetAdd extends BottomSheetDialogFragment {
+public class BudgetAdd extends Fragment {
     private BudgetViewModel budgetViewModel;
     private EditText amount;
     private EditText categorySpinner;
@@ -48,7 +48,6 @@ public class BudgetAdd extends BottomSheetDialogFragment {
             final LayoutInflater inf, final @Nullable ViewGroup container, final @Nullable Bundle savedInstanceState) {
         View view = inf.inflate(R.layout.budget_fragment_add, container, false);
         categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
-      //  budgetViewModel = new ViewModelProvider(this).get(BudgetViewModel.class);
         amount = view.findViewById(R.id.budgetAmount);
         categorySpinner = view.findViewById(R.id.budgetCategory);
         buttonSave = view.findViewById(R.id.saveBudget);
@@ -106,7 +105,6 @@ public class BudgetAdd extends BottomSheetDialogFragment {
 
         //Insert new Category in to the database
         budgetViewModel.insert(newBudget);
-        this.dismiss();
 
         Fragment fragment = new BudgetFragment();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

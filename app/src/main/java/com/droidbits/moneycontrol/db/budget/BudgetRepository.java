@@ -57,7 +57,12 @@ public class BudgetRepository {
 
     }
     public double getBudgetAmountByCategory(String categoryId){
-        return budgetDao.getBudgetAmountByCategory(categoryId);
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+
+        if (currentUserId.equals("")) {
+            return 0;
+        }
+        return budgetDao.getBudgetAmountByCategory(categoryId, currentUserId);
     }
 
     /**

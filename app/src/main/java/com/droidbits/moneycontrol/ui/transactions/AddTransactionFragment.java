@@ -481,7 +481,7 @@ public class AddTransactionFragment extends Fragment {
             newTransaction.setRepeatingIntervalType(0);
         }
 
-       checkBudget(Integer.toString(category));
+       checkBudget(Integer.toString(category), transactionAmount);
 
 
         //Insert new transaction  in to the database
@@ -509,8 +509,9 @@ public class AddTransactionFragment extends Fragment {
 
 }
 
-    private void checkBudget( String category) {
+    private void checkBudget( String category, float transactionAmt) {
         double totalExpense = transactionViewModel.getCategorySum(category);
+        totalExpense += transactionAmt;
         System.out.print(totalExpense);
         double budgetAmount = budgetViewModel.getBudgetAmountByCategory(category);
         if ((budgetAmount!= 0) && (totalExpense >= budgetAmount)) {
