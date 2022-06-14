@@ -57,6 +57,12 @@ public interface TransactionsDao {
     @Query("SELECT * FROM transactions WHERE id=:transactionId AND user_id=:userId ")
     Transactions getTransactionById(long transactionId, String userId);
 
+    @Query("SELECT * FROM transactions "
+            + "WHERE user_id=:userId "
+            + "AND categories =:categoryId "
+            + "ORDER BY date DESC")
+    LiveData<List<Transactions>> getTransactionsForCategory(String categoryId, String userId);
+
     /**
      * Get sum of Expenses
      */

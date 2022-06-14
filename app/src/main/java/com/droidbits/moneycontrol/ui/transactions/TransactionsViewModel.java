@@ -47,6 +47,10 @@ public class TransactionsViewModel extends AndroidViewModel {
         return allTransactions;
     }
 
+    public LiveData<List<Transactions>> getTransactionsForCategory(String id) {
+        return transactionsRepository.getTransactionsForCategory(id);
+    }
+
     /**
      * Retrieve Filtered transactions from the database.
      * @param amountFrom

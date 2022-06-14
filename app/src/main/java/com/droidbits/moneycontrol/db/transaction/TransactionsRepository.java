@@ -62,6 +62,14 @@ public class TransactionsRepository {
         return transactionsDao.getTransactionById(transactionId, currentUserId);
     };
 
+    public LiveData<List<Transactions>> getTransactionsForCategory(String categoryId) {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        if (currentUserId.equals("")) {
+            return null;
+        }
+        return transactionsDao.getTransactionsForCategory(categoryId, currentUserId);
+    }
+
     /**
      * Update transaction recurring fields.
      * @param transactionId id.

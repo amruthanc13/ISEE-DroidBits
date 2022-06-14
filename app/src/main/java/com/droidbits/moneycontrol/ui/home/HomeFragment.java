@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.categories.Categories;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
+import com.droidbits.moneycontrol.ui.categories.DetailCategoryFragment;
 import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 import com.droidbits.moneycontrol.ui.transactions.AddTransactionFragment;
 import com.droidbits.moneycontrol.ui.transactions.TransactionsViewModel;
@@ -225,13 +226,22 @@ public class HomeFragment extends Fragment {
             @Override
             public void onValueSelected(final Entry e, final Highlight h) {
 
+                //open categories details page on click
                 int index = (int) h.getX();
                 Categories cat = categoriesViewModel.getSingleCategory(xData[index]);
 
                 Bundle bundle = new Bundle();
                 bundle.putString("categoryTitle", cat.getName());
                 bundle.putInt("categoryImage", cat.getIcon());
-                bundle.putInt("categoryId", cat.getId());
+                bundle.putString("categoryId", cat.getId().toString());
+
+                Fragment fragment = new DetailCategoryFragment();
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
 
             @Override

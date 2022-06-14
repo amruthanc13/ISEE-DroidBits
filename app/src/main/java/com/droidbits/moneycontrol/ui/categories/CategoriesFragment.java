@@ -59,6 +59,17 @@ public class CategoriesFragment extends Fragment implements CategoriesAdapter.On
 
     @Override
     public void onCategoryClick(Categories categories, int position) {
-
+        Bundle bundle = new Bundle();
+        bundle.putString("categoryTitle", categories.getName());
+        bundle.putInt("categoryImage", categories.getIcon());
+        bundle.putString("categoryId", categories.getId().toString());
+        //Move to category detail fragment
+        Fragment fragment = new DetailCategoryFragment();
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
