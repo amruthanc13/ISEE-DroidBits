@@ -26,11 +26,13 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class BudgetAdd extends Fragment {
     private TextInputEditText inputEditBudgetAmount;
     private TextInputLayout inputLayoutAmount;
+    private TextInputLayout inputLayoutCategory;
     private BudgetViewModel budgetViewModel;
     private EditText categorySpinner;
     private Button buttonSave;
@@ -57,7 +59,10 @@ public class BudgetAdd extends Fragment {
         inputEditBudgetAmount = view.findViewById(R.id.budgetAmount);
         inputLayoutAmount = view.findViewById(R.id.tileAmount);
 
+        //category
         categorySpinner = view.findViewById(R.id.budgetCategory);
+        inputLayoutCategory = view.findViewById(R.id.tilCategory);
+
         buttonSave = view.findViewById(R.id.saveBudget);
 
         //Set spinner
@@ -104,7 +109,7 @@ public class BudgetAdd extends Fragment {
     }
 
     private void submitForm() {
-        if (!checkBudgetAmount()) {
+        if (!checkBudgetAmount() || !checkTransactionCategory()) {
             return;
         }
 
@@ -142,6 +147,16 @@ public class BudgetAdd extends Fragment {
         if (Float.parseFloat(inputEditBudgetAmount.getText().toString().trim()) <= 0) {
             inputLayoutAmount.setError("Amount should be larger than 0");
             requestFocus(inputEditBudgetAmount);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkTransactionCategory() {
+        String[] dropdownItems = categoriesViewModel.getCategoriesName();
+        if (!Arrays.asList(dropdownItems).contains(categorySpinner.getText().toString().trim())) {
+            inputLayoutCategory.setError("Category is not valid");
+            requestFocus(categorySpinner);
             return false;
         }
         return true;

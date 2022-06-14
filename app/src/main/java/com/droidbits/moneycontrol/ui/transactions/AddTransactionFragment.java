@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -73,6 +74,7 @@ import java.util.Locale;
 
 public class AddTransactionFragment extends Fragment {
     private static final String CURRENCY_DEFAULT_NAME = "Currency";
+    private LinearLayout linearLayoutRecurruing;
     private TextInputEditText tiedtTransactionAmount;
     private TextInputLayout tilTransactionAmount;
     private EditText tiedtTransactionNote;
@@ -89,8 +91,8 @@ public class AddTransactionFragment extends Fragment {
     private String categoryIconImage;
     private View currentView;
     private Button btnSave;
-    private Spinner paymentSpinner;
     private TextInputEditText transactionTypeSpinner;
+    private TextInputEditText paymentSpinner;
     private Transactions lastAddedTransaction;
     private EditText budgetDialog;
     private RequestQueue requestQueue;
@@ -111,16 +113,14 @@ public class AddTransactionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_add_transactions, container, false);
-        transactionTypeSpinner = v.findViewById((R.id.spinnerTransactionType));
 
         //Transaction type on change
         setTransactionTypeSpinner(v);
 
+        //payment type on change
+        setTransactionMethodSpinner(v);
+
         isRepeatingSwitch = v.findViewById(R.id.repeatingSwitch);
-        paymentSpinner = v.findViewById((R.id.spinnerPaymentMethod));
-        ArrayAdapter myadapter2 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.payment_method));
-        myadapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        paymentSpinner.setAdapter(myadapter2);
 
         requestQueue = Volley.newRequestQueue(getContext());
         currencySpinner = v.findViewById(R.id.default_currency_spinner);
@@ -191,6 +191,39 @@ public class AddTransactionFragment extends Fragment {
         transactionTypeSpinner.setInputType(0);
     }
 
+    private void setTransactionMethodSpinner(final View view) {
+
+        paymentSpinner = view.findViewById((R.id.spinnerPaymentMethod));
+        String[] dropdownItems = new String[]{"Credit Card", "Debit Card", "Cash", "Paypal", "Other"};
+
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext())
+                .setTitle("Select the payment method")
+                .setItems(dropdownItems, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int which) {
+                        paymentSpinner.setText(dropdownItems[which]);
+
+                    }
+                });
+
+        paymentSpinner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(final View v, final boolean hasFocus) {
+                if (hasFocus) {
+                    dialogBuilder.show();
+                }
+            }
+        });
+
+        paymentSpinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                dialogBuilder.show();
+            }
+        });
+        paymentSpinner.setInputType(0);
+    }
+
     /**
      * Initializes view elements.
      * @param view view
@@ -208,15 +241,16 @@ public class AddTransactionFragment extends Fragment {
         transactionViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);
 
         repeatingIntervalSpinner = view.findViewById(R.id.repeatingInterval);
+        linearLayoutRecurruing = view.findViewById(R.id.recurringLayout);
         repeatingIntervalSpinner(view);
 
         isRepeatingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean flag) {
                 if (flag) {
-                    repeatingIntervalSpinner.setVisibility(view.VISIBLE);
+                    linearLayoutRecurruing.setVisibility(view.VISIBLE);
                 } else {
-                    repeatingIntervalSpinner.setVisibility(view.GONE);
+                    linearLayoutRecurruing.setVisibility(view.GONE);
                 }
             }
         });
@@ -441,7 +475,7 @@ public class AddTransactionFragment extends Fragment {
      */
     @SuppressWarnings({"checkstyle", "magicnumber"})
     private void submitForm() {
-        paymentMethod = paymentSpinner.getSelectedItem().toString();
+        paymentMethod = paymentSpinner.getText().toString();
         transactionType = transactionTypeSpinner.getText().toString();
         isRepeating = isRepeatingSwitch.isChecked();
 

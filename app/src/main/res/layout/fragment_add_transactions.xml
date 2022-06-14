@@ -124,23 +124,30 @@
                     android:id="@+id/spinnerTransactionType"
                     android:minHeight="50dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:hint="Type"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
-        <EditText
-            android:id="@+id/transactionCategory"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:hint="Choose Category"
-            android:layout_marginTop="20dp"
-            android:inputType="text"
-            />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/transactionCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp" />
 
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -159,26 +166,46 @@
                 android:textSize="19dp"
                 android:textStyle="normal" />
 
-            <Spinner
-                android:id="@+id/spinnerPaymentMethod"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center" />
+                android:layout_marginLeft="30dp"
+                android:layout_weight="1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/spinnerPaymentMethod"
+                    android:minHeight="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Type"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
-        <EditText
-            android:id="@+id/transactionNote"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_transactionNote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:hint="Note"
-            android:layout_marginTop="20dp"
-            android:inputType="text"
-            />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/transactionNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Note">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
@@ -201,16 +228,28 @@
                 android:textSize="15dp"
                 />
 
-            <EditText
-                android:id="@+id/repeatingInterval"
-                android:layout_width="218dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:hint="Choose Repeating Interval"
-                android:inputType="text"
-                android:textSize="15dp"
-                android:visibility="gone" />
+            <LinearLayout
+                android:id="@+id/recurringLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:layout_weight="1"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/repeatingInterval"
+                        android:minHeight="50dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Choose Repeating Interval"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -6,13 +6,7 @@
         <item>Expense</item>
         <item>Income</item>
     </string-array>
-    <string-array name="payment_method">
-        <item>Credit Card</item>
-        <item>Debit Card</item>
-        <item>Cash</item>
-        <item>Paypal</item>
-        <item>Other</item>
-    </string-array>
+
     <string-array name="payment_filter">
         <item>Select All</item>
         <item>Credit Card</item>
