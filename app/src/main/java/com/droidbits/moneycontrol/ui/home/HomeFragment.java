@@ -128,11 +128,11 @@ public class HomeFragment extends Fragment {
         Float monthlyAvgExpense = 0F;
         Float monthlyAvgIncome = 0F;
 
-        dailyAvgExpense = (float)transactionViewModel.getDailyAvg("Expense");
-        dailyAvgIncome = (float)transactionViewModel.getDailyAvg("Income");
+        dailyAvgExpense = (float) transactionViewModel.getDailyAvg("Expense");
+        dailyAvgIncome = (float) transactionViewModel.getDailyAvg("Income");
 
-        monthlyAvgIncome = (float)transactionViewModel.getMonthlyAvg("Income");
-        monthlyAvgExpense = (float)transactionViewModel.getMonthlyAvg("Expense");
+        monthlyAvgIncome = (float) transactionViewModel.getMonthlyAvg("Income");
+        monthlyAvgExpense = (float) transactionViewModel.getMonthlyAvg("Expense");
 
 
         if (dailyAvgExpense != 0 || dailyAvgIncome != 0) {

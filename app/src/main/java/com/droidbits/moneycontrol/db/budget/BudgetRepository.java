@@ -56,7 +56,7 @@ public class BudgetRepository {
         budgetDao.insert(budget);
 
     }
-    public double getBudgetAmountByCategory(String categoryId){
+    public double getBudgetAmountByCategory(String categoryId) {
         String currentUserId = sharedPreferencesUtils.getCurrentUserId();
 
         if (currentUserId.equals("")) {

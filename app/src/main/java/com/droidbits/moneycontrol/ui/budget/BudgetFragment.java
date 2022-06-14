@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.budget.Budget;
-import com.droidbits.moneycontrol.ui.categories.AddCategory;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 

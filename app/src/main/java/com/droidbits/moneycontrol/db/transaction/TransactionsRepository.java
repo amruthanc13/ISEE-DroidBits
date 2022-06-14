@@ -133,7 +133,7 @@ public class TransactionsRepository {
                 repeatingIntervalType);
     }
 
-    public double getCategorySum(String categoryId){
+    public double getCategorySum(String categoryId) {
         String currentUserId = sharedPreferencesUtils.getCurrentUserId();
 
         if (currentUserId.equals("")) {

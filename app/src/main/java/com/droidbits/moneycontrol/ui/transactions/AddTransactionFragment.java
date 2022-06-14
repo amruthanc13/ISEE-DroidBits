@@ -616,12 +616,12 @@ public class AddTransactionFragment extends Fragment {
 
 }
 
-    private void checkBudget( String category, float transactionAmt) {
+    private void checkBudget(String category, float transactionAmt) {
         double totalExpense = transactionViewModel.getCategorySum(category);
         totalExpense += transactionAmt;
         System.out.print(totalExpense);
         double budgetAmount = budgetViewModel.getBudgetAmountByCategory(category);
-        if ((budgetAmount!= 0) && (totalExpense >= budgetAmount)) {
+        if ((budgetAmount != 0) && (totalExpense >= budgetAmount)) {
             String message = "Budget limit exceeded";
             NotificationCompat.Builder builder = new NotificationCompat.Builder(
                     getContext()
@@ -643,7 +643,7 @@ public class AddTransactionFragment extends Fragment {
                 mNotificationManager.createNotificationChannel(channel);
                 builder.setChannelId(channelId);
             }
-            mNotificationManager.notify(0,builder.build());
+            mNotificationManager.notify(0, builder.build());
             System.out.print("You have exceeded the limit");
         }
     }

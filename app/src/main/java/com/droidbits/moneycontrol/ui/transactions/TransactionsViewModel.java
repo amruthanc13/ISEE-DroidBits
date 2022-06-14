@@ -98,7 +98,7 @@ public class TransactionsViewModel extends AndroidViewModel {
         transactionsRepository.deleteAllTransactions();
     }
 
-    public double getCategorySum(String categoryId){
+    public double getCategorySum(String categoryId) {
         return transactionsRepository.getCategorySum(categoryId);
     }
 
@@ -138,11 +138,11 @@ public class TransactionsViewModel extends AndroidViewModel {
         transactionsRepository.updateTransactionAmountsDefaultCurrency(conversionRate);
     }
 
-    public double getMonthlyAvg(final String transactionType){
+    public double getMonthlyAvg(final String transactionType) {
         return transactionsRepository.getMonthlyAvg(transactionType);
     }
 
-    public double getDailyAvg(final String transactionType){
+    public double getDailyAvg(final String transactionType) {
         return transactionsRepository.getDailyAvg(transactionType);
     }
 
