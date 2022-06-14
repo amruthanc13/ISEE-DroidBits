@@ -2,6 +2,7 @@ package com.droidbits.moneycontrol.ui.settings;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +41,14 @@ public class DefaultValuesFragment extends Fragment {
     private static final String CURRENCY_DEFAULT_NAME = "Currency";
     private static final String CATEGORY_DEFAULT_NAME = "Category";
     private static final String PAYMENT_METHOD_DEFAULT_NAME = "Payment";
+    private static final String ADD_BUTTON_1_METHOD_DEFAULT_NAME = "AddButton1";
+    private static final String ADD_BUTTON_2_METHOD_DEFAULT_NAME = "AddButton2";
 
     private TextInputEditText defaultCategorySpinner;
     private TextInputEditText defaultCurrencySpinner;
     private TextInputEditText defaultPaymentSpinner;
+    private TextInputEditText defaultButton1;
+    private TextInputEditText defaultButton2;
     private Float exchangeRate;
 
     private CurrencyDao currencyDao;
@@ -83,7 +88,59 @@ public class DefaultValuesFragment extends Fragment {
         defaultPaymentSpinner = view.findViewById(R.id.default_payment_spinner);
         setDefaultPaymentModeSpinner();
 
+        //Set Default transaction button (1)
+        defaultButton1 = view.findViewById(R.id.default_add_button1);
+        setDefaultButton1();
+
+        //Set Default transaction button (2)
+        defaultButton2 = view.findViewById(R.id.default_add_button2);
+        setDefaultButton2();
+
         return view;
+    }
+
+    private void setDefaultButton1() {
+        String stringAddBtnValue = defaultsViewModel.getDefaultValue(ADD_BUTTON_1_METHOD_DEFAULT_NAME);
+        defaultButton1.setText(stringAddBtnValue);
+
+        defaultButton1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(final View v, final boolean hasFocus) {
+                if (!hasFocus) {
+                    Editable editableContent = defaultButton1.getText();
+
+                    if (editableContent != null) {
+                        try {
+                            float value = Float.parseFloat(editableContent.toString());
+                            defaultsViewModel.updateDefaultValue(ADD_BUTTON_1_METHOD_DEFAULT_NAME, FormatterUtils.roundToTwoDecimals(value));
+                            defaultButton1.setText(FormatterUtils.roundToTwoDecimals(value));
+                        } catch (Exception e) { }
+                    }
+                }
+            }
+        });
+    }
+
+    private void setDefaultButton2() {
+        String stringAddBtnValue = defaultsViewModel.getDefaultValue(ADD_BUTTON_2_METHOD_DEFAULT_NAME);
+        defaultButton2.setText(stringAddBtnValue);
+
+        defaultButton2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(final View v, final boolean hasFocus) {
+                if (!hasFocus) {
+                    Editable editableContent = defaultButton2.getText();
+
+                    if (editableContent != null) {
+                        try {
+                            float value = Float.parseFloat(editableContent.toString());
+                            defaultsViewModel.updateDefaultValue(ADD_BUTTON_2_METHOD_DEFAULT_NAME, FormatterUtils.roundToTwoDecimals(value));
+                            defaultButton2.setText(FormatterUtils.roundToTwoDecimals(value));
+                        } catch (Exception e) { }
+                    }
+                }
+            }
+        });
     }
 
     /**

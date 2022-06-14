@@ -13,14 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,13 +35,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.droidbits.moneycontrol.R;
-import com.droidbits.moneycontrol.db.budget.Budget;
 import com.droidbits.moneycontrol.db.MoneyControlDB;
 import com.droidbits.moneycontrol.db.categories.Categories;
 import com.droidbits.moneycontrol.db.currency.CurrencyDao;
 import com.droidbits.moneycontrol.db.transaction.Transactions;
 import com.droidbits.moneycontrol.ui.budget.BudgetViewModel;
-import com.droidbits.moneycontrol.ui.categories.AddCategory;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.categories.CategoryTransactionAdapter;
 import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
@@ -56,7 +51,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -76,6 +70,9 @@ public class AddTransactionFragment extends Fragment {
     private static final String CURRENCY_DEFAULT_NAME = "Currency";
     private static final String CATEGORY_DEFAULT_NAME = "Category";
     private static final String PAYMENT_METHOD_DEFAULT_NAME = "Payment";
+    private static final String ADD_BUTTON_1_METHOD_DEFAULT_NAME = "AddButton1";
+    private static final String ADD_BUTTON_2_METHOD_DEFAULT_NAME = "AddButton2";
+
     private LinearLayout linearLayoutRecurruing;
     private TextInputEditText tiedtTransactionAmount;
     private TextInputLayout tilTransactionAmount;
@@ -96,6 +93,8 @@ public class AddTransactionFragment extends Fragment {
     private TextInputEditText transactionTypeSpinner;
     private TextInputEditText paymentSpinner;
     private Transactions lastAddedTransaction;
+    private Button btnAdd1;
+    private Button btnAdd2;
     private EditText budgetDialog;
     private RequestQueue requestQueue;
     private Float exchangeRate = 1f;
@@ -151,8 +150,46 @@ public class AddTransactionFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+
+        setAmountDefaultButtons(v);
+
         return v;
 
+    }
+
+    private void setAmountDefaultButtons(final View view) {
+        btnAdd1 = view.findViewById(R.id.addAmount50);
+        btnAdd2 = view.findViewById(R.id.addAmount100);
+
+        //set default button 1
+        String addbtn1 = defaultsViewModel.getDefaultValue(ADD_BUTTON_1_METHOD_DEFAULT_NAME);
+        btnAdd1.setText(addbtn1);
+
+        //set default button 2
+        String addbtn2 = defaultsViewModel.getDefaultValue(ADD_BUTTON_2_METHOD_DEFAULT_NAME);
+        btnAdd2.setText(addbtn2);
+
+        btnAdd1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                tiedtTransactionAmount.setText(
+                        FormatterUtils.roundToTwoDecimals(
+                                Float.parseFloat(btnAdd1.getText().toString())
+                        )
+                );
+            }
+        });
+
+        btnAdd2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                tiedtTransactionAmount.setText(
+                        FormatterUtils.roundToTwoDecimals(
+                                Float.parseFloat(btnAdd2.getText().toString())
+                        )
+                );
+            }
+        });
     }
 
     private void setTransactionTypeSpinner(final View view) {
