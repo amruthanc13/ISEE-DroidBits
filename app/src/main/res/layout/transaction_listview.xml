@@ -22,9 +22,11 @@
 
         <Button
             android:id="@+id/addTransactionButton"
+            style="@style/primaryRoundedButtonBlock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="0dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="60dp"
             android:drawablePadding="10sp"
@@ -32,13 +34,14 @@
 
             <Button
                 android:id="@+id/filterTransactionButton"
-                android:layout_width="60dp"
+                android:layout_width="70dp"
+                style="@style/primaryRoundedButtonBlock"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="50dp"
+                android:layout_marginTop="0dp"
                 android:layout_marginEnd="30dp"
-                android:drawableLeft="@drawable/ic_baseline_filter_alt_24"
-                android:drawablePadding="10sp" />
+                android:drawableLeft="@drawable/ic_baseline_filter_alt_24"/>
         </LinearLayout>
         <TextView
             android:id="@+id/TransactionThreshold"
