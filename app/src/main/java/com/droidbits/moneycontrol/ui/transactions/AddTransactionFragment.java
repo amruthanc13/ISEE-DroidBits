@@ -51,6 +51,8 @@ import com.droidbits.moneycontrol.utils.DateUtils;
 import com.droidbits.moneycontrol.utils.FormatterUtils;
 import com.droidbits.moneycontrol.utils.NetworkUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import android.widget.Switch;
 import android.widget.TextView;
@@ -71,7 +73,8 @@ import java.util.Locale;
 
 public class AddTransactionFragment extends Fragment {
     private static final String CURRENCY_DEFAULT_NAME = "Currency";
-    private EditText tiedtTransactionAmount;
+    private TextInputEditText tiedtTransactionAmount;
+    private TextInputLayout tilTransactionAmount;
     private EditText tiedtTransactionNote;
     private EditText textCategory;
     private EditText currencySpinner;
@@ -87,7 +90,7 @@ public class AddTransactionFragment extends Fragment {
     private View currentView;
     private Button btnSave;
     private Spinner paymentSpinner;
-    private Spinner transactionTypeSpinner;
+    private TextInputEditText transactionTypeSpinner;
     private Transactions lastAddedTransaction;
     private EditText budgetDialog;
     private RequestQueue requestQueue;
@@ -109,29 +112,10 @@ public class AddTransactionFragment extends Fragment {
         super.onCreate(savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_add_transactions, container, false);
         transactionTypeSpinner = v.findViewById((R.id.spinnerTransactionType));
-        ArrayAdapter myadapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.transaction_type));
-        myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        transactionTypeSpinner.setAdapter(myadapter);
 
         //Transaction type on change
-        transactionTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (transactionTypeSpinner.getSelectedItem().toString().equals("Income")) {
-                    textCategory.setVisibility(view.GONE);
-                    textCategory.setText("Income");
-                } else {
-                    textCategory.setVisibility(view.VISIBLE);
-                    textCategory.getText().clear();
-                }
-                transactionTypeSpinner.getSelectedItem().toString();
-            }
+        setTransactionTypeSpinner(v);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
         isRepeatingSwitch = v.findViewById(R.id.repeatingSwitch);
         paymentSpinner = v.findViewById((R.id.spinnerPaymentMethod));
         ArrayAdapter myadapter2 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.payment_method));
@@ -168,6 +152,45 @@ public class AddTransactionFragment extends Fragment {
 
     }
 
+    private void setTransactionTypeSpinner(final View view) {
+        transactionTypeSpinner = view.findViewById((R.id.spinnerTransactionType));
+        String[] dropdownItems = new String[]{"Expense", "Income"};
+
+        transactionTypeSpinner.setText("Expense");
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext())
+                .setTitle("Select the transaction type")
+                .setItems(dropdownItems, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int which) {
+                        transactionTypeSpinner.setText(dropdownItems[which]);
+                        if (transactionTypeSpinner.getText().toString().equals("Income")) {
+                            textCategory.setVisibility(view.GONE);
+                            textCategory.setText("Income");
+                        } else {
+                            textCategory.setVisibility(view.VISIBLE);
+                            textCategory.getText().clear();
+                        }
+                    }
+                });
+
+        transactionTypeSpinner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(final View v, final boolean hasFocus) {
+                if (hasFocus) {
+                    dialogBuilder.show();
+                }
+            }
+        });
+
+        transactionTypeSpinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                dialogBuilder.show();
+            }
+        });
+        transactionTypeSpinner.setInputType(0);
+    }
+
     /**
      * Initializes view elements.
      * @param view view
@@ -177,6 +200,8 @@ public class AddTransactionFragment extends Fragment {
     public void onViewCreated(final @NonNull View view, final @Nullable Bundle savedInstanceState) {
 
         tiedtTransactionAmount = view.findViewById(R.id.transactionAmount);
+        tilTransactionAmount = view.findViewById(R.id.til_transactionAmount);
+
         tiedtTransactionNote = view.findViewById(R.id.transactionNote);
         textCategory = view.findViewById(R.id.transactionCategory);
 
@@ -269,13 +294,13 @@ public class AddTransactionFragment extends Fragment {
      */
     private boolean checkTransactionAmount() {
         if (tiedtTransactionAmount.getText().toString().trim().isEmpty()) {
-            tiedtTransactionAmount.setError("Please enter the amount of your transaction");
+            tilTransactionAmount.setError("Please enter the amount");
             requestFocus(tiedtTransactionAmount);
             return false;
         }
 
         if (Float.parseFloat(tiedtTransactionAmount.getText().toString().trim()) <= 0) {
-            tiedtTransactionAmount.setError("Amount should be larger than 0");
+            tilTransactionAmount.setError("Amount should be larger than 0");
             requestFocus(tiedtTransactionAmount);
             return false;
         }
@@ -417,7 +442,7 @@ public class AddTransactionFragment extends Fragment {
     @SuppressWarnings({"checkstyle", "magicnumber"})
     private void submitForm() {
         paymentMethod = paymentSpinner.getSelectedItem().toString();
-        transactionType = transactionTypeSpinner.getSelectedItem().toString();
+        transactionType = transactionTypeSpinner.getText().toString();
         isRepeating = isRepeatingSwitch.isChecked();
 
         Transactions newTransaction;
