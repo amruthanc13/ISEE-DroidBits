@@ -235,6 +235,7 @@ public class SignInActivity extends AppCompatActivity {
                         sharedPreferencesUtils.setCurrentUserId(String.valueOf(selected.getId()));
                         setUser();
                     }
+                    //test
                 });
 
     }
