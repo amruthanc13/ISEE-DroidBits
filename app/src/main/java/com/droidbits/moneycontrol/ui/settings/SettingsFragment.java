@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -13,17 +14,21 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.droidbits.moneycontrol.R;
+import com.droidbits.moneycontrol.db.data.ExportData;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class SettingsFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         // onclick event for FAQ button
         Button fAQButton = view.findViewById(R.id.helpButton);
+        Button exportBtn = view.findViewById(R.id.export_button);
+        Button importBtn = view.findViewById(R.id.import_button);
         fAQButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v)  {
@@ -77,6 +82,22 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        exportBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v)  {
+                Toast.makeText(getActivity().getApplicationContext(), "Exporting data in progress!!",
+                        Toast.LENGTH_LONG);
+                new ExportData(getActivity().getApplication()).execute();
+            }
+        });
+
+        importBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v)  {
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Importing Data!! Plz wait..",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }

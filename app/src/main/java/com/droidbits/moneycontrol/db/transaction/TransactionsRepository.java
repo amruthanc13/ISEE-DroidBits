@@ -31,6 +31,10 @@ public class TransactionsRepository {
         return transactionsDao.getAllTransactions(currentUserId);
     }
 
+    public List<Transactions> getAllTransactionsExportData() {
+        return transactionsDao.getAllTransactionsExportData();
+    }
+
     /**
      * Retrieve Filtered transactions from the database.
      * @param paymentMethod

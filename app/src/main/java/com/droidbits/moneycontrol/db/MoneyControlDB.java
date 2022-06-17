@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.RoomWarnings;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.droidbits.moneycontrol.db.budget.Budget;
@@ -24,7 +25,8 @@ import java.util.concurrent.Executors;
 import com.droidbits.moneycontrol.db.users.Users;
 import com.droidbits.moneycontrol.db.users.UsersDao;
 
-@Database(entities = {Transactions.class, Categories.class, Budget.class, Users.class, Currency.class, Defaults.class}, version = 1)
+@Database(entities = {Transactions.class, Categories.class, Budget.class, Users.class,
+        Currency.class, Defaults.class}, version = 1, exportSchema = false)
 public abstract class MoneyControlDB extends RoomDatabase {
 
     public abstract TransactionsDao transactionsDao();

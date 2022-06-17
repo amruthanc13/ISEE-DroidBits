@@ -255,4 +255,20 @@ public class Transactions {
     public void setUserId(@Nullable String userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "Transactions{" +
+                "id=" + id +
+                ", amount=" + amount +
+                ", textNote='" + textNote + '\'' +
+                ", type='" + type + '\'' +
+                ", method='" + method + '\'' +
+                ", date=" + date +
+                ", isRepeating=" + isRepeating +
+                ", repeatingIntervalType=" + repeatingIntervalType +
+                ", category='" + category + '\'' +
+                ", userId='" + userId + '\'' +
+                '}';
+    }
 }

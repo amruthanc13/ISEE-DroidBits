@@ -5,11 +5,13 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RoomWarnings;
 
 import java.util.List;
 
 
 @Dao
+@SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
 public interface UsersDao {
     /**
      * Insert new user into the database.

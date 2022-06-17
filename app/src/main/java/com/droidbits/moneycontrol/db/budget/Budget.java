@@ -7,6 +7,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.droidbits.moneycontrol.db.users.Users;
@@ -36,7 +37,7 @@ public class Budget {
     @Nullable
     private String category;
 
-    @ColumnInfo(name = "user_id")
+    @ColumnInfo(name = "user_id", index = true)
     @Nullable
     private String userId;
 

@@ -31,6 +31,9 @@ public interface TransactionsDao {
             + "ORDER BY date DESC")
     LiveData<List<Transactions>> getAllTransactions(String userId);
 
+    @Query("SELECT * FROM transactions")
+    List<Transactions> getAllTransactionsExportData();
+
     /**
      * get sum of expenses.
      * @param userId

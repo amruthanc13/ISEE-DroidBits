@@ -5,8 +5,10 @@ import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.RoomWarnings;
 
-    @Entity(tableName = "users")
+@Entity(tableName = "users")
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     public class Users {
 
         @PrimaryKey(autoGenerate = true)
