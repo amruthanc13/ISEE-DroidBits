@@ -86,8 +86,10 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(final View v)  {
                 Toast.makeText(getActivity().getApplicationContext(), "Exporting data in progress!!",
-                        Toast.LENGTH_LONG);
+                        Toast.LENGTH_LONG).show();
                 new ExportData(getActivity().getApplication()).execute();
+                Toast.makeText(getActivity().getApplicationContext(), "File exported, /sdcard//Download/transaction_export.csv!!",
+                        Toast.LENGTH_LONG).show();
             }
         });
 
