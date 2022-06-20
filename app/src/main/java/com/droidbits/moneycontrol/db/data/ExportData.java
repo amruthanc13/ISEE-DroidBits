@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -60,7 +61,8 @@ public class ExportData extends AsyncTask<String, Void, String> {
                         "user_id";
 
                 FileWriter fileWriter = null;
-                File exportFile = new File(new File("//sdcard//Download//"), "transaction_export.csv");
+                //new File("//sdcard//Download//")
+                File exportFile = new File(Environment.getExternalStorageDirectory(), "//Download//transaction_export.csv");
                 try {
                         fileWriter = new FileWriter(exportFile);
                         //Add header

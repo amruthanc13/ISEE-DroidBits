@@ -1,6 +1,8 @@
 package com.droidbits.moneycontrol.ui.settings;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -15,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.data.ExportData;
+import com.droidbits.moneycontrol.db.data.ImportData;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class SettingsFragment extends Fragment {
@@ -96,13 +103,30 @@ public class SettingsFragment extends Fragment {
         importBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v)  {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Importing Data!! Plz wait..",Toast.LENGTH_SHORT).show();
+                chooseFile1();
             }
         });
-
         return view;
     }
 
+    private void chooseFile1() {
+        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
+        chooseFile.setType("*/*");
+        startActivityForResult(
+                Intent.createChooser(chooseFile, "Choose a file"),
+                102
+        );
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data != null){
+            Toast.makeText(getActivity().getApplicationContext(),
+                    "Importing Data!! Plz wait..",Toast.LENGTH_SHORT).show();
+            String path = data.getData().getPath();
+            new ImportData(getActivity().getApplication(), data.getData()).execute();
+        }
+    }
 }

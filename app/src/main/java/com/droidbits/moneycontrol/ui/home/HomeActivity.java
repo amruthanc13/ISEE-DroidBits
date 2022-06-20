@@ -76,11 +76,10 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        if (!sharedPreferencesUtils.getIsSignedIn()) {
+        /*if (!sharedPreferencesUtils.getIsSignedIn()) {
             Intent intent = new Intent(getApplication(), SignInActivity.class);
             startActivity(intent);
-        }
+        }*/
     }
 
     /**
