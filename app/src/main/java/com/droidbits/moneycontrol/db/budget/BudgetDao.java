@@ -35,6 +35,7 @@ public interface BudgetDao {
 
     @Query("SELECT SUM(amount) FROM budget WHERE categories =:categoryId AND user_id=:userId")
     double getBudgetAmountByCategory(String categoryId, String userId);
+    
     /**
      * Get all budget from the database.
      * @param userID
