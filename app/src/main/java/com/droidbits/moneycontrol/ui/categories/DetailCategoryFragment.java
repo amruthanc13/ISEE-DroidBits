@@ -37,7 +37,6 @@ public class DetailCategoryFragment extends Fragment implements TransactionListA
         String title = bundle.getString("categoryTitle");
         int image = bundle.getInt("categoryImage");
         String categoryId = bundle.getString("categoryId");
-        System.out.println(categoryId);
 
         TextView categoryTitle = view.findViewById(R.id.categoryTitle);
         ImageView categoryImage = view.findViewById(R.id.categoryImage);
@@ -78,6 +77,8 @@ public class DetailCategoryFragment extends Fragment implements TransactionListA
         //Set the adapter to list view
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        transactionViewModel.getTransactionsForCategory(categoryId);
 
         return view;
     }
