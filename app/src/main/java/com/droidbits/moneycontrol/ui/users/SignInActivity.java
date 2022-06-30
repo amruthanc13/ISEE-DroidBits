@@ -15,10 +15,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.droidbits.moneycontrol.R;
 
+import com.droidbits.moneycontrol.db.account.Account;
 import com.droidbits.moneycontrol.db.categories.Categories;
 import com.droidbits.moneycontrol.db.defaults.Defaults;
 import com.droidbits.moneycontrol.db.users.Users;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
+import com.droidbits.moneycontrol.ui.home.AccountViewModel;
 import com.droidbits.moneycontrol.ui.home.HomeActivity;
 import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 import com.droidbits.moneycontrol.utils.SharedPreferencesUtils;
@@ -32,6 +34,7 @@ public class SignInActivity extends AppCompatActivity {
     private CategoriesViewModel categoriesViewModel;
     private UsersViewModel usersViewModel;
     private DefaultsViewModel defaultsViewModel;
+    private AccountViewModel accountViewModel;
     private  Users user;
     private SharedPreferencesUtils sharedPreferencesUtils;
 
@@ -72,6 +75,8 @@ public class SignInActivity extends AppCompatActivity {
         sharedPreferencesUtils = new SharedPreferencesUtils(getApplication());
         categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
         defaultsViewModel = new ViewModelProvider(this).get(DefaultsViewModel.class);
+        accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
+
         setContentView(R.layout.sign_in);
         signInContainer = findViewById(R.id.signinContainer);
         signUpContainer = findViewById(R.id.signupContainer);
@@ -299,6 +304,7 @@ public class SignInActivity extends AppCompatActivity {
 
         createDefaultUserCategories();
         createDefaultUserCurrency();
+        createDefaultUserAccount();
 
     }
 
@@ -335,5 +341,20 @@ public class SignInActivity extends AppCompatActivity {
         defaultsViewModel.insert(defaultPayment);
         defaultsViewModel.insert(defaultAddBtn1);
         defaultsViewModel.insert(defaultAddBtn2);
+    }
+
+
+    /**
+     * Create default user account.
+     */
+    private void createDefaultUserAccount() {
+        Account defaultAccount = new Account();
+
+        defaultAccount.setName("Default account");
+
+        Long newAccountId = accountViewModel.insert(defaultAccount);
+
+        usersViewModel.updateUserSelectedAccount(String.valueOf(newAccountId));
+        sharedPreferencesUtils.setCurrentAccountId(String.valueOf(newAccountId));
     }
 }

@@ -1,13 +1,29 @@
 package com.droidbits.moneycontrol.db.users;
 
+import static androidx.room.ForeignKey.SET_NULL;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.RoomWarnings;
 
-@Entity(tableName = "users")
+import com.droidbits.moneycontrol.db.account.Account;
+
+@Entity(tableName = "users",
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Account.class,
+                        parentColumns = "id",
+                        childColumns = "selected_account",
+                        onDelete = SET_NULL
+                ),
+        },
+        indices = {@Index("selected_account")}
+)
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     public class Users {
 
@@ -32,9 +48,15 @@ import androidx.room.RoomWarnings;
         @ColumnInfo(name = "access_pin")
         private String accessPin;
 
+        // Foreign keys
+        @ColumnInfo(name = "selected_account")
+        @Nullable
+        private String selectedAccount;
 
 
-        /**
+
+
+    /**
          * Get user id.
          * @return user id.
          */
@@ -85,8 +107,18 @@ import androidx.room.RoomWarnings;
             return accessPin;
         }
 
-
         /**
+        * Get user's selected account.
+        * @return account id.
+        */
+        @Nullable
+        public String getSelectedAccount() {
+        return selectedAccount;
+    }
+
+
+
+    /**
          * Set user id.
          * @param id id.
          */
@@ -135,4 +167,11 @@ import androidx.room.RoomWarnings;
         }
 
 
+        /**
+        * Set user's selected account.
+        * @param selectedAcc account id.
+        */
+        public void setSelectedAccount(final @Nullable String selectedAcc) {
+         this.selectedAccount = selectedAcc;
+        }
 }

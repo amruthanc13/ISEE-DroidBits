@@ -32,12 +32,14 @@ public class BudgetRepository {
      */
     public LiveData<List<Budget>> getAllBudget() {
         String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String currentAccountId = sharedPreferencesUtils.getCurrentAccountIdKey();
+
 
         if (currentUserId.equals("")) {
             return null;
         }
 
-        return budgetDao.getAllBudget(currentUserId);
+        return budgetDao.getAllBudget(currentUserId, currentAccountId);
     }
 
 
@@ -47,22 +49,25 @@ public class BudgetRepository {
      */
     public void insert(final Budget budget) {
         String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String currentAccountId = sharedPreferencesUtils.getCurrentAccountIdKey();
 
         if (currentUserId.equals("")) {
             return;
         }
         budget.setUserId(currentUserId);
+        budget.setAccount(currentAccountId);
 
         budgetDao.insert(budget);
 
     }
     public double getBudgetAmountByCategory(String categoryId) {
         String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String currentAccountId = sharedPreferencesUtils.getCurrentAccountIdKey();
 
         if (currentUserId.equals("")) {
             return 0;
         }
-        return budgetDao.getBudgetAmountByCategory(categoryId, currentUserId);
+        return budgetDao.getBudgetAmountByCategory(categoryId, currentUserId, currentAccountId);
     }
 
     /**
@@ -83,11 +88,13 @@ public class BudgetRepository {
      */
     public Budget getBudgetWithCategory(final String category) {
         String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String currentAccountId = sharedPreferencesUtils.getCurrentAccountIdKey();
+
 
         if (currentUserId.equals("")) {
             return null;
         }
-        return budgetDao.getBudgetWithCategory(category, currentUserId);
+        return budgetDao.getBudgetWithCategory(category, currentUserId, currentAccountId);
     }
 
     /**
@@ -102,6 +109,17 @@ public class BudgetRepository {
         }
 
         budgetDao.updateBudgetAmountsDefaultCurrency(conversionRate, currentUserId);
+    }
+
+    public void deleteBudget(final int budgetId) {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String currentAccountId = sharedPreferencesUtils.getCurrentAccountIdKey();
+
+        if (currentUserId.equals("")) {
+            return;
+        }
+
+        budgetDao.deleteBudget(budgetId, currentUserId, currentAccountId);
     }
 
 

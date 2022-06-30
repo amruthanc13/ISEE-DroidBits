@@ -10,6 +10,7 @@ public final class SharedPreferencesUtils {
 
     private static SharedPreferences sharedPreferences;
     private static final String CURRENT_USER_ID_KEY = "currentUserId";
+    private static final String CURRENT_ACCOUNT_ID_KEY = "currentAccountId";
     private static final String IS_SIGNED_IN_KEY = "isUserSignedIn";
     private static final String FIRST_TIME_SET = "isApplicationFirstTime2";
     private static final String FIRST_TIME = "isApplicationFirstTime1";
@@ -44,6 +45,24 @@ public final class SharedPreferencesUtils {
         return sharedPreferences.getString(CURRENT_USER_ID_KEY, "");
     }
 
+    /**
+     * Set current account id.
+     * @param accountId account id.
+     * @return current instance of SharedPreferencesUtils.
+     */
+    public SharedPreferencesUtils setCurrentAccountId(final String accountId) {
+        sharedPreferences.edit().putString(CURRENT_ACCOUNT_ID_KEY, accountId).commit();
+
+        return this;
+    }
+
+    /**
+     * Get current account id.
+     * @return id.
+     */
+    public String getCurrentAccountIdKey() {
+        return sharedPreferences.getString(CURRENT_ACCOUNT_ID_KEY, "");
+    }
 
     /**
      * Set user as signed in or not.
