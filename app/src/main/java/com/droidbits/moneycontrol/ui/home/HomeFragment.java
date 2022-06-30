@@ -1,20 +1,26 @@
 package com.droidbits.moneycontrol.ui.home;
 
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.droidbits.moneycontrol.R;
+import com.droidbits.moneycontrol.db.account.Account;
 import com.droidbits.moneycontrol.db.categories.Categories;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.categories.DetailCategoryFragment;
 import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 import com.droidbits.moneycontrol.ui.transactions.AddTransactionFragment;
 import com.droidbits.moneycontrol.ui.transactions.TransactionsViewModel;
+import com.droidbits.moneycontrol.ui.users.UsersViewModel;
 import com.droidbits.moneycontrol.utils.CurrencyUtils;
+import com.droidbits.moneycontrol.utils.SharedPreferencesUtils;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -22,17 +28,21 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -45,14 +55,26 @@ public class HomeFragment extends Fragment {
     private LinearLayout summaryContainer;
     private RecyclerView featuredRecycler;
     private RecyclerView.Adapter adapter;
+    private MaterialAlertDialogBuilder dialogBuilder;
+
 
     private CategoriesViewModel categoriesViewModel;
     private TransactionsViewModel transactionViewModel;
     private DefaultsViewModel defaultsViewModel;
+    private UsersViewModel usersViewModel;
+    private AccountViewModel accountViewModel;
+
+    private CardView selectedAccountColor;
+    private TextView selectedAccountTitle;
+
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
     private String defaultCurrencySymbol;
 
     private PieChart pieChart;
+
+    private String[] accountNames;
+
 
     @Nullable
     @Override
@@ -70,10 +92,27 @@ public class HomeFragment extends Fragment {
         //graph details
         pieChart = view.findViewById(R.id.pieChart);
 
+        sharedPreferencesUtils = new SharedPreferencesUtils(getActivity().getApplication());
+
         //view Models
         categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
         transactionViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);
         defaultsViewModel = new ViewModelProvider(this).get(DefaultsViewModel.class);
+        usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
+        accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
+
+        accountViewModel.getAccounts().observe(getViewLifecycleOwner(), new Observer<List<Account>>() {
+            @Override
+            public void onChanged(final List<Account> accounts) {
+                accountNames = new String[accounts.size()];
+
+                for (int i = 0; i < accounts.size(); i++) {
+                    accountNames[i] = accounts.get(i).getName();
+                }
+
+                buildSelectAccountDialog(accountNames);
+            }
+        });
 
         String defaultCurrency = defaultsViewModel.getDefaultValue(CURRENCY_DEFAULT_NAME);
         defaultCurrencySymbol = defaultsViewModel.getCurrencySymbol(defaultCurrency);
@@ -82,6 +121,34 @@ public class HomeFragment extends Fragment {
 
         //button details
         AppCompatButton addTransactionLayout = view.findViewById(R.id.addTransactionButton);
+        AppCompatButton addAccountButton = view.findViewById(R.id.addAccountButton);
+
+        //Account details
+        selectedAccountTitle = view.findViewById(R.id.selectedAccountTitle);
+        LinearLayout accountsWrapper = view.findViewById(R.id.accountsWrapper);
+        Button switchAccount = accountsWrapper.findViewById(R.id.switchAccountButton);
+        selectedAccountColor = view.findViewById(R.id.selectedAccountColor);
+
+        addAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Fragment fragment = new AddAccountFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+
+        switchAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                dialogBuilder.show();
+            }
+        });
+        updateSelectedAccountInformation();
 
 
         // Add transaction button
@@ -253,6 +320,25 @@ public class HomeFragment extends Fragment {
 
     }
 
+    /**
+     * Update selected account info.
+     */
+    private void updateSelectedAccountInformation() {
+        Account selectedAcc = accountViewModel
+                .getAccountById(Integer.parseInt(sharedPreferencesUtils.getCurrentAccountIdKey()));
+
+        String accountColor = selectedAcc.getColor();
+
+        selectedAccountTitle.setText(selectedAcc.getName());
+
+        if (accountColor != null) {
+            selectedAccountColor.setCardBackgroundColor(Color.parseColor(accountColor));
+        } else {
+            //selectedAccountColor.setCardBackgroundColor(Color.parseColor(getResources().getColor(R.color.projectColorDefault, null)));
+        }
+
+    }
+
     @SuppressWarnings({"checkstyle", "magicnumber"})
     private void addDataSet(final float[] yData, final String[] xData) {
         ArrayList<PieEntry> yEntrys = new ArrayList<>();
@@ -290,5 +376,32 @@ public class HomeFragment extends Fragment {
         PieData pieData = new PieData(pieDataSet);
         pieChart.setData(pieData);
         pieChart.invalidate();
+    }
+
+    /**
+     * Populate account dialog.
+     * @param names account names.
+     */
+    private void buildSelectAccountDialog(final String[] names) {
+        dialogBuilder = new MaterialAlertDialogBuilder(getContext())
+                .setTitle("Select your account:")
+                .setItems(names, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int which) {
+                        Account selectedAccount = accountViewModel.getAccountByName(names[which]);
+
+                        usersViewModel.updateUserSelectedAccount(String.valueOf(selectedAccount.getId()));
+                        sharedPreferencesUtils.setCurrentAccountId(String.valueOf(selectedAccount.getId()));
+
+                        /*updateSelectedAccountInformation();
+                        calculateAccountBalances();*/
+
+                        Fragment fragment = new HomeFragment();
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_container, fragment);
+                        fragmentTransaction.commit();
+                    }
+                });
     }
 }
