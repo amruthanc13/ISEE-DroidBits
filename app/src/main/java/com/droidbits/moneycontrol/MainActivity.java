@@ -13,7 +13,7 @@ import com.droidbits.moneycontrol.utils.SharedPreferencesUtils;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferencesUtils sharedPreferencesUtils;
-    private static final int TIMER = 1;
+    private static final int TIMER = 4000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +25,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();*/
 
-     /*   new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {*/
                 //Checking if the app is running for the 1st time
                 boolean isFirstTime = sharedPreferencesUtils.getFirstTime();
 
@@ -43,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 }
 
-     //   }, 1);
+
 
         MoneyControlDB db = MoneyControlDB.getInstance(this);
 

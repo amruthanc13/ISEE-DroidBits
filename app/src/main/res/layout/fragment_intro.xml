@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:textAlignment="center"
-            app:srcCompat="@drawable/login_intro1" />
+            app:srcCompat="@drawable/main_logo2_white" />
 
         <TextView
             android:id="@+id/appIntroFirstSentence"
