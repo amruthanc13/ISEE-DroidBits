@@ -251,6 +251,7 @@ public class SignInActivity extends AppCompatActivity {
 
             sharedPreferencesUtils.setIsSignedIn(true);
             sharedPreferencesUtils.setCurrentUserId(String.valueOf(user.getId()));
+            sharedPreferencesUtils.setCurrentAccountId(user.getSelectedAccount());
 
             Intent intent = new Intent(getApplication(), HomeActivity.class);
             startActivity(intent);

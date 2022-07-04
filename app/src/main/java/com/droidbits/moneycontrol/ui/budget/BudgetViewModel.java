@@ -32,6 +32,9 @@ public class BudgetViewModel extends AndroidViewModel {
     public double getBudgetAmountByCategory(String categoryId) {
         return budgetRepository.getBudgetAmountByCategory(categoryId);
     }
+    public List<Budget> getAllBudgetForAccount() {
+        return budgetRepository.getAllBudgetForAccount();
+    }
 
 
     public void updateBudgetAmountsDefaultCurrency(float exchangeRate) {

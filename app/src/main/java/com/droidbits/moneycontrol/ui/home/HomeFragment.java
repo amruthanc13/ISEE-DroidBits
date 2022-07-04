@@ -13,7 +13,10 @@ import android.widget.TextView;
 import com.droidbits.moneycontrol.MainActivity;
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.account.Account;
+import com.droidbits.moneycontrol.db.budget.Budget;
 import com.droidbits.moneycontrol.db.categories.Categories;
+import com.droidbits.moneycontrol.db.transaction.Transactions;
+import com.droidbits.moneycontrol.ui.budget.BudgetViewModel;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.categories.DetailCategoryFragment;
 import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
@@ -43,6 +46,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -53,9 +57,9 @@ public class HomeFragment extends Fragment {
     private TextView totalExpenseText;
     private TextView pieChartTitle;
 
-    private LinearLayout summaryContainer;
-    private RecyclerView featuredRecycler;
-    private RecyclerView.Adapter adapter;
+    private LinearLayout summaryContainer, infoTipContainer;
+    private RecyclerView featuredRecycler, infoTipRecycler;
+    private RecyclerView.Adapter adapter, infoAdapter;
     private MaterialAlertDialogBuilder dialogBuilder;
 
 
@@ -64,6 +68,7 @@ public class HomeFragment extends Fragment {
     private DefaultsViewModel defaultsViewModel;
     private UsersViewModel usersViewModel;
     private AccountViewModel accountViewModel;
+    private BudgetViewModel budgetViewModel;
 
     private CardView selectedAccountColor;
     private TextView selectedAccountTitle;
@@ -89,6 +94,9 @@ public class HomeFragment extends Fragment {
         //cumulative expense detials
         summaryContainer = view.findViewById(R.id.summaryContainer);
         featuredRecycler = view.findViewById(R.id.featured_recycler);
+        infoTipContainer = view.findViewById(R.id.home_infoTips);
+        infoTipRecycler = view.findViewById(R.id.infoTips_recycler);
+
 
         //graph details
         pieChart = view.findViewById(R.id.pieChart);
@@ -101,6 +109,8 @@ public class HomeFragment extends Fragment {
         defaultsViewModel = new ViewModelProvider(this).get(DefaultsViewModel.class);
         usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
         accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
+        budgetViewModel = new ViewModelProvider(this).get(BudgetViewModel.class);
+
 
         accountViewModel.getAccounts().observe(getViewLifecycleOwner(), new Observer<List<Account>>() {
             @Override
@@ -176,6 +186,10 @@ public class HomeFragment extends Fragment {
 
         // cumulative expense
         featuredRecycler(view);
+
+        //infoTips
+        infoTipRecycler(view);
+
 
         return view;
     }
@@ -380,6 +394,106 @@ public class HomeFragment extends Fragment {
         pieChart.setData(pieData);
         pieChart.invalidate();
     }
+    /**
+     * Populate card view.
+     * @param rView view
+     */
+    private void infoTipRecycler(final View rView) {
+
+        infoTipRecycler.setHasFixedSize(true);
+        infoTipRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        ArrayList<InfoTipHelperClass> infoTipLocation = new ArrayList<>();
+
+        List<Transactions> listTransaction = transactionViewModel.getAllTransactionsForAccount();
+        List<Budget> listBudget = budgetViewModel.getAllBudgetForAccount();
+        List<Categories> listCategory = categoriesViewModel.getAllCategories();
+
+        if (listBudget.isEmpty()) {
+            infoTipContainer.setVisibility(rView.VISIBLE);
+            infoTipLocation.add(new InfoTipHelperClass("Budget", "Try setting a budget to monitor your expenses"));
+        } else {
+            if (!listTransaction.isEmpty()) {
+
+                for (Categories category : listCategory) {
+                    String catId = category.getId().toString();
+                    Budget budget = budgetViewModel.getBudgetWithCategory(catId);
+                    String catName = category.getName();
+
+                    if (budget != null) {
+                        Float budgetAmount = budget.getAmount();
+                        Float totalAmount = transactionViewModel.getTotalIAmountByCategoryId(catId);
+
+                        if (budgetAmount - totalAmount < 0) {
+                            infoTipContainer.setVisibility(rView.VISIBLE);
+                            infoTipLocation.add(new InfoTipHelperClass("Budget Exceeded",
+                                    "Budget limit exceeded for  " + catName));
+                        } else if (budgetAmount - totalAmount == 0) {
+                            infoTipContainer.setVisibility(rView.VISIBLE);
+                            infoTipLocation.add(new InfoTipHelperClass("Budget Full",
+                                    "Budget limit is full for " + catName));
+                        } else if (budgetAmount - totalAmount <= 50) {
+                            infoTipContainer.setVisibility(rView.VISIBLE);
+                            infoTipLocation.add(new InfoTipHelperClass("Low Budget",
+                                    "Monitor your expenses for " + catName));
+                        }
+                    }
+                }
+            }
+        }
+
+        ArrayList<String> defaultCategoryList = new ArrayList<String>();
+        ArrayList<String> defaultCategoryListObtained = new ArrayList<String>();
+        defaultCategoryList.add("Cinema");
+        defaultCategoryList.add("Travel");
+        defaultCategoryList.add("Shopping");
+        defaultCategoryList.add("Dine out");
+        defaultCategoryList.add("Bills");
+        defaultCategoryList.add("Drinks");
+        defaultCategoryList.add("Income");
+
+        for (Categories category : listCategory) {
+            String catName = category.getName();
+            defaultCategoryListObtained.add(catName);
+
+        }
+
+        Collections.sort(defaultCategoryList);
+        Collections.sort(defaultCategoryListObtained);
+
+        if (defaultCategoryList.equals(defaultCategoryListObtained)) {
+            infoTipContainer.setVisibility(rView.VISIBLE);
+            infoTipLocation.add(new InfoTipHelperClass("Custom Category",
+                    "Create custom categories and add transactions to it"));
+        }
+
+        String defaultCurrency = defaultsViewModel.getDefaultValue("Currency");
+        String defaultPaymentMode = defaultsViewModel.getDefaultValue("Payment");
+        String defaultCategory = defaultsViewModel.getDefaultValue("Category");
+
+        if (defaultCurrency.equals("EUR") && defaultPaymentMode.equals("Credit Card") && defaultCategory.equals("Cinema")) {
+            infoTipContainer.setVisibility(rView.VISIBLE);
+            infoTipLocation.add(new InfoTipHelperClass("Set Defaults",
+                    "Try setting defaults in settings screen to ease transaction addition"));
+        } else if (defaultCurrency.equals("EUR")) {
+            infoTipContainer.setVisibility(rView.VISIBLE);
+            infoTipLocation.add(new InfoTipHelperClass("Set Default Currency",
+                    "Try setting defaults in settings screen to ease transaction addition"));
+        } else if (defaultPaymentMode.equals("Credit Card")) {
+            infoTipContainer.setVisibility(rView.VISIBLE);
+            infoTipLocation.add(new InfoTipHelperClass("Set Default Payment Mode",
+                    "Try setting defaults in settings screen to ease transaction addition"));
+        } else if (defaultCategory.equals("Cinema")) {
+            infoTipContainer.setVisibility(rView.VISIBLE);
+            infoTipLocation.add(new InfoTipHelperClass("Set Default Category",
+                    "Try setting defaults in settings screen to ease transaction addition"));
+        }
+
+
+        infoAdapter = new InfoTipAdapter(infoTipLocation);
+        infoTipRecycler.setAdapter(infoAdapter);
+
+    }
+
 
     /**
      * Populate account dialog.

@@ -35,6 +35,12 @@ public interface TransactionsDao {
     @Query("SELECT * FROM transactions")
     List<Transactions> getAllTransactionsExportData();
 
+    @Query("SELECT * FROM transactions "
+            + "WHERE user_id=:userId "
+            + "AND account=:accountId "
+            + "ORDER BY date DESC")
+    List<Transactions> getAllTransactionsForAccount(String userId, String accountId);
+
     /**
      * get sum of expenses.
      * @param userId

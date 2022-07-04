@@ -42,6 +42,18 @@ public class BudgetRepository {
         return budgetDao.getAllBudget(currentUserId, currentAccountId);
     }
 
+    public List<Budget> getAllBudgetForAccount() {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String currentAccountId = sharedPreferencesUtils.getCurrentAccountIdKey();
+
+
+        if (currentUserId.equals("")) {
+            return null;
+        }
+
+        return budgetDao.getAllBudgetForAccount(currentUserId, currentAccountId);
+    }
+
 
     /**
      * Insert a new Budget.

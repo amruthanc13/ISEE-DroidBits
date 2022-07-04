@@ -33,6 +33,16 @@ public class TransactionsRepository {
         return transactionsDao.getAllTransactions(currentUserId, currentAccountId);
     }
 
+    public List<Transactions> getAllTransactionsForAccount() {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String currentAccountId = sharedPreferencesUtils.getCurrentAccountIdKey();
+
+        if (currentUserId.equals("")) {
+            return null;
+        }
+        return transactionsDao.getAllTransactionsForAccount(currentUserId, currentAccountId);
+    }
+
     public List<Transactions> getAllTransactionsExportData() {
         return transactionsDao.getAllTransactionsExportData();
     }
