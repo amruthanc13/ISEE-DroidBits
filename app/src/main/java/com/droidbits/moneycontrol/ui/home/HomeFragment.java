@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.droidbits.moneycontrol.MainActivity;
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.account.Account;
 import com.droidbits.moneycontrol.db.categories.Categories;
@@ -333,8 +334,10 @@ public class HomeFragment extends Fragment {
 
         if (accountColor != null) {
             selectedAccountColor.setCardBackgroundColor(Color.parseColor(accountColor));
+
         } else {
-            //selectedAccountColor.setCardBackgroundColor(Color.parseColor(getResources().getColor(R.color.projectColorDefault, null)));
+            selectedAccountColor.setCardBackgroundColor(getResources().getColor(R.color.projectColorDefault));
+
         }
 
     }

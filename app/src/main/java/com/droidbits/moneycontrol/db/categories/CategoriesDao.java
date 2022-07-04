@@ -30,24 +30,24 @@ public interface CategoriesDao {
      * @param id category ID.
      * @return Single category matching the ID
      */
-    @Query("SELECT * FROM categories WHERE id=:id")
-    Categories getSingleCategory(int id);
+    @Query("SELECT * FROM categories WHERE id=:id AND user_id=:userId AND account=:accountId")
+    Categories getSingleCategory(int id, String userId, String accountId);
 
     /**
      * Get single category.
      * @param name category name.
      * @return Single category matching with name
      */
-    @Query("SELECT * FROM categories WHERE name=:name ")
-    Categories getSingleCategory(String name);
+    @Query("SELECT * FROM categories WHERE name=:name AND user_id=:userId AND account=:accountId ")
+    Categories getSingleCategory(String name, String userId, String accountId);
 
     /**
      * Get all categories from the database.
      * @param userId
      * @return list of categories
      */
-    @Query("SELECT * FROM Categories where name != 'Income' AND  user_id=:userId")
-    List<Categories> getAllCategories(String userId);
+    @Query("SELECT * FROM Categories where name != 'Income' AND  user_id=:userId AND account=:accountId ")
+    List<Categories> getAllCategories(String userId, String accountId);
 
 
     /**
@@ -60,8 +60,9 @@ public interface CategoriesDao {
             +
             " name != :income"
             +
-            " AND  user_id=:userId")
-    String[] getCategoriesName(String userId, String income);
+            " AND  user_id=:userId" +
+            " AND account=:accountId")
+    String[] getCategoriesName(String userId, String income, String accountId);
 
 
     /**
@@ -69,9 +70,10 @@ public interface CategoriesDao {
      * @param income income category.
      * @return list of categories name.
      */
-    @Query("SELECT icon FROM Categories WHERE "
-            +
-            " name != :income")
-    int[] getCategoriesIcon(String income);
+    @Query("SELECT icon FROM Categories WHERE " +
+            " user_id=:userId "+
+            "AND  account=:accountId "+
+            "AND  name != :income")
+    int[] getCategoriesIcon(String income, String userId , String accountId );
 
 }

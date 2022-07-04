@@ -29,12 +29,13 @@ public class CategoriesRepository {
      */
     public List<Categories> getAllCategories() {
         String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String currentAccountId = sharedPreferencesUtils.getCurrentAccountIdKey();
 
         if (currentUserId.equals("")) {
             return null;
         }
 
-        return categoriesDao.getAllCategories(currentUserId);
+        return categoriesDao.getAllCategories(currentUserId, currentAccountId);
     }
 
 
@@ -44,11 +45,13 @@ public class CategoriesRepository {
      */
     public void insert(final Categories category) {
         String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String currentAccountId = sharedPreferencesUtils.getCurrentAccountIdKey();
 
         if (currentUserId.equals("")) {
             return;
         }
         category.setUserId(currentUserId);
+        category.setAccount(currentAccountId);
 
         categoriesDao.insert(category);
     }
@@ -60,7 +63,14 @@ public class CategoriesRepository {
      * @return Category.
      */
     public Categories getSingleCategory(final int categoryId) {
-        return categoriesDao.getSingleCategory(categoryId);
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String currentAccountId = sharedPreferencesUtils.getCurrentAccountIdKey();
+
+        if (currentUserId.equals("")) {
+            return null;
+        }
+
+        return categoriesDao.getSingleCategory(categoryId, currentUserId, currentAccountId);
     }
 
     /**
@@ -69,7 +79,13 @@ public class CategoriesRepository {
      * @return category.
      */
     public Categories getSingleCategory(final String categoryName) {
-        return categoriesDao.getSingleCategory(categoryName);
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String currentAccountId = sharedPreferencesUtils.getCurrentAccountIdKey();
+
+        if (currentUserId.equals("")) {
+            return null;
+        }
+        return categoriesDao.getSingleCategory(categoryName, currentUserId, currentAccountId);
     }
     /**
      * get a category.
@@ -77,13 +93,15 @@ public class CategoriesRepository {
      */
     public String[] getCategoriesName() {
         String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String currentAccountId = sharedPreferencesUtils.getCurrentAccountIdKey();
+
         String income = "Income";
 
         if (currentUserId.equals("")) {
             return null;
         }
 
-        return categoriesDao.getCategoriesName(currentUserId, income);
+        return categoriesDao.getCategoriesName(currentUserId, income, currentAccountId);
     }
 
     /**
@@ -91,10 +109,17 @@ public class CategoriesRepository {
      * @return the category names
      */
     public int[] getCategoriesIcon() {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+        String currentAccountId = sharedPreferencesUtils.getCurrentAccountIdKey();
+
         String income = "Income";
 
+        if (currentUserId.equals("")) {
+            return null;
+        }
 
-        return categoriesDao.getCategoriesIcon(income);
+
+        return categoriesDao.getCategoriesIcon(income, currentUserId, currentAccountId);
     }
 
 }

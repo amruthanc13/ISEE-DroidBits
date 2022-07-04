@@ -28,8 +28,9 @@ public interface TransactionsDao {
      */
     @Query("SELECT * FROM transactions "
             + "WHERE user_id=:userId "
+            + "AND account=:accountId "
             + "ORDER BY date DESC")
-    LiveData<List<Transactions>> getAllTransactions(String userId);
+    LiveData<List<Transactions>> getAllTransactions(String userId, String accountId);
 
     @Query("SELECT * FROM transactions")
     List<Transactions> getAllTransactionsExportData();
@@ -39,16 +40,16 @@ public interface TransactionsDao {
      * @param userId
      * @return sum
      */
-    @Query("SELECT SUM(amount) FROM transactions WHERE type = 'Expense' AND user_id=:userId")
-    double getExpenseTransactionSum(String userId);
+    @Query("SELECT SUM(amount) FROM transactions WHERE type = 'Expense' AND user_id=:userId and account=:accountId")
+    double getExpenseTransactionSum(String userId, String accountId);
 
     /**
      * get sum of income.
      * @param userId
      * @return sum
      */
-    @Query("SELECT SUM(amount) FROM transactions WHERE type = 'Income' AND user_id=:userId")
-    double getIncomeTransactionSum(String userId);
+    @Query("SELECT SUM(amount) FROM transactions WHERE type = 'Income' AND user_id=:userId and account=:accountId")
+    double getIncomeTransactionSum(String userId, String accountId);
 
     /**
      * Get transaction by id.
@@ -57,14 +58,15 @@ public interface TransactionsDao {
      * @return transaction.
      */
 
-    @Query("SELECT * FROM transactions WHERE id=:transactionId AND user_id=:userId ")
-    Transactions getTransactionById(long transactionId, String userId);
+    @Query("SELECT * FROM transactions WHERE id=:transactionId AND user_id=:userId and account=:accountId")
+    Transactions getTransactionById(long transactionId, String userId, String accountId);
 
     @Query("SELECT * FROM transactions "
             + "WHERE user_id=:userId "
             + "AND categories =:categoryId "
+            + "AND account=:accountId "
             + "ORDER BY date DESC")
-    LiveData<List<Transactions>> getTransactionsForCategory(String categoryId, String userId);
+    LiveData<List<Transactions>> getTransactionsForCategory(String categoryId, String userId, String accountId);
 
     /**
      * get sum.
@@ -72,8 +74,8 @@ public interface TransactionsDao {
      * @param userId
      * @return sum
      */
-    @Query("SELECT SUM(amount) FROM transactions WHERE categories =:categoryId AND user_id=:userId")
-    double getCategorySum(String categoryId, String userId);
+    @Query("SELECT SUM(amount) FROM transactions WHERE categories =:categoryId AND user_id=:userId and account=:accountId")
+    double getCategorySum(String categoryId, String userId, String accountId);
 
     /**
      * Retrieve Filtered transactions from the database.
@@ -93,6 +95,7 @@ public interface TransactionsDao {
             + "AND (:paymentMethod IS NULL OR method =:paymentMethod) "
             + "AND (:categoryId IS NULL OR categories =:categoryId) "
             + "AND user_id =:userId "
+            + "AND account =:accountId "
             + "ORDER BY date DESC")
     List<Transactions> filterTransactions(
             Float amountFrom,
@@ -101,7 +104,8 @@ public interface TransactionsDao {
             Long dateTo,
             String paymentMethod,
             String categoryId,
-            String userId);
+            String userId,
+            String accountId);
 
     /**
      * Update transaction recurring params.
@@ -141,8 +145,9 @@ public interface TransactionsDao {
     @Query("SELECT SUM(amount) FROM transactions "
             + "WHERE categories=:categoryId "
             + "AND user_id=:ownerId "
+            + "AND account =:accountId "
             + "AND type =:income")
-    float getTotalIncomeByCategoryId(String categoryId, String ownerId, String income);
+    float getTotalIncomeByCategoryId(String categoryId, String ownerId, String income, String accountId);
 
     /**
      * Retrieve sum of transaction expense amount for a specified category.
@@ -154,8 +159,9 @@ public interface TransactionsDao {
     @Query("SELECT SUM(amount) FROM transactions "
             + "WHERE categories=:categoryId "
             + "AND user_id=:ownerId "
-            + "AND type =:expense")
-    float getTotalIExpenseByCategoryId(String categoryId, String ownerId, String expense);
+            + "AND type =:expense"
+            +" AND account=:accountId")
+    float getTotalIExpenseByCategoryId(String categoryId, String ownerId, String expense, String accountId);
 
     /**
      * get monthly avg.
@@ -164,8 +170,8 @@ public interface TransactionsDao {
      * @return double
      */
     @Query("SELECT AVG(monthly_sum) from (SELECT sum(amount) as monthly_sum, strftime('%Y-%m', date / 1000, 'unixepoch') as month from transactions "
-            + " where type=:transactionType and user_id=:userId group by month )")
-    double getMonthlyAvg(String transactionType, String userId);
+            + " where type=:transactionType and user_id=:userId and account=:accountId group by month )")
+    double getMonthlyAvg(String transactionType, String userId, String accountId);
 
     /**
      * get daily avg.
@@ -174,7 +180,7 @@ public interface TransactionsDao {
      * @return double
      */
     @Query("SELECT AVG(daily_sum) from (SELECT sum(amount) as daily_sum, date(date/1000, 'unixepoch', 'localtime') as day from transactions "
-            + " where type=:transactionType and user_id=:userId group by day )")
-    double getDailyAvg(String transactionType, String userId);
+            + " where type=:transactionType and user_id=:userId and account=:accountId group by day )")
+    double getDailyAvg(String transactionType, String userId, String accountId);
 
 }
