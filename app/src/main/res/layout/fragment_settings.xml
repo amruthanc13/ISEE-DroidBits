@@ -146,6 +146,32 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="Refer Friends"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/refer_button"
+                    style="@style/primaryRoundedButtonBlock"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="0"
+                    android:text="Refer" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
