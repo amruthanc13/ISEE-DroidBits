@@ -22,6 +22,7 @@ import com.droidbits.moneycontrol.db.users.Users;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.home.AccountViewModel;
 import com.droidbits.moneycontrol.ui.home.HomeActivity;
+import com.droidbits.moneycontrol.ui.intro.OnBoarding;
 import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 import com.droidbits.moneycontrol.utils.SharedPreferencesUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -253,10 +254,18 @@ public class SignInActivity extends AppCompatActivity {
             sharedPreferencesUtils.setCurrentUserId(String.valueOf(user.getId()));
             sharedPreferencesUtils.setCurrentAccountId(user.getSelectedAccount());
 
-            Intent intent = new Intent(getApplication(), HomeActivity.class);
-            startActivity(intent);
-            finish();
+            boolean isFirstTime = sharedPreferencesUtils.getFirstTimeSet();
+            if (isFirstTime) {
+                sharedPreferencesUtils.setFirstTimeSet(false);
 
+                Intent intent = new Intent(getApplication(), OnBoarding.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Intent intent = new Intent(getApplication(), HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
 
         } else {
             enterAccessTokenInputGroup.setError("Access token is not valid.");
