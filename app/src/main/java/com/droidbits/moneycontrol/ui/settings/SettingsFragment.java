@@ -1,9 +1,14 @@
 package com.droidbits.moneycontrol.ui.settings;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +42,7 @@ public class SettingsFragment extends Fragment {
         Button fAQButton = view.findViewById(R.id.helpButton);
         Button exportBtn = view.findViewById(R.id.export_button);
         Button importBtn = view.findViewById(R.id.import_button);
+        Button referBtn = view.findViewById(R.id.refer_button);
         fAQButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v)  {
@@ -46,6 +52,15 @@ public class SettingsFragment extends Fragment {
                 fragmentTransaction.replace(R.id.fragment_container, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+            }
+        });
+
+        referBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v)  {
+                Intent i = new Intent(Intent.ACTION_PICK,
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+                startActivityForResult(i, 114);
             }
         });
 
@@ -124,6 +139,7 @@ public class SettingsFragment extends Fragment {
         return view;
     }
 
+
     private void chooseFile1() {
         Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
@@ -137,7 +153,16 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data != null){
+        if (requestCode == 114 || resultCode == 114) {
+            Uri contactUri = data.getData();
+            Cursor cursor = getContext().getContentResolver().query(contactUri, null, null, null, null);
+            cursor.moveToFirst();
+            int mobileCol = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+            int nameCol = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+            Toast.makeText(getContext(), "SMS send to your friend `" + cursor.getString(nameCol) +
+                            "` Mobile: " + cursor.getString(mobileCol) , Toast.LENGTH_LONG).show();
+        }
+        if(requestCode == 102 || resultCode == 102){//102
             Toast.makeText(getActivity().getApplicationContext(),
                     "Importing Data!! Plz wait..",Toast.LENGTH_SHORT).show();
             String path = data.getData().getPath();
