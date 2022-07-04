@@ -143,6 +143,33 @@
                     android:text="Help" />
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="Contact Support"
+                    android:textSize="18dp" />
+
+                <Button
+                    android:id="@+id/send_email_button"
+                    style="@style/primaryRoundedButtonBlock"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="0"
+                    android:text="Contact" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
