@@ -302,9 +302,9 @@ public class SignInActivity extends AppCompatActivity {
         long userId = usersViewModel.insert(newUser);
         sharedPreferencesUtils.setCurrentUserId(String.valueOf(userId));
 
+        createDefaultUserAccount();
         createDefaultUserCategories();
         createDefaultUserCurrency();
-        createDefaultUserAccount();
 
     }
 

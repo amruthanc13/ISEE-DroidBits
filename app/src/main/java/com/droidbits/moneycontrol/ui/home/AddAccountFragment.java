@@ -20,6 +20,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.account.Account;
+import com.droidbits.moneycontrol.db.categories.Categories;
+import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
 import com.droidbits.moneycontrol.ui.users.UsersViewModel;
 import com.droidbits.moneycontrol.utils.SharedPreferencesUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -75,6 +77,7 @@ public class AddAccountFragment extends Fragment {
         initializeColorDialog();
 
         selectedAccountColor = getResources().getString(0 + R.color.projectColorBlue);
+
         selectAccountColor.setCardBackgroundColor(Color.parseColor(selectedAccountColor));
 
         selectAccountColor.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +164,8 @@ public class AddAccountFragment extends Fragment {
 
         userViewModel.updateUserSelectedAccount(String.valueOf(newAccountId));
         sharedPreferencesUtils.setCurrentAccountId(String.valueOf(newAccountId));
+        createDefaultUserCategories();
+
 
         Fragment fragment = new HomeFragment();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -170,12 +175,36 @@ public class AddAccountFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
+
+    private void createDefaultUserCategories() {
+
+        CategoriesViewModel categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
+
+        Categories cinema = new Categories("Cinema", R.drawable.icon_cinema);
+        Categories travel = new Categories("Travel", R.drawable.icon_travel);
+        Categories shopping = new Categories("Shopping", R.drawable.icon_shopping);
+        Categories dineOut = new Categories("Dine out", R.drawable.icon_dinner);
+        Categories bill = new Categories("Bills", R.drawable.icon_bill);
+        Categories drinks = new Categories("Drinks", R.drawable.icon_drinks);
+        Categories incomeCategory = new Categories("Income", R.drawable.income);
+
+
+
+        categoriesViewModel.insert(cinema);
+        categoriesViewModel.insert(travel);
+        categoriesViewModel.insert(shopping);
+        categoriesViewModel.insert(dineOut);
+        categoriesViewModel.insert(bill);
+        categoriesViewModel.insert(drinks);
+        categoriesViewModel.insert(incomeCategory);
+    }
+
     /**
      * Populate color dialog.
      */
     private void initializeColorDialog() {
         dialogBuilder = new MaterialAlertDialogBuilder(getContext())
-                .setTitle("Select the account color:")
+                .setTitle("Select the account icon:")
                 .setItems(colorsStr, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialog, final int which) {

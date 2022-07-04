@@ -49,6 +49,7 @@ public abstract class MoneyControlDB extends RoomDatabase {
                 if (dbInstance == null) {
                     dbInstance = Room.databaseBuilder(context.getApplicationContext(),
                             MoneyControlDB.class, "MoneyControl_db")
+                            .fallbackToDestructiveMigration()
                             .addCallback(roomCallback)
                             .allowMainThreadQueries()
                             .build();
