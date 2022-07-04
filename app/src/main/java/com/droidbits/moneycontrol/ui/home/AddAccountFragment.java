@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ListAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,17 +36,8 @@ public class AddAccountFragment extends Fragment {
     private TextInputLayout accountNameInputLayout;
     private TextInputEditText accountNameEditText;
     private CardView selectAccountColor;
-    private String[] colorsStr = {
-            "Blue",
-            "Dark blue",
-            "Green",
-            "Dark green",
-            "Orange",
-            "Dark orange",
-            "Purple",
-            "Dark purple"
-    };
-    private String selectedAccountColor;
+
+    private int selectedAccountColor;
     private MaterialAlertDialogBuilder dialogBuilder;
     private SharedPreferencesUtils sharedPreferencesUtils;
 
@@ -76,9 +68,9 @@ public class AddAccountFragment extends Fragment {
 
         initializeColorDialog();
 
-        selectedAccountColor = getResources().getString(0 + R.color.projectColorBlue);
+        selectedAccountColor = R.drawable.default_icon;
 
-        selectAccountColor.setCardBackgroundColor(Color.parseColor(selectedAccountColor));
+        selectAccountColor.setBackgroundResource(selectedAccountColor);
 
         selectAccountColor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,47 +195,35 @@ public class AddAccountFragment extends Fragment {
      * Populate color dialog.
      */
     private void initializeColorDialog() {
+        final String [] items = new String[] {"default","home","official", "other"};
+        final Integer[] icons = new Integer[] {R.drawable.default_icon, R.drawable.home,R.drawable.official, R.drawable.other };
+        ListAdapter adapter = new ArrayAdapterWithIcon(getActivity(), items);
+        ((ArrayAdapterWithIcon) adapter).setIcons(icons);
         dialogBuilder = new MaterialAlertDialogBuilder(getContext())
-                .setTitle("Select the account icon:")
-                .setItems(colorsStr, new DialogInterface.OnClickListener() {
+                .setTitle("Select icon:")
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialog, final int which) {
-                switch (colorsStr[which]) {
-                    case "Blue":
-                        selectedAccountColor = getResources().getString(0 + R.color.projectColorBlue);
-                        selectAccountColor.setCardBackgroundColor(Color.parseColor(selectedAccountColor));
+                switch (items[which]) {
+                    case "default":
+                        selectedAccountColor = icons[0];
+                        selectAccountColor.setBackgroundResource(selectedAccountColor);
                         break;
-                    case "Dark blue":
-                        selectedAccountColor = getResources().getString(0 + R.color.projectColorDarkBlue);
-                        selectAccountColor.setCardBackgroundColor(Color.parseColor(selectedAccountColor));
+                    case "home":
+                        selectedAccountColor = icons[1];
+                        selectAccountColor.setBackgroundResource(selectedAccountColor);
                         break;
-                    case "Green":
-                        selectedAccountColor = getResources().getString(0 + R.color.projectColorGreen);
-                        selectAccountColor.setCardBackgroundColor(Color.parseColor(selectedAccountColor));
+                    case "official":
+                        selectedAccountColor = icons[2];
+                        selectAccountColor.setBackgroundResource(selectedAccountColor);
                         break;
-                    case "Dark green":
-                        selectedAccountColor = getResources().getString(0 + R.color.projectColorDarkGreen);
-                        selectAccountColor.setCardBackgroundColor(Color.parseColor(selectedAccountColor));
-                        break;
-                    case "Orange":
-                        selectedAccountColor = getResources().getString(0 + R.color.projectColorOrange);
-                        selectAccountColor.setCardBackgroundColor(Color.parseColor(selectedAccountColor));
-                        break;
-                    case "Dark orange":
-                        selectedAccountColor = getResources().getString(0 + R.color.projectColorDarkOrange);
-                        selectAccountColor.setCardBackgroundColor(Color.parseColor(selectedAccountColor));
-                        break;
-                    case "Purple":
-                        selectedAccountColor = getResources().getString(0 + R.color.projectColorPurple);
-                        selectAccountColor.setCardBackgroundColor(Color.parseColor(selectedAccountColor));
-                        break;
-                    case "Dark purple":
-                        selectedAccountColor = getResources().getString(0 + R.color.projectColorDarkPurple);
-                        selectAccountColor.setCardBackgroundColor(Color.parseColor(selectedAccountColor));
+                    case "other":
+                        selectedAccountColor = icons[3];
+                        selectAccountColor.setBackgroundResource(selectedAccountColor);
                         break;
                     default:
-                        selectedAccountColor = getResources().getString(0 + R.color.projectColorBlue);
-                        selectAccountColor.setCardBackgroundColor(Color.parseColor(selectedAccountColor));
+                        selectedAccountColor = icons[0];
+                        selectAccountColor.setBackgroundResource(selectedAccountColor);
                         break;
                 }
             }

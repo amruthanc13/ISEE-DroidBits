@@ -31,7 +31,7 @@ public class Account {
 
     @ColumnInfo(name = "color")
     @Nullable
-    private String color;
+    private int color;
 
     // Foreign keys
     @ColumnInfo(name = "owner_id")
@@ -64,7 +64,7 @@ public class Account {
      * @return color.
      */
     @Nullable
-    public String getColor() {
+    public int getColor() {
         return color;
     }
 
@@ -97,7 +97,7 @@ public class Account {
      * Set account color.
      * @param mColor color.
      */
-    public void setColor(final @Nullable String mColor) {
+    public void setColor(final @Nullable int mColor) {
         this.color = mColor;
     }
 
