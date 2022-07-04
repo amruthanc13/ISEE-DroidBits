@@ -328,15 +328,15 @@ public class HomeFragment extends Fragment {
         Account selectedAcc = accountViewModel
                 .getAccountById(Integer.parseInt(sharedPreferencesUtils.getCurrentAccountIdKey()));
 
-        String accountColor = selectedAcc.getColor();
+        int accountColor = selectedAcc.getColor();
 
         selectedAccountTitle.setText(selectedAcc.getName());
 
-        if (accountColor != null) {
-            selectedAccountColor.setCardBackgroundColor(Color.parseColor(accountColor));
+        if (accountColor != 0) {
+            selectedAccountColor.setBackgroundResource(accountColor);
 
         } else {
-            selectedAccountColor.setCardBackgroundColor(getResources().getColor(R.color.projectColorDefault));
+            selectedAccountColor.setBackgroundResource(R.drawable.default_icon);
 
         }
 
