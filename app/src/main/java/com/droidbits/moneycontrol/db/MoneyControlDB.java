@@ -9,6 +9,8 @@ import androidx.room.RoomDatabase;
 import androidx.room.RoomWarnings;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.droidbits.moneycontrol.db.account.Account;
+import com.droidbits.moneycontrol.db.account.AccountDao;
 import com.droidbits.moneycontrol.db.budget.Budget;
 import com.droidbits.moneycontrol.db.budget.BudgetDao;
 import com.droidbits.moneycontrol.db.categories.Categories;
@@ -26,7 +28,7 @@ import com.droidbits.moneycontrol.db.users.Users;
 import com.droidbits.moneycontrol.db.users.UsersDao;
 
 @Database(entities = {Transactions.class, Categories.class, Budget.class, Users.class,
-        Currency.class, Defaults.class}, version = 1, exportSchema = false)
+        Currency.class, Defaults.class, Account.class}, version = 1, exportSchema = false)
 public abstract class MoneyControlDB extends RoomDatabase {
 
     public abstract TransactionsDao transactionsDao();
@@ -35,6 +37,7 @@ public abstract class MoneyControlDB extends RoomDatabase {
     public abstract UsersDao usersDao();
     public abstract CurrencyDao currencyDao();
     public abstract DefaultsDao defaultsDao();
+    public abstract AccountDao accountDao();
 
     private static volatile MoneyControlDB dbInstance;
     private static final int NUMBER_OF_THREADS = 4;
@@ -46,6 +49,7 @@ public abstract class MoneyControlDB extends RoomDatabase {
                 if (dbInstance == null) {
                     dbInstance = Room.databaseBuilder(context.getApplicationContext(),
                             MoneyControlDB.class, "MoneyControl_db")
+                            .fallbackToDestructiveMigration()
                             .addCallback(roomCallback)
                             .allowMainThreadQueries()
                             .build();

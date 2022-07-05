@@ -15,11 +15,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.droidbits.moneycontrol.R;
 
+import com.droidbits.moneycontrol.db.account.Account;
 import com.droidbits.moneycontrol.db.categories.Categories;
 import com.droidbits.moneycontrol.db.defaults.Defaults;
 import com.droidbits.moneycontrol.db.users.Users;
 import com.droidbits.moneycontrol.ui.categories.CategoriesViewModel;
+import com.droidbits.moneycontrol.ui.home.AccountViewModel;
 import com.droidbits.moneycontrol.ui.home.HomeActivity;
+import com.droidbits.moneycontrol.ui.intro.OnBoarding;
 import com.droidbits.moneycontrol.ui.settings.DefaultsViewModel;
 import com.droidbits.moneycontrol.utils.SharedPreferencesUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -32,6 +35,7 @@ public class SignInActivity extends AppCompatActivity {
     private CategoriesViewModel categoriesViewModel;
     private UsersViewModel usersViewModel;
     private DefaultsViewModel defaultsViewModel;
+    private AccountViewModel accountViewModel;
     private  Users user;
     private SharedPreferencesUtils sharedPreferencesUtils;
 
@@ -72,6 +76,8 @@ public class SignInActivity extends AppCompatActivity {
         sharedPreferencesUtils = new SharedPreferencesUtils(getApplication());
         categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
         defaultsViewModel = new ViewModelProvider(this).get(DefaultsViewModel.class);
+        accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
+
         setContentView(R.layout.sign_in);
         signInContainer = findViewById(R.id.signinContainer);
         signUpContainer = findViewById(R.id.signupContainer);
@@ -235,6 +241,7 @@ public class SignInActivity extends AppCompatActivity {
                         sharedPreferencesUtils.setCurrentUserId(String.valueOf(selected.getId()));
                         setUser();
                     }
+                    //test
                 });
 
     }
@@ -245,11 +252,20 @@ public class SignInActivity extends AppCompatActivity {
 
             sharedPreferencesUtils.setIsSignedIn(true);
             sharedPreferencesUtils.setCurrentUserId(String.valueOf(user.getId()));
+            sharedPreferencesUtils.setCurrentAccountId(user.getSelectedAccount());
 
-            Intent intent = new Intent(getApplication(), HomeActivity.class);
-            startActivity(intent);
-            finish();
+            boolean isFirstTime = sharedPreferencesUtils.getFirstTimeSet();
+            if (isFirstTime) {
+                sharedPreferencesUtils.setFirstTimeSet(false);
 
+                Intent intent = new Intent(getApplication(), OnBoarding.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Intent intent = new Intent(getApplication(), HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
 
         } else {
             enterAccessTokenInputGroup.setError("Access token is not valid.");
@@ -296,6 +312,7 @@ public class SignInActivity extends AppCompatActivity {
         long userId = usersViewModel.insert(newUser);
         sharedPreferencesUtils.setCurrentUserId(String.valueOf(userId));
 
+        createDefaultUserAccount();
         createDefaultUserCategories();
         createDefaultUserCurrency();
 
@@ -334,5 +351,20 @@ public class SignInActivity extends AppCompatActivity {
         defaultsViewModel.insert(defaultPayment);
         defaultsViewModel.insert(defaultAddBtn1);
         defaultsViewModel.insert(defaultAddBtn2);
+    }
+
+
+    /**
+     * Create default user account.
+     */
+    private void createDefaultUserAccount() {
+        Account defaultAccount = new Account();
+
+        defaultAccount.setName("Default account");
+
+        Long newAccountId = accountViewModel.insert(defaultAccount);
+
+        usersViewModel.updateUserSelectedAccount(String.valueOf(newAccountId));
+        sharedPreferencesUtils.setCurrentAccountId(String.valueOf(newAccountId));
     }
 }

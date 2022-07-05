@@ -5,11 +5,13 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.droidbits.moneycontrol.db.MoneyControlDB;
+import com.droidbits.moneycontrol.utils.SharedPreferencesUtils;
 
 import java.util.List;
 
 public class UsersRepository {
     private UsersDao usersDao;
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
     /**
      * Constructor.
@@ -17,6 +19,7 @@ public class UsersRepository {
      */
     public UsersRepository(final Application application) {
         MoneyControlDB database = MoneyControlDB.getInstance(application);
+        sharedPreferencesUtils = new SharedPreferencesUtils(application);
         usersDao = database.usersDao();
     }
 
@@ -63,5 +66,19 @@ public class UsersRepository {
 
         return user;
     };
+
+    /**
+     * Update user selected account.
+     * @param selectedAccount account id.
+     */
+    public void updateUserSelectedAccount(final String selectedAccount) {
+        String currentUserId = sharedPreferencesUtils.getCurrentUserId();
+
+        if (currentUserId.equals("")) {
+            return;
+        }
+
+        usersDao.updateUserSelectedAccount(Integer.parseInt(currentUserId), selectedAccount);
+    }
 
 }

@@ -11,6 +11,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import com.droidbits.moneycontrol.db.account.Account;
 import com.droidbits.moneycontrol.db.users.Users;
 
 
@@ -23,8 +24,14 @@ import com.droidbits.moneycontrol.db.users.Users;
                 childColumns = "user_id",
                 onDelete = CASCADE
         ),
+         @ForeignKey(
+                entity = Account.class,
+                parentColumns = "id",
+                childColumns = "account",
+                onDelete = CASCADE
+         ),
         },
-        indices = {@Index("user_id")}
+        indices = {@Index("user_id"), @Index("account")}
 )
 public class Categories {
 
@@ -43,6 +50,10 @@ public class Categories {
     @ColumnInfo(name = "user_id")
     @Nullable
     private String userId;
+
+    @ColumnInfo(name = "account")
+    @Nullable
+    private String account;
 
 
     /**
@@ -112,6 +123,16 @@ public class Categories {
     }
 
     /**
+     * Get category account.
+     * @return account id.
+     */
+    @Nullable
+    public String getAccount() {
+        return account;
+    }
+
+
+    /**
      * Category id setter.
      * @param categoryId category id.
      */
@@ -138,5 +159,14 @@ public class Categories {
     public void setUserId(@Nullable String userId) {
         this.userId = userId;
     }
+
+    /**
+     * Set category account.
+     * @param mAccount account id.
+     */
+    public void setAccount(final @Nullable String mAccount) {
+        this.account = mAccount;
+    }
+
 
 }

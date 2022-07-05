@@ -33,14 +33,12 @@ public class FAQAdapter extends BaseExpandableListAdapter {
     };
 
     private int[][] images = {
-            //TODO : change the image id with the new screenshots once developed.
-            //change in getChildView accordingly
             //for answer 1
-            {R.drawable.all},
+            {R.drawable.help_1},
             //for answer 2
-            {R.drawable.all},
+            {R.drawable.help_2},
             //for answer 3
-            {R.drawable.all}
+            {R.drawable.help_3}
     };
 
     public FAQAdapter(final Context helpContext) {

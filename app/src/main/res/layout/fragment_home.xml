@@ -20,13 +20,50 @@
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="30dp"
             android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/selectedAccountColor"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="10dp"
+                    app:cardCornerRadius="8dp"
+                    />
+
+                <TextView
+                    android:id="@+id/selectedAccountTitle"
+                    style="@style/font_family_normal_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="TextView"
+                    android:textSize="18dp" />
+
+                <Button
+                    android:id="@+id/switchAccountButton"
+                    style="@style/baseSmallButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:text="Switch account" />
+            </LinearLayout>
 
             <Button
-                android:id="@+id/addTransactionButton"
+                android:id="@+id/addAccountButton"
                 style="@style/primaryRoundedButtonBlock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add Transaction" />
+                android:text="Add account" />
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,6 +120,13 @@
                         android:textSize="16dp" />
                 </LinearLayout>
 
+                <Button
+                    android:id="@+id/addTransactionButton"
+                    style="@style/primaryRoundedButtonBlock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Transaction" />
+
             </LinearLayout>
 
         </LinearLayout>
@@ -132,5 +176,26 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/home_infoTips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Information Tips"
+                android:textSize="20dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/infoTips_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="130dp" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

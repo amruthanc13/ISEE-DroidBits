@@ -4,7 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable-anydpi/ic_filter.xml" value="0.203" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable-v24/email_bg_round.xml" value="0.284" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.203" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable-xxxhdpi/ic_add_categories_icon.xml" value="0.1635" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable-xxxhdpi/ic_add_transactions_icon.xml" value="0.1635" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable-xxxhdpi/ic_monitor_expense_icon.xml" value="0.1635" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable-xxxhdpi/ic_multiple_accounts_icon.xml" value="0.1635" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable-xxxhdpi/next_btn.xml" value="0.1635" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable-xxxhdpi/skip_btn.xml" value="0.1635" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/alert_dialogue_box.xml" value="0.2155" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/ic_baseline_filter_alt_24.xml" value="0.203" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/ic_delete_forever_white_24dp.xml" value="0.246" />
@@ -12,21 +19,33 @@
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/ic_launcher_background.xml" value="0.203" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/layout_bg.xml" value="0.2785" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/drawable/row_separator.xml" value="0.246" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/account_add.xml" value="0.1734375" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/activity_filtered_transactions.xml" value="0.20625" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/activity_main.xml" value="0.20625" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/activity_on_boarding.xml" value="0.15416666666666667" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/budget_list_item.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/categories_add.xml" value="0.3625" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/categories_grid_detail.xml" value="0.3625" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/categories_grid_item.xml" value="0.321875" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/category_custom_spinner.xml" value="0.3625" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/category_detail.xml" value="0.25" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/fragment_add_transactions.xml" value="0.4" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/fragment_categories.xml" value="0.2" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/fragment_home.xml" value="0.20625" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/fragment_intro.xml" value="0.15416666666666667" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/fragment_settings.xml" value="0.30416666666666664" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/fragment_transactions.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/icon_custom_spinner.xml" value="0.25" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/info_card.xml" value="0.234375" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/setting_send_email.xml" value="0.30416666666666664" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/sign_in.xml" value="0.3625" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/slides_layout.xml" value="0.15416666666666667" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/transaction_detail.xml" value="0.4" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/transaction_filter.xml" value="0.1953125" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/transaction_listitem.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/layout/transaction_listview.xml" value="0.24010416666666667" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1295" />
+        <entry key="..\:/Users/amrut/AndroidStudioProjects/MoneyControl/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>
     </option>
   </component>

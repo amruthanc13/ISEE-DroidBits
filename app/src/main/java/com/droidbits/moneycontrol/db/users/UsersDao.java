@@ -50,4 +50,17 @@ public interface UsersDao {
     @Query("SELECT * FROM users WHERE email=:userEmail")
     Users getUserByEmail(String userEmail);
 
+    /**
+     * Update user selected account.
+     * @param userId id.
+     * @param selectedAccount new selected account.
+     */
+    @Query("UPDATE users SET "
+            + "selected_account=:selectedAccount "
+            + "WHERE id=:userId")
+    void updateUserSelectedAccount(
+            int userId,
+            String selectedAccount
+    );
+
 }

@@ -118,6 +118,11 @@ public class TransactionsViewModel extends AndroidViewModel {
         return allTransactions;
     }
 
+    public List<Transactions> getAllTransactionsForAccount() {
+        return transactionsRepository.getAllTransactionsForAccount();
+    }
+
+
     public void updateTransactionRepeatingFields(
             final int transactionId,
             final Boolean isRepeating,
