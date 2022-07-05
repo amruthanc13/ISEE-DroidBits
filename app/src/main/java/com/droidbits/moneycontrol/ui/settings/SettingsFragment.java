@@ -1,13 +1,16 @@
 package com.droidbits.moneycontrol.ui.settings;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +23,13 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.droidbits.moneycontrol.MainActivity;
 import com.droidbits.moneycontrol.R;
 import com.droidbits.moneycontrol.db.data.ExportData;
 import com.droidbits.moneycontrol.db.data.ImportData;
@@ -144,8 +150,7 @@ public class SettingsFragment extends Fragment {
             cursor.moveToFirst();
             int mobileCol = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
             int nameCol = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-            Toast.makeText(getContext(), "SMS send to your friend `" + cursor.getString(nameCol) +
-                            "` Mobile: " + cursor.getString(mobileCol) , Toast.LENGTH_LONG).show();
+            sendMsg( cursor.getString(mobileCol),  cursor.getString(nameCol));
         }
         if(requestCode == 102 || resultCode == 102){//102
             Toast.makeText(getActivity().getApplicationContext(),
@@ -154,4 +159,24 @@ public class SettingsFragment extends Fragment {
             new ImportData(getActivity().getApplication(), data.getData()).execute();
         }
     }
+
+    protected void sendMsg(String mobile1, String name1) {
+        Toast.makeText(getActivity(),
+                "SMS sending to mobile: " + mobile1,
+                Toast.LENGTH_SHORT).show();
+        Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+        smsIntent.setData(Uri.parse("smsto:"));
+        smsIntent.setType("vnd.android-dir/mms-sms");
+        smsIntent.putExtra("address"  , mobile1);
+        smsIntent.putExtra("sms_body"  , "Hi "+name1+" Please download this app from Play Store!");
+
+        try {
+            startActivity(smsIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getActivity(),
+                    "SMS sending failed, please try again later!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
+
